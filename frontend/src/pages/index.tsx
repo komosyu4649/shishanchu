@@ -5,8 +5,8 @@ import axios from 'axios'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({posts}) {
-  console.log(posts)
+// TODO: contentsDataの型を定義する
+export default function Home(contentsData) {
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -17,13 +17,11 @@ export default function Home({posts}) {
 
 // /cmsのstrapiからデータを取得する
 export const getStaticProps: GetStaticProps = async () => {
-  // const res = await fetch('http://localhost:3000/api/strapi')
-  const postsData = await(await axios.get("http://localhost:1337/api/contents")).data.data
-  // console.log(res)
-  // const posts = await res.json()
+  const res = await fetch('http://localhost:3000/api/strapi')
+  const contentsData = await res.json()
   return {
     props: {
-      posts : postsData,
+      posts : contentsData,
     },
   }
 }

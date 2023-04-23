@@ -13,4 +13,5 @@ export default async function handler(
 ) {
     const contentsData = await (await axios.get('http://localhost:1337/api/contents')).data.data
     res.status(200).json(contentsData)
+
 }
