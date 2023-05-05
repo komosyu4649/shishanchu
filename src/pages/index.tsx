@@ -1,9 +1,22 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { StrapiContent } from '../type/strapi'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+// /api/strapi/index.tsで作成したapiをgetStaticPropsで取得
+export const getStaticProps = async () => {
+  const rest = await fetch('http://localhost:3000/api/strapi/getAllContents')
+  const data = await rest.json()
+  return {
+    props: {
+      data,
+    }
+  }
+}
+
+export default function Home({data}: {data: StrapiContent[]}) {
+  console.log( 1 ,data)
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
