@@ -20,14 +20,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const accounts: StrapiContent[] = await Promise.all(
       ACCOUNTS.map(async (account) => {
         const response = await axios.get(
-          `http://localhost:${account.name}/api/contents?populate=*`,
+          //   `http://localhost:${account.name}/api/contents?populate=*`,
+          `http://localhost:${account.name}/api/contents?populate=users_permissions_user.icon,thumbnail`,
           {
             headers: {
               Authorization: `Bearer ${account.jwt}`,
             },
           },
         )
-        return response.data.data
+        // return response.data.data
+        // accountName を含める
+        const accountDataWithAccountName = response.data.data.map((content) => ({
+          ...content,
+          accountName: account.name,
+        }))
+
+        return accountDataWithAccountName
       }),
     )
 
@@ -40,7 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
     )
 
-    res.status(200).json(sortedAccounts)
+    // 最新の4件だけに絞る
+    const latestFourAccounts = sortedAccounts.slice(0, 4)
+
+    res.status(200).json(latestFourAccounts)
   } catch (err: any) {
     res.status(500).json({ statusCode: 500, message: err.message })
   }
