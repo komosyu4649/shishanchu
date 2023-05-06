@@ -5,10 +5,12 @@ import { StrapiContent } from '@/type/strapi'
 const ACCOUNTS = [
   {
     name: '1337',
+    store: '1496',
     jwt: process.env.STRAPI_JWT_STORETEMPLATE,
   },
   {
     name: '1338',
+    store: 'c.stand 渋谷',
     jwt: process.env.STRAPI_JWT_STORETEMPLATE2,
   },
 ]
@@ -30,9 +32,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         )
         // return response.data.data
         // accountName を含める
-        const accountDataWithAccountName = response.data.data.map((content) => ({
+        const accountDataWithAccountName = response.data.data.map((content: StrapiContent) => ({
           ...content,
           accountName: account.name,
+          storeName: account.store,
         }))
 
         return accountDataWithAccountName

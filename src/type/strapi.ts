@@ -1,6 +1,7 @@
 export type StrapiContent = {
   id: string
   accountName: string
+  storeName: string
   attributes: {
     title: string
     content: string
