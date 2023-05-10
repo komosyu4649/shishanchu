@@ -30,6 +30,7 @@ export default function Home({ contentsData }: { contentsData: StrapiContent[] }
           <ul className='grid grid-cols-4 gap-8 justify-center'>
             {contentsData.map((content, index) => (
               <Content key={index} content={content} />
+              // console.log(content),
             ))}
           </ul>
         </div>

@@ -2,6 +2,7 @@ export type StrapiContent = {
   id: string
   accountName: string
   storeName: string
+  jwt: string
   attributes: {
     title: string
     content: string
