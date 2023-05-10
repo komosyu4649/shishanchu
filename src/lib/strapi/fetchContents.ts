@@ -19,6 +19,7 @@ export async function fetchContents(limit?: number): Promise<StrapiContent[]> {
         ...content,
         accountName: account.name,
         storeName: account.store,
+        jwt: account.jwt,
       }))
       return accountDataWithAccountName
     }),

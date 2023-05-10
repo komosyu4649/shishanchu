@@ -1,4 +1,6 @@
+import { ACCOUNTS } from '@/constants/strapi'
 import { StrapiContent } from '@/type/strapi'
+import axios from 'axios'
 
 // [store]/[user]/[id].tsxのパスをgetStaticPathで作る
 export const getStaticPaths = async () => {
@@ -16,21 +18,27 @@ export const getStaticPaths = async () => {
   }
 }
 
-export const getStaticProps = async (params) => {
-  // console.log(params)
-  // const { store, user, id } = params.params
-  // console.log(store, user, id)
-  // const res = await axios.get(
-  //   `http://localhost:1337/strapi-contents?store=${store}&user=${user}&id=${id}`,
-  // )
-  // return {
-  //   props: {
-  //     data: res.data[0] || {},
-  //   },
-  // }
-  // console.log(res)
-  const contents = await fetch('http://localhost:3000/api/strapi/getAllContents')
-  const contentsData: StrapiContent[] = await contents.json()
+type Params = {
+  params: {
+    store: string
+    user: string
+    id: string
+  }
+}
+
+export const getStaticProps = async (params: Params) => {
+  console.log(123, params)
+  const { store, user, id } = params.params
+  const accuntData = ACCOUNTS.find((account) => account.name === store)
+  const content = await axios.get(
+    `http://localhost:${store}/api/contents/${id}?populate=users_permissions_user.icon,thumbnail`,
+    {
+      headers: {
+        Authorization: `Bearer ${accuntData?.jwt}`,
+      },
+    },
+  )
+  const contentsData = content.data.data
   return {
     props: {
       contentsData,
@@ -38,7 +46,11 @@ export const getStaticProps = async (params) => {
   }
 }
 
-export default function ContentDetail({ contentsData }: { contentsData: StrapiContent[] }) {
-  //   console.log(contentsData)
-  return <div>ContentDetail</div>
+export default function ContentDetail({ contentsData }: { contentsData: StrapiContent }) {
+  console.log(contentsData)
+  return (
+    <article>
+      <h1 className=''>{contentsData.attributes.title}</h1>
+    </article>
+  )
 }
