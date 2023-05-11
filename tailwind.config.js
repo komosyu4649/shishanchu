@@ -13,6 +13,7 @@ module.exports = {
       },
       width: {
         layoutDefault: '126rem',
+        layoutMd: '118rem',
       },
       colors: {
         blackWeak: '#1E1E1E',
@@ -49,8 +50,50 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        mdLhLgLt: [
+          '1.6rem',
+          {
+            lineHeight: '2',
+            fontWeight: '500',
+          },
+        ],
         xl: [
           '3.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH2: [
+          '2.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH3: [
+          '2.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH4: [
+          '2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH5: [
+          '1.8rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH6: [
+          '1.6rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
@@ -62,5 +105,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
