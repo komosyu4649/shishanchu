@@ -25,33 +25,40 @@ module.exports = {
           '1.2rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
         sm: [
           '1.3rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
         md: [
           '1.6rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
         mdLhLg: [
           '1.6rem',
           {
             lineHeight: '2',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
-        base: ['16px', '24px'],
-        lg: ['20px', '28px'],
-        xl: ['24px', '32px'],
+        xl: [
+          '3.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        // base: ['16px', '24px'],
+        // lg: ['20px', '28px'],
+        // xl: ['24px', '32px'],
       },
     },
   },

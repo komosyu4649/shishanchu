@@ -45,7 +45,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
         <div className='flex justify-between items-center border-t mt-4 pt-4'>
           {/* store */}
           <div className=''>
-            <p className='text-xs'>{storeName}</p>
+            <p className='text-xs'>【{storeName}】</p>
           </div>
           {/* time */}
           <span className='text-xs'>{useTimeAgo(attributes.publishedAt)}</span>
