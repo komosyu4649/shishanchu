@@ -24,7 +24,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
               alt='test'
               className='w-16 h-16 rounded-full object-cover'
             />
-            <span className='text-sm'>
+            <span className='text-s2'>
               {attributes.users_permissions_user.data.attributes.username}
             </span>
           </div>
@@ -39,16 +39,16 @@ const Content = ({ content }: { content: StrapiContent }) => {
             alt='test'
             className='w-full h-60 object-cover'
           />
-          <p className='text-md mt-8'>{attributes.title}</p>
+          <p className='text-s5 mt-8'>{attributes.title}</p>
         </div>
         {/* sub */}
         <div className='flex justify-between items-center border-t mt-4 pt-4'>
           {/* store */}
           <div className=''>
-            <p className='text-xs'>{storeName}</p>
+            <p className='text-s1'>【{storeName}】</p>
           </div>
           {/* time */}
-          <span className='text-xs'>{useTimeAgo(attributes.publishedAt)}</span>
+          <span className='text-s1'>{useTimeAgo(attributes.publishedAt)}</span>
         </div>
       </Link>
     </li>

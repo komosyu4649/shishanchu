@@ -13,6 +13,7 @@ module.exports = {
       },
       width: {
         layoutDefault: '126rem',
+        layoutMd: '118rem',
       },
       colors: {
         blackWeak: '#1E1E1E',
@@ -21,39 +22,99 @@ module.exports = {
         green: '#578885',
       },
       fontSize: {
-        xs: [
+        s1: [
           '1.2rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
-        sm: [
+        s2: [
           '1.3rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
-        md: [
+        s3: [
+          '1.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s4: [
+          '1.5rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s5: [
           '1.6rem',
           {
             lineHeight: '1.5',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
-        mdLhLg: [
+        s5LhLg: [
           '1.6rem',
           {
             lineHeight: '2',
-            fontweight: '700',
+            fontWeight: '700',
           },
         ],
-        base: ['16px', '24px'],
-        lg: ['20px', '28px'],
-        xl: ['24px', '32px'],
+        s5LhLgLt: [
+          '1.6rem',
+          {
+            lineHeight: '2',
+            fontWeight: '500',
+          },
+        ],
+        s6: [
+          '3.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH2: [
+          '2.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH3: [
+          '2.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH4: [
+          '2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH5: [
+          '1.8rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        proseH6: [
+          '1.6rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
