@@ -90,7 +90,7 @@ export default function ContentDetail({
           />
         </div>
         {/* side */}
-        <div className=''>
+        <div className='sticky top-12 right-0 h-fit'>
           {/* head */}
           <div className=''>
             {/* リンクをコピー */}
