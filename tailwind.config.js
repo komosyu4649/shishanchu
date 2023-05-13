@@ -22,42 +22,56 @@ module.exports = {
         green: '#578885',
       },
       fontSize: {
-        xs: [
+        s1: [
           '1.2rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
           },
         ],
-        sm: [
+        s2: [
           '1.3rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
           },
         ],
-        md: [
+        s3: [
+          '1.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s4: [
+          '1.5rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s5: [
           '1.6rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
           },
         ],
-        mdLhLg: [
+        s5LhLg: [
           '1.6rem',
           {
             lineHeight: '2',
             fontWeight: '700',
           },
         ],
-        mdLhLgLt: [
+        s5LhLgLt: [
           '1.6rem',
           {
             lineHeight: '2',
             fontWeight: '500',
           },
         ],
-        xl: [
+        s6: [
           '3.2rem',
           {
             lineHeight: '1.5',
@@ -99,9 +113,6 @@ module.exports = {
             fontWeight: '700',
           },
         ],
-        // base: ['16px', '24px'],
-        // lg: ['20px', '28px'],
-        // xl: ['24px', '32px'],
       },
     },
   },
