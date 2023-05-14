@@ -1,8 +1,4 @@
-export type StrapiContent = {
-  id: string
-  accountName: string
-  storeName: string
-  jwt: string
+export type StrapiContent = Base<{
   attributes: {
     title: string
     content: string
@@ -40,6 +36,52 @@ export type StrapiContent = {
       }
     }
   }
+}>
+
+export type StrapiStaff = Base<
+  {
+    username: string
+    email: string
+    provider: string
+    confirmed: boolean
+    blocked: boolean
+    biography: string
+    icon: {
+      id: number
+      name: string
+      alternativeText?: string
+      caption?: string
+      width: number
+      height: number
+      formats: {
+        thumbnail: ImageFormat
+        small: ImageFormat
+        large: ImageFormat
+        medium: ImageFormat
+      }
+      hash: string
+      ext: string
+      mime: string
+      size: number
+      url: string
+      previewUrl?: string
+      provider: string
+      provider_metadata?: string
+    }
+  } & Date
+>
+
+type Base<T> = {
+  id: number
+  accountName: string
+  storeName: string
+  jwt: string
+} & T
+
+type Date = {
+  createdAt: string
+  updatedAt: string
+  publishedAt?: string
 }
 
 type ImageFormat = {
