@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { StrapiContent, StrapiStaff } from '../type/strapi'
 import Content from '@/components/item/Content'
+import Staff from '@/components/item/Staff'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,30 +39,24 @@ export default function Home({
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
             {contentsData.map((content, index) => (
-              <Content key={index} content={content} />
+              <li key={index} className=''>
+                <Content content={content} />
+              </li>
             ))}
           </ul>
         </div>
       </section>
       {/* staff */}
-      <section className=''>
+      <section className='w-layoutDefault m-auto'>
         <h2 className=''>
           <span className=''>人気のスタッフ</span>
           <span className=''>Staff</span>
         </h2>
         <div className=''>
-          <ul className=''>
+          <ul className='grid grid-cols-4 gap-8 justify-center'>
             {staffsData.map((staff, index) => (
               <li key={index} className=''>
-                <Image
-                  src={`http://localhost:${staff.accountName}${staff.icon.url}`}
-                  width={staff.icon.width}
-                  height={staff.icon.height}
-                  alt='test'
-                  className=''
-                />
-                <p className=''>{staff.username}</p>
-                <p className=''>{staff.biography}</p>
+                <Staff staff={staff} />
               </li>
             ))}
           </ul>
