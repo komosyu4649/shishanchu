@@ -51,10 +51,10 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className=''>
-            {/* {staffsData.map((staff, index) => (
+            {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Image
-                  src={`http://localhost:1337${staff.icon.url}`}
+                  src={`http://localhost:${staff.accountName}${staff.icon.url}`}
                   width={staff.icon.width}
                   height={staff.icon.height}
                   alt='test'
@@ -63,7 +63,7 @@ export default function Home({
                 <p className=''>{staff.username}</p>
                 <p className=''>{staff.biography}</p>
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
       </section>
