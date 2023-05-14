@@ -78,6 +78,12 @@ type Base<T> = {
   jwt: string
 } & T
 
+export type Account = {
+  name: string
+  store: string
+  jwt: string
+}
+
 type Date = {
   createdAt: string
   updatedAt: string

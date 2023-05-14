@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React from 'react'
 
 const Staff = ({ staff }: { staff: StrapiStaff }) => {
-  console.log(staff)
   return (
     <div className='p-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
       {/* name */}
