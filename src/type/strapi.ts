@@ -68,6 +68,18 @@ export type StrapiStaff = Base<
       provider: string
       provider_metadata?: string
     }
+    sns: {
+      id: number
+      twitter: string
+      instagram: string
+      tiktok: string
+      other: string
+    }
+    profile: {
+      id: number
+      birthplace: string
+      career: string
+    }
   } & Date
 >
 
