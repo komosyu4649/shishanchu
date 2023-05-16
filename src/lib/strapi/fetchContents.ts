@@ -31,7 +31,7 @@ export async function fetchContents(limit?: number): Promise<StrapiContent[]> {
     (a, b) =>
       new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
   )
-  console.log(sortedAccounts)
+  // console.log(sortedAccounts)
 
   if (limit) {
     return sortedAccounts.slice(0, limit)

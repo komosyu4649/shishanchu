@@ -68,6 +68,18 @@ export type StrapiStaff = Base<
       provider: string
       provider_metadata?: string
     }
+    sns: {
+      id: number
+      twitter: string
+      instagram: string
+      tiktok: string
+      other: string
+    }
+    profile: {
+      id: number
+      birthplace: string
+      career: string
+    }
   } & Date
 >
 
@@ -77,6 +89,12 @@ type Base<T> = {
   storeName: string
   jwt: string
 } & T
+
+export type Account = {
+  name: string
+  store: string
+  jwt: string
+}
 
 type Date = {
   createdAt: string
