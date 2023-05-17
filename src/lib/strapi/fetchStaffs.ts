@@ -10,7 +10,6 @@ export async function fetchStaffs(limit?: number): Promise<StrapiStaff[]> {
           Authorization: `Bearer ${account.jwt}`,
         },
       })
-
       const accountDataWithAccountName = response.data.map((staff: StrapiStaff) => ({
         ...staff,
         accountName: account.name,

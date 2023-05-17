@@ -3,11 +3,19 @@ export const ACCOUNTS = [
   {
     name: '1337',
     store: '1496',
+    region: {
+      prefectures: '東京都',
+      city: '渋谷区',
+    },
     jwt: process.env.STRAPI_JWT_STORETEMPLATE,
   },
   {
     name: '1338',
     store: 'c.stand 渋谷',
+    region: {
+      prefectures: '東京都',
+      city: '渋谷区',
+    },
     jwt: process.env.STRAPI_JWT_STORETEMPLATE2,
   },
 ]

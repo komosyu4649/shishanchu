@@ -1,17 +1,24 @@
 import { ACCOUNTS } from '@/constants/strapi'
+import { StrapiStore } from '@/type/strapi'
+import axios from 'axios'
 
-export async function fetchStores(limit?: number): Promise {
+export async function fetchStores(limit?: number): Promise<StrapiStore[]> {
   const accounts = await Promise.all(
     ACCOUNTS.map(async (account) => {
-      const response = await axios.get(`http://localhost:${account.name}/api/stores`, {
-        headers: {
-          Authorization: `Bearer ${account.jwt}`,
+      const response = await axios.get(
+        `http://localhost:${account.name}/api/stores?populate=icon,sns,information,garelly`,
+        {
+          headers: {
+            Authorization: `Bearer ${account.jwt}`,
+          },
         },
-      })
-      const accountDataWithAccountName = response.data.map((store) => ({
+      )
+
+      const accountDataWithAccountName = response.data.data.map((store: StrapiStore) => ({
         ...store,
         accountName: account.name,
         storeName: account.store,
+        region: account.region,
         jwt: account.jwt,
       }))
       return accountDataWithAccountName

@@ -1,3 +1,5 @@
+import { type } from 'os'
+
 export type StrapiContent = Base<{
   attributes: {
     title: string
@@ -83,10 +85,31 @@ export type StrapiStaff = Base<
   } & Date
 >
 
+export type StrapiStore = Base<{
+  attributes: {
+    name: string
+    description: string
+    icon: { data: { id: number; attributes: ImageFormat } }
+    sns: {
+      id: number
+      twitter: string
+      instagram: string
+      tiktok: string
+      other: string
+    }
+    information: { id: 1; holiday: string; remarks: string }
+    garelly: { id: number; name: string }[]
+  } & Date
+}>
+
 type Base<T> = {
   id: number
   accountName: string
   storeName: string
+  region?: {
+    prefectures: string
+    city: string
+  }
   jwt: string
 } & T
 
