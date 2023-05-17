@@ -5,6 +5,7 @@ import Content from '@/components/item/Content'
 import Staff from '@/components/item/Staff'
 import axios from 'axios'
 import Link from 'next/link'
+import Store from '@/components/item/Store'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -80,22 +81,7 @@ export default function Home({
           <ul className='grid grid-cols-3 gap-12 justify-center '>
             {storesData.map((store, index) => (
               <li key={index} className=''>
-                <Link href={`${store.accountName}`}>
-                  <Image
-                    src={`http:localhost:${store.accountName}${store.attributes.icon.data.attributes.url}`}
-                    width={store.attributes.icon.data.attributes.width}
-                    height={store.attributes.icon.data.attributes.height}
-                    alt='test'
-                    className='w-full h-96 object-cover rounded-br-[6rem]'
-                  />
-                  <div className='flex flex-col gap-2 mt-8'>
-                    <span className='text-s6'>{store.storeName}</span>
-                    <span className='text-s2 opacity-60'>
-                      {store.region?.prefectures}
-                      {store.region?.city}
-                    </span>
-                  </div>
-                </Link>
+                <Store store={store} />
               </li>
             ))}
           </ul>
