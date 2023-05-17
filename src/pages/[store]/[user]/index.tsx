@@ -108,8 +108,8 @@ export default function StaffDetail({
               className='w-60 h-60 rounded-full object-cover'
             />
             <div className='flex flex-col gap-4'>
-              <span className='text-s7'>{staffData.username}</span>
-              <span className='text-s6 opacity-60'>【{accuntData.store}】</span>
+              <span className='text-s8'>{staffData.username}</span>
+              <span className='text-s7 opacity-60'>【{accuntData.store}】</span>
             </div>
           </div>
           {/* sns */}

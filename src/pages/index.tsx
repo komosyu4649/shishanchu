@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { StrapiContent, StrapiStaff } from '../type/strapi'
+import { StrapiContent, StrapiStaff, StrapiStore } from '../type/strapi'
 import Content from '@/components/item/Content'
 import Staff from '@/components/item/Staff'
 import axios from 'axios'
+import Link from 'next/link'
+import Store from '@/components/item/Store'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,6 +17,7 @@ export const getStaticProps = async () => {
   const staffsData = await staffs.json()
   const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
   const storesData = await stores.json()
+  // console.log(storesData)
   return {
     props: {
       contentsData,
@@ -27,10 +30,13 @@ export const getStaticProps = async () => {
 export default function Home({
   contentsData,
   staffsData,
+  storesData,
 }: {
   contentsData: StrapiContent[]
   staffsData: StrapiStaff[]
+  storesData: StrapiStore[]
 }) {
+  // console.log(storesData[0].attributes.icon)
   return (
     <main>
       {/* contents */}
@@ -60,6 +66,22 @@ export default function Home({
             {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Staff staff={staff} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      {/* store */}
+      <section className='w-layoutMd m-auto'>
+        <h2 className=''>
+          <span className=''>人気の店舗</span>
+          <span className=''>Store</span>
+        </h2>
+        <div className=''>
+          <ul className='grid grid-cols-3 gap-12 justify-center '>
+            {storesData.map((store, index) => (
+              <li key={index} className=''>
+                <Store store={store} />
               </li>
             ))}
           </ul>

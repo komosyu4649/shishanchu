@@ -73,20 +73,27 @@ module.exports = {
           },
         ],
         s6: [
-          '2rem',
+          '1.8rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
           },
         ],
         s7: [
-          '2.2rem',
+          '2rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
           },
         ],
         s8: [
+          '2.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s9: [
           '3.2rem',
           {
             lineHeight: '1.5',
