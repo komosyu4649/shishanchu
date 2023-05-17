@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { StrapiContent, StrapiStaff } from '../type/strapi'
 import Content from '@/components/item/Content'
 import Staff from '@/components/item/Staff'
+import axios from 'axios'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,11 +13,13 @@ export const getStaticProps = async () => {
   const contentsData = await contents.json()
   const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
   const staffsData = await staffs.json()
-  // console.log(staffsData)
+  const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
+  const storesData = await stores.json()
   return {
     props: {
       contentsData,
       staffsData,
+      storesData,
     },
   }
 }

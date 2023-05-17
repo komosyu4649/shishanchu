@@ -1,3 +1,4 @@
+// TODO: 店舗絞り込みの時の地域とかの登録もここでおこなうかも？
 export const ACCOUNTS = [
   {
     name: '1337',
