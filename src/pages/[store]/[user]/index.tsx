@@ -172,6 +172,7 @@ export default function StaffDetail({
         <ul className='grid grid-cols-3 gap-4'>
           {sortedAccounts.map((content, index) => (
             <li key={index} className=''>
+              {console.log(content)}
               <Content content={content} />
             </li>
           ))}

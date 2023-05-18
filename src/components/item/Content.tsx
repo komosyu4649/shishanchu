@@ -11,7 +11,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
   return (
     // <li className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
     <Link
-      href={`${accountName}/${attributes.users_permissions_user.data.attributes.username}/${id}`}
+      href={`/${accountName}/${attributes.users_permissions_user.data.attributes.username}/${id}`}
       className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak inline-block w-full pt-12 pb-16 px-12'
     >
       <div className='flex justify-between items-center'>

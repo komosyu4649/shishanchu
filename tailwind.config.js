@@ -94,6 +94,13 @@ module.exports = {
           },
         ],
         s9: [
+          '2.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s10: [
           '3.2rem',
           {
             lineHeight: '1.5',
