@@ -1,7 +1,9 @@
 import { ACCOUNTS } from '@/constants/strapi'
 import { StrapiStore } from '@/type/strapi'
 import axios from 'axios'
+import { marked } from 'marked'
 import Image from 'next/image'
+import { createContext, useContext } from 'react'
 
 export const getStaticPaths = async () => {
   const stores = await fetch('http://localhost:3000/api/strapi/getAllStores')
@@ -19,7 +21,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (params: any) => {
   const { store } = params.params
   const accuntData = ACCOUNTS.find((account) => account.name === store)
-  // console.log(accuntData)
   const stores = await axios.get(
     `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours,information.address,garelly`,
     {
@@ -38,8 +39,170 @@ export const getStaticProps = async (params: any) => {
   }
 }
 
+const StoreContent = ({ type, storeData }) => {
+  switch (type) {
+    case 'information':
+      return <StoreContentInformation type={type} storeData={storeData} />
+    default:
+      break
+  }
+}
+
+const StoreContentInformation = ({ storeData }) => {
+  const googleMapTag = marked(storeData.attributes.information.address.tag)
+  return (
+    <div className='grid gap-16 w-[80rem] mt-32 m-auto'>
+      {/* system */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>システム</dt>
+        <dd className=''>
+          <ul className='grid grid-cols-auto gap-6'>
+            <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+              <span className=''>チャージ料</span>
+              <span className='text-s5LhLgLt opacity-60'>
+                {storeData.attributes.information.system.chargeFee}
+              </span>
+            </li>
+            <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+              <span className='text-s5LhLgLt'> シーシャ代</span>
+              <span className='text-s5LhLgLt opacity-60'>
+                {storeData.attributes.information.system.shishaFee}
+              </span>
+            </li>
+            <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+              <span className='text-s5LhLgLt'>ワンドリンク制</span>
+              <span className='text-s5LhLgLt opacity-60'>
+                {storeData.attributes.information.system.oneDrinkSystem}
+              </span>
+            </li>
+            <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+              <span className='text-s5LhLgLt'>オプション</span>
+              <span className='text-s5LhLgLt opacity-60'>
+                {storeData.attributes.information.system.options}
+              </span>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+      {/* budget */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>予算</dt>
+        <dd className='text-s5LhLgLt'>
+          <span className=''>{storeData.attributes.information.budget.lowest}円 </span>~{' '}
+          <span className=''>{storeData.attributes.information.budget.highest}円</span>
+        </dd>
+      </dl>
+      {/* facility */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>設備</dt>
+        <dd className=''>
+          <ul className='flex flex-row flex-wrap gap-8'>
+            {storeData.attributes.information.facility.map((facility, index) => (
+              <li key={index} className=''>
+                <span className='text-s5LhLgLt'>#{facility.name}</span>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </dl>
+      {/* businessHours */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>営業時間</dt>
+        <dd className='text-s5LhLgLt'>
+          <ul className=''>
+            <li className=''>
+              <span className=''>月曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.monday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>火曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.tuesday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>水曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.wednesday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>木曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.thursday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>金曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.friday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>土曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.saturday}
+              </span>
+            </li>
+            <li className=''>
+              <span className=''>日曜日</span>
+              <span className=''>
+                {storeData.attributes.information.businessHours.same
+                  ? storeData.attributes.information.businessHours.same
+                  : storeData.attributes.information.businessHours.sunday}
+              </span>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+      {/* holiday */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>休業日</dt>
+        <dd className=''>
+          <span className='text-s5LhLgLt'>{storeData.attributes.information.holiday}</span>
+        </dd>
+      </dl>
+      {/* address */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>店舗所在地</dt>
+        <dd className=''>
+          <a
+            href={storeData.attributes.information.address.url}
+            className='text-s5LhLgLt underline'
+          >
+            {storeData.attributes.information.address.name}
+          </a>
+          {/* <div className=''>{storeData.attributes.information.address.tag}</div> */}
+          <div className='mt-8' dangerouslySetInnerHTML={{ __html: googleMapTag }}></div>
+        </dd>
+      </dl>
+      {/* remarks */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>備考</dt>
+        <dd className=''>
+          <span className='text-s5LhLgLt'>{storeData.attributes.information.remarks}</span>
+        </dd>
+      </dl>
+    </div>
+  )
+}
+
 export default function StoreDetail({ storeData, name }: { storeData: StrapiStore; name: string }) {
-  // console.log(storeData.attributes.information)
+  const type = 'information'
   return (
     <section className='w-[100rem] m-auto mt-96'>
       {/* profile */}
@@ -85,7 +248,7 @@ export default function StoreDetail({ storeData, name }: { storeData: StrapiStor
       {/* datas */}
       <div className='mt-32 '>
         {/* tab */}
-        <nav className='border-b-2 border-solid border-white border-opacity-60'>
+        <nav className='border-b border-solid border-white border-opacity-60'>
           <ul className='grid grid-cols-4'>
             <li className=''>
               <button className='w-full p-10 text-s6'>店舗情報</button>
@@ -102,117 +265,7 @@ export default function StoreDetail({ storeData, name }: { storeData: StrapiStor
           </ul>
         </nav>
         {/* content */}
-        <div className=''>
-          {/* system */}
-          <dl className=''>
-            <dt className=''>システム</dt>
-            <dd className=''>
-              <ul className=''>
-                <li className=''>
-                  <span className=''>チャージ料</span>
-                  <span className=''>{storeData.attributes.information.system.chargeFee}</span>
-                </li>
-                <li className=''>
-                  <span className=''> シーシャ代</span>
-                  <span className=''>{storeData.attributes.information.system.shishaFee}</span>
-                </li>
-                <li className=''>
-                  <span className=''>ワンドリンク制</span>
-                  <span className=''>{storeData.attributes.information.system.oneDrinkSystem}</span>
-                </li>
-                <li className=''>
-                  <span className=''>オプション</span>
-                  <span className=''>{storeData.attributes.information.system.options}</span>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          {/* budget */}
-          <dl className=''>
-            <dt className=''>予算</dt>
-            <dd className=''>
-              <span className=''>{storeData.attributes.information.budget.lowest}円 </span>~{' '}
-              <span className=''>{storeData.attributes.information.budget.highest}円</span>
-            </dd>
-          </dl>
-          {/* facility */}
-          <dl className=''>
-            <dt className=''>設備</dt>
-            <dd className=''>
-              <ul className=''>
-                {storeData.attributes.information.facility.map((facility, index) => (
-                  <li key={index} className=''>
-                    <span className=''>{facility.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </dd>
-          </dl>
-          {/* businessHours */}
-          <dl className=''>
-            <dt className=''>営業時間</dt>
-            <dd className=''>
-              <ul className=''>
-                <li className=''>
-                  <span className=''>月曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.monday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>火曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.tuesday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>水曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.wednesday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>木曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.thursday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>金曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.friday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>土曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.saturday}
-                  </span>
-                </li>
-                <li className=''>
-                  <span className=''>日曜日</span>
-                  <span className=''>
-                    {storeData.attributes.information.businessHours.same
-                      ? storeData.attributes.information.businessHours.same
-                      : storeData.attributes.information.businessHours.sunday}
-                  </span>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
+        <StoreContent type={type} storeData={storeData} />
       </div>
     </section>
   )
