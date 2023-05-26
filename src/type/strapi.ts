@@ -102,6 +102,19 @@ export type StrapiStore = Base<{
   } & Date
 }>
 
+export type StrapiCoupon = Base<{
+  attributes: {
+    title: string
+    address: string
+    termsOfUse: string
+    presentationConditions: string
+    dateOfExpiry: string
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+  }
+}>
+
 type Base<T> = {
   id: number
   accountName: string
