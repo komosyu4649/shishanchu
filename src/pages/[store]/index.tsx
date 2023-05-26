@@ -1,9 +1,10 @@
+import Staff from '@/components/item/Staff'
 import { ACCOUNTS } from '@/constants/strapi'
-import { StrapiStore } from '@/type/strapi'
+import { StrapiStaff, StrapiStore } from '@/type/strapi'
 import axios from 'axios'
 import { marked } from 'marked'
 import Image from 'next/image'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 export const getStaticPaths = async () => {
   const stores = await fetch('http://localhost:3000/api/strapi/getAllStores')
@@ -22,7 +23,7 @@ export const getStaticProps = async (params: any) => {
   const { store } = params.params
   const accuntData = ACCOUNTS.find((account) => account.name === store)
   const stores = await axios.get(
-    `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours,information.address,garelly`,
+    `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours,information.address,garelly.img,`,
     {
       headers: {
         Authorization: `Bearer ${accuntData?.jwt}`,
@@ -31,18 +32,51 @@ export const getStaticProps = async (params: any) => {
   )
   const storeData = stores.data.data
 
+  // const staffs = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
+  //   headers: {
+  //     Authorization: `Bearer ${accuntData?.jwt}`,
+  //   },
+  // })
+  // const staffsData = staffs.data
+
+  // console.log(accuntData)
+  // const staffsData: StrapiStaff[] = await Promise.all(
+  // ACCOUNTS.map(async (account) => {
+  const response = await axios.get(`http://localhost:${accuntData.name}/api/users?populate=icon`, {
+    headers: {
+      Authorization: `Bearer ${accuntData?.jwt}`,
+    },
+  })
+  const staffsData = response.data.map((staff: StrapiStaff) => ({
+    ...staff,
+    accountName: accuntData?.name,
+    storeName: accuntData?.store,
+    jwt: accuntData?.jwt,
+  }))
+  // console.log(staffsData)
+  // }),
+  // )
+
   return {
     props: {
       storeData,
+      staffsData,
       name: accuntData?.name,
     },
   }
 }
 
-const StoreContent = ({ type, storeData }) => {
-  switch (type) {
+const StoreContent = ({ name, contentType, storeData, staffsData }) => {
+  // console.log(contentType)
+  switch (contentType) {
     case 'information':
-      return <StoreContentInformation type={type} storeData={storeData} />
+      return <StoreContentInformation storeData={storeData} />
+    case 'staff':
+      return <StoreContentStaff staffsData={staffsData} />
+    case 'garelly':
+      return <StoreContentGarelly name={name} storeData={storeData} />
+    case 'coupon':
+      return <StoreContentCoupon storeData={storeData} />
     default:
       break
   }
@@ -51,7 +85,7 @@ const StoreContent = ({ type, storeData }) => {
 const StoreContentInformation = ({ storeData }) => {
   const googleMapTag = marked(storeData.attributes.information.address.tag)
   return (
-    <div className='grid gap-16 w-[80rem] mt-32 m-auto'>
+    <div className='grid gap-16 w-[80rem] m-auto'>
       {/* system */}
       <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
         <dt className='text-s5LhLg'>システム</dt>
@@ -201,8 +235,65 @@ const StoreContentInformation = ({ storeData }) => {
   )
 }
 
-export default function StoreDetail({ storeData, name }: { storeData: StrapiStore; name: string }) {
-  const type = 'information'
+const StoreContentStaff = ({ staffsData }) => {
+  return (
+    <ul className='grid grid-cols-3 gap-8 justify-center'>
+      {staffsData.map((staff, index) => (
+        <li key={index} className=''>
+          <Staff staff={staff} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const StoreContentGarelly = ({ name, storeData }) => {
+  console.log(storeData)
+  return (
+    <div className=''>
+      <ul className='grid grid-cols-3 gap-x-4 gap-y-10'>
+        {storeData.attributes.garelly.map((garelly, index) => (
+          <li key={index}>
+            <Image
+              src={`http://localhost:${name}${garelly.img.data.attributes.url}`}
+              width={garelly.img.data.attributes.width}
+              height={garelly.img.data.attributes.height}
+              alt={garelly.img.data.attributes.name}
+              className='mb-4'
+            />
+            <span className='text-s3Lt'>{garelly.name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const StoreContentCoupon = ({ name, storeData }) => {
+  return (
+    <ul className='grid grid-cols-3 gap-8 justify-center'>
+      {storeData.attributes.coupon.map((coupon, index) => (
+        <li key={index} className=''>
+          {/* <Coupon coupon={coupon} /> */}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+export default function StoreDetail({
+  storeData,
+  staffsData,
+  name,
+}: {
+  storeData: StrapiStore
+  staffData: StrapiStaff[]
+  name: string
+}) {
+  const [contentType, setContentType] = useState('information')
+  const handleSwitchType = (switchType: string) => {
+    setContentType(switchType)
+  }
   return (
     <section className='w-[100rem] m-auto mt-96'>
       {/* profile */}
@@ -251,21 +342,39 @@ export default function StoreDetail({ storeData, name }: { storeData: StrapiStor
         <nav className='border-b border-solid border-white border-opacity-60'>
           <ul className='grid grid-cols-4'>
             <li className=''>
-              <button className='w-full p-10 text-s6'>店舗情報</button>
+              <button
+                onClick={() => handleSwitchType('information')}
+                className='w-full p-10 text-s6'
+              >
+                店舗情報
+              </button>
             </li>
             <li className=''>
-              <button className='w-full p-10 text-s6'>スタッフ</button>
+              <button onClick={() => handleSwitchType('staff')} className='w-full p-10 text-s6'>
+                スタッフ
+              </button>
             </li>
             <li className=''>
-              <button className='w-full p-10 text-s6'>ギャラリー</button>
+              <button onClick={() => handleSwitchType('garelly')} className='w-full p-10 text-s6'>
+                ギャラリー
+              </button>
             </li>
             <li className=''>
-              <button className='w-full p-10 text-s6'>クーポン</button>
+              <button onClick={() => handleSwitchType('coupon')} className='w-full p-10 text-s6'>
+                クーポン
+              </button>
             </li>
           </ul>
         </nav>
         {/* content */}
-        <StoreContent type={type} storeData={storeData} />
+        <div className='w-layoutSm m-auto mt-32'>
+          <StoreContent
+            name={name}
+            contentType={contentType}
+            storeData={storeData}
+            staffsData={staffsData}
+          />
+        </div>
       </div>
     </section>
   )
