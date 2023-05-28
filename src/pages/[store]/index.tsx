@@ -38,7 +38,7 @@ export const getStaticProps = async (params: any) => {
       Authorization: `Bearer ${accuntData?.jwt}`,
     },
   })
-  const couponsData = coupons.data.data.map((coupon) => ({
+  const couponsData = coupons.data.data.map((coupon: StrapiCoupon) => ({
     ...coupon,
     accountName: accuntData?.name,
     storeName: accuntData?.store,
@@ -84,7 +84,19 @@ export const getStaticProps = async (params: any) => {
   }
 }
 
-const StoreContent = ({ name, contentType, storeData, staffsData, couponsData }) => {
+const StoreContent = ({
+  name,
+  contentType,
+  storeData,
+  staffsData,
+  couponsData,
+}: {
+  name: string
+  contentType: string
+  storeData: StrapiStore
+  staffsData: StrapiStaff[]
+  couponsData: StrapiCoupon[]
+}) => {
   // console.log(contentType)
   switch (contentType) {
     case 'information':
@@ -100,7 +112,7 @@ const StoreContent = ({ name, contentType, storeData, staffsData, couponsData })
   }
 }
 
-const StoreContentInformation = ({ storeData }) => {
+const StoreContentInformation = ({ storeData }: { storeData: StrapiStore }) => {
   const googleMapTag = storeData.attributes.information.address.tag
     ? marked(storeData.attributes.information.address.tag)
     : null
