@@ -1,6 +1,7 @@
+import Coupon from '@/components/item/Coupon'
 import Staff from '@/components/item/Staff'
 import { ACCOUNTS } from '@/constants/strapi'
-import { StrapiStaff, StrapiStore } from '@/type/strapi'
+import { StrapiCoupon, StrapiStaff, StrapiStore } from '@/type/strapi'
 import axios from 'axios'
 import { marked } from 'marked'
 import Image from 'next/image'
@@ -32,6 +33,18 @@ export const getStaticProps = async (params: any) => {
   )
   const storeData = stores.data.data
 
+  const coupons = await axios.get(`http://localhost:${accuntData?.name}/api/coupons`, {
+    headers: {
+      Authorization: `Bearer ${accuntData?.jwt}`,
+    },
+  })
+  const couponsData = coupons.data.data.map((coupon) => ({
+    ...coupon,
+    accountName: accuntData?.name,
+    storeName: accuntData?.store,
+    jwt: accuntData?.jwt,
+  }))
+
   // const staffs = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
   //   headers: {
   //     Authorization: `Bearer ${accuntData?.jwt}`,
@@ -47,6 +60,7 @@ export const getStaticProps = async (params: any) => {
       Authorization: `Bearer ${accuntData?.jwt}`,
     },
   })
+
   const staffsData = response.data.map((staff: StrapiStaff) => ({
     ...staff,
     accountName: accuntData?.name,
@@ -56,17 +70,21 @@ export const getStaticProps = async (params: any) => {
   // console.log(staffsData)
   // }),
   // )
+  const storeName = accuntData?.name
+  const storeStore = accuntData?.store
 
   return {
     props: {
       storeData,
       staffsData,
-      name: accuntData?.name,
+      couponsData,
+      storeName,
+      storeStore,
     },
   }
 }
 
-const StoreContent = ({ name, contentType, storeData, staffsData }) => {
+const StoreContent = ({ name, contentType, storeData, staffsData, couponsData }) => {
   // console.log(contentType)
   switch (contentType) {
     case 'information':
@@ -76,14 +94,16 @@ const StoreContent = ({ name, contentType, storeData, staffsData }) => {
     case 'garelly':
       return <StoreContentGarelly name={name} storeData={storeData} />
     case 'coupon':
-      return <StoreContentCoupon storeData={storeData} />
+      return <StoreContentCoupon couponsData={couponsData} />
     default:
       break
   }
 }
 
 const StoreContentInformation = ({ storeData }) => {
-  const googleMapTag = marked(storeData.attributes.information.address.tag)
+  const googleMapTag = storeData.attributes.information.address.tag
+    ? marked(storeData.attributes.information.address.tag)
+    : null
   return (
     <div className='grid gap-16 w-[80rem] m-auto'>
       {/* system */}
@@ -220,8 +240,9 @@ const StoreContentInformation = ({ storeData }) => {
           >
             {storeData.attributes.information.address.name}
           </a>
-          {/* <div className=''>{storeData.attributes.information.address.tag}</div> */}
-          <div className='mt-8' dangerouslySetInnerHTML={{ __html: googleMapTag }}></div>
+          {googleMapTag && (
+            <div className='mt-8' dangerouslySetInnerHTML={{ __html: googleMapTag }}></div>
+          )}
         </dd>
       </dl>
       {/* remarks */}
@@ -269,12 +290,12 @@ const StoreContentGarelly = ({ name, storeData }) => {
   )
 }
 
-const StoreContentCoupon = ({ name, storeData }) => {
+const StoreContentCoupon = ({ couponsData }) => {
   return (
     <ul className='grid grid-cols-3 gap-8 justify-center'>
-      {storeData.attributes.coupon.map((coupon, index) => (
+      {couponsData.map((coupon, index) => (
         <li key={index} className=''>
-          {/* <Coupon coupon={coupon} /> */}
+          <Coupon coupon={coupon} />
         </li>
       ))}
     </ul>
@@ -284,11 +305,15 @@ const StoreContentCoupon = ({ name, storeData }) => {
 export default function StoreDetail({
   storeData,
   staffsData,
-  name,
+  couponsData,
+  storeName,
+  storeStore,
 }: {
   storeData: StrapiStore
-  staffData: StrapiStaff[]
-  name: string
+  staffsData: StrapiStaff[]
+  couponsData: StrapiCoupon[]
+  storeName: string
+  storeStore: string
 }) {
   const [contentType, setContentType] = useState('information')
   const handleSwitchType = (switchType: string) => {
@@ -300,31 +325,31 @@ export default function StoreDetail({
       <div className='grid grid-cols-[1fr_50rem]'>
         <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
           <Image
-            src={`http://localhost:${name}${storeData.attributes.icon.data.attributes.url}`}
+            src={`http://localhost:${storeName}${storeData.attributes.icon.data.attributes.url}`}
             width={storeData.attributes.icon.data.attributes.width}
             height={storeData.attributes.icon.data.attributes.height}
             alt={storeData.attributes.icon.data.attributes.name}
             className='rounded-full w-60 h-60 object-cover'
           />
           <div className=''>
-            <span className='text-s9'>{storeData.attributes.name}</span>
+            <span className='text-s9'>{storeStore}</span>
             <div className=''>
-              {storeData.attributes.sns.twitter && (
+              {storeData.attributes.sns?.twitter && (
                 <a href={storeData.attributes.sns.twitter} className=''>
                   twitter
                 </a>
               )}
-              {storeData.attributes.sns.instagram && (
+              {storeData.attributes.sns?.instagram && (
                 <a href={storeData.attributes.sns.instagram} className=''>
                   instagram
                 </a>
               )}
-              {storeData.attributes.sns.tiktok && (
+              {storeData.attributes.sns?.tiktok && (
                 <a href={storeData.attributes.sns.tiktok} className=''>
                   tiktok
                 </a>
               )}
-              {storeData.attributes.sns.other && (
+              {storeData.attributes.sns?.other && (
                 <a href={storeData.attributes.sns.other} className=''>
                   other
                 </a>
@@ -369,10 +394,11 @@ export default function StoreDetail({
         {/* content */}
         <div className='w-layoutSm m-auto mt-32'>
           <StoreContent
-            name={name}
+            name={storeName}
             contentType={contentType}
             storeData={storeData}
             staffsData={staffsData}
+            couponsData={couponsData}
           />
         </div>
       </div>

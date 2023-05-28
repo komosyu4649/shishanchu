@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { StrapiContent, StrapiStaff, StrapiStore } from '../type/strapi'
+import { StrapiContent, StrapiCoupon, StrapiStaff, StrapiStore } from '../type/strapi'
 import Content from '@/components/item/Content'
 import Staff from '@/components/item/Staff'
 import axios from 'axios'
 import Link from 'next/link'
 import Store from '@/components/item/Store'
+import Coupon from '@/components/item/Coupon'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,12 +18,14 @@ export const getStaticProps = async () => {
   const staffsData = await staffs.json()
   const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
   const storesData = await stores.json()
-  // console.log(storesData)
+  const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
+  const couponsData = await coupons.json()
   return {
     props: {
       contentsData,
       staffsData,
       storesData,
+      couponsData,
     },
   }
 }
@@ -31,12 +34,13 @@ export default function Home({
   contentsData,
   staffsData,
   storesData,
+  couponsData,
 }: {
   contentsData: StrapiContent[]
   staffsData: StrapiStaff[]
   storesData: StrapiStore[]
+  couponsData: StrapiCoupon[]
 }) {
-  // console.log(storesData[0].attributes.icon)
   return (
     <main>
       {/* contents */}
@@ -82,6 +86,22 @@ export default function Home({
             {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      {/* coupon */}
+      <section className='w-layoutDefault m-auto'>
+        <h2 className=''>
+          <span className=''>クーポン</span>
+          <span className=''>Coupon</span>
+        </h2>
+        <div className=''>
+          <ul className='grid grid-cols-4 gap-8 justify-center'>
+            {couponsData.map((coupon, index) => (
+              <li key={index} className=''>
+                <Coupon coupon={coupon} />
               </li>
             ))}
           </ul>
