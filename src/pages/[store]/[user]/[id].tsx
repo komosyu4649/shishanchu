@@ -72,7 +72,7 @@ export default function ContentDetail({
   // console.log(store, user)
   return (
     <article className='mt-96 m-auto w-layoutMd'>
-      <h1 className='text-s9 text-center mb-28'>{contentsData.attributes.title}</h1>
+      <h1 className='text-s10 text-center mb-28'>{contentsData.attributes.title}</h1>
       <div className='grid grid-cols-[1fr_34rem] justify-between gap-16'>
         {/* main */}
         <div className='p-20 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
