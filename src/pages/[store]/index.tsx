@@ -5,7 +5,8 @@ import { StrapiCoupon, StrapiStaff, StrapiStore } from '@/type/strapi'
 import axios from 'axios'
 import { marked } from 'marked'
 import Image from 'next/image'
-import { createContext, useContext, useState } from 'react'
+import { useRouter } from 'next/router'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 export const getStaticPaths = async () => {
   const stores = await fetch('http://localhost:3000/api/strapi/getAllStores')
@@ -45,17 +46,7 @@ export const getStaticProps = async (params: any) => {
     jwt: accuntData?.jwt,
   }))
 
-  // const staffs = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
-  //   headers: {
-  //     Authorization: `Bearer ${accuntData?.jwt}`,
-  //   },
-  // })
-  // const staffsData = staffs.data
-
-  // console.log(accuntData)
-  // const staffsData: StrapiStaff[] = await Promise.all(
-  // ACCOUNTS.map(async (account) => {
-  const response = await axios.get(`http://localhost:${accuntData.name}/api/users?populate=icon`, {
+  const response = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
     headers: {
       Authorization: `Bearer ${accuntData?.jwt}`,
     },
@@ -67,9 +58,7 @@ export const getStaticProps = async (params: any) => {
     storeName: accuntData?.store,
     jwt: accuntData?.jwt,
   }))
-  // console.log(staffsData)
-  // }),
-  // )
+
   const storeName = accuntData?.name
   const storeStore = accuntData?.store
 
@@ -96,26 +85,32 @@ const StoreContent = ({
   storeData: StrapiStore
   staffsData: StrapiStaff[]
   couponsData: StrapiCoupon[]
-}) => {
-  // console.log(contentType)
+}): JSX.Element | null => {
   switch (contentType) {
-    case 'information':
-      return <StoreContentInformation storeData={storeData} />
     case 'staff':
-      return <StoreContentStaff staffsData={staffsData} />
+      return <StoreContentStaff name={name} staffsData={staffsData} />
     case 'garelly':
       return <StoreContentGarelly name={name} storeData={storeData} />
     case 'coupon':
-      return <StoreContentCoupon couponsData={couponsData} />
+      return <StoreContentCoupon name={name} couponsData={couponsData} />
     default:
+      return <StoreContentInformation name={name} storeData={storeData} />
       break
   }
+  // return null
 }
 
-const StoreContentInformation = ({ storeData }: { storeData: StrapiStore }) => {
-  const googleMapTag = storeData.attributes.information.address.tag
-    ? marked(storeData.attributes.information.address.tag)
-    : null
+const StoreContentInformation = ({ name, storeData }: { name: string; storeData: StrapiStore }) => {
+  // const googleMapTag = storeData.attributes.information.address.tag
+  //   ? marked(storeData.attributes.information.address.tag)
+  //   : null
+  const router = useRouter()
+  useEffect(() => {
+    router.push({
+      pathname: `/${name}/`,
+      // query: { type: 'information' },
+    })
+  }, [])
   return (
     <div className='grid gap-16 w-[80rem] m-auto'>
       {/* system */}
@@ -252,9 +247,9 @@ const StoreContentInformation = ({ storeData }: { storeData: StrapiStore }) => {
           >
             {storeData.attributes.information.address.name}
           </a>
-          {googleMapTag && (
+          {/* {googleMapTag && (
             <div className='mt-8' dangerouslySetInnerHTML={{ __html: googleMapTag }}></div>
-          )}
+          )} */}
         </dd>
       </dl>
       {/* remarks */}
@@ -268,7 +263,14 @@ const StoreContentInformation = ({ storeData }: { storeData: StrapiStore }) => {
   )
 }
 
-const StoreContentStaff = ({ staffsData }) => {
+const StoreContentStaff = ({ name, staffsData }: { name: string; staffsData: StrapiStaff[] }) => {
+  const router = useRouter()
+  useEffect(() => {
+    router.push({
+      pathname: `/${name}/`,
+      query: { type: 'staff' },
+    })
+  }, [])
   return (
     <ul className='grid grid-cols-3 gap-8 justify-center'>
       {staffsData.map((staff, index) => (
@@ -280,8 +282,14 @@ const StoreContentStaff = ({ staffsData }) => {
   )
 }
 
-const StoreContentGarelly = ({ name, storeData }) => {
-  console.log(storeData)
+const StoreContentGarelly = ({ name, storeData }: { name: string; storeData: StrapiStore }) => {
+  const router = useRouter()
+  useEffect(() => {
+    router.push({
+      pathname: `/${name}/`,
+      query: { type: 'garelly' },
+    })
+  }, [])
   return (
     <div className=''>
       <ul className='grid grid-cols-3 gap-x-4 gap-y-10'>
@@ -302,7 +310,20 @@ const StoreContentGarelly = ({ name, storeData }) => {
   )
 }
 
-const StoreContentCoupon = ({ couponsData }) => {
+const StoreContentCoupon = ({
+  name,
+  couponsData,
+}: {
+  name: string
+  couponsData: StrapiCoupon[]
+}) => {
+  const router = useRouter()
+  useEffect(() => {
+    router.push({
+      pathname: `/${name}/`,
+      query: { type: 'coupon' },
+    })
+  }, [])
   return (
     <ul className='grid grid-cols-3 gap-8 justify-center'>
       {couponsData.map((coupon, index) => (
@@ -327,7 +348,13 @@ export default function StoreDetail({
   storeName: string
   storeStore: string
 }) {
-  const [contentType, setContentType] = useState('information')
+  const router = useRouter()
+  const [contentType, setContentType] = useState(router.query.type)
+  useEffect(() => {
+    if (router.query.type) {
+      setContentType(router.query.type)
+    }
+  }, [router.isReady, router.query.type])
   const handleSwitchType = (switchType: string) => {
     setContentType(switchType)
   }
@@ -379,10 +406,7 @@ export default function StoreDetail({
         <nav className='border-b border-solid border-white border-opacity-60'>
           <ul className='grid grid-cols-4'>
             <li className=''>
-              <button
-                onClick={() => handleSwitchType('information')}
-                className='w-full p-10 text-s6'
-              >
+              <button onClick={() => handleSwitchType('')} className='w-full p-10 text-s6'>
                 店舗情報
               </button>
             </li>
