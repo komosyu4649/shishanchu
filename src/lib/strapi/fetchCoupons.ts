@@ -2,7 +2,7 @@ import { ACCOUNTS } from '@/constants/strapi'
 import { StrapiCoupon } from '@/type/strapi'
 import axios from 'axios'
 
-export async function fetchCoupons(limit: number) {
+export async function fetchCoupons(limit?: number) {
   const accounts = await Promise.all(
     ACCOUNTS.map(async (account) => {
       const response = await axios.get(`http://localhost:${account.name}/api/coupons`, {
