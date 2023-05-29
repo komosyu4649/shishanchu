@@ -1,5 +1,5 @@
 import { ACCOUNTS } from '@/constants/strapi'
-import { StrapiCoupon, StrapiStore } from '@/type/strapi'
+import { StrapiCoupon } from '@/type/strapi'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -52,17 +52,9 @@ export const getStaticProps = async (params: any) => {
   }
 }
 
-export default function CouponDetail({
-  couponData,
-  storeData,
-  storeName,
-  store,
-}: {
-  couponData: StrapiCoupon
-  storeData: StrapiStore
-  storeName: string
-  store: string
-}) {
+export default function CouponDetail({ couponData, storeData, storeName, store }) {
+  // console.log(couponData)
+  console.log(storeData.attributes.information.address)
   return (
     <section className='w-[80rem] m-auto mt-96 rounded-3xl border-2 border-green border-solid overflow-hidden'>
       <p className='p-8 text-s6 bg-green text-center'>スタッフにこちらの画面を提示してください</p>
