@@ -8,6 +8,7 @@ import Link from 'next/link'
 export const getStaticPaths = async () => {
   const staffs = await fetch('http://localhost:3000/api/strapi/getAllStaffs')
   const staffsData: StrapiStaff[] = await staffs.json()
+  //   console.log(staffsData[0].id)
   return {
     paths: staffsData.map((staff) => ({
       params: {
@@ -44,7 +45,9 @@ export const getStaticProps = async (params: Params) => {
     },
   )
 
-  const contentsData: StrapiContent[] = contents.data.data.map((content: StrapiContent) => ({
+  // console.log(contents.data.data)
+  // console.log(accuntData)
+  const contentsData = contents.data.data.map((content: StrapiContent) => ({
     ...content,
     accountName: accuntData?.name,
     storeName: accuntData?.store,
@@ -57,7 +60,8 @@ export const getStaticProps = async (params: Params) => {
     (a, b) =>
       new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
   )
-
+  // console.log(1, sortedAccounts)
+  // console.log(2, contentsData)
   return {
     props: {
       staffData,
@@ -80,11 +84,13 @@ export default function StaffDetail({
   sortedAccounts: StrapiContent[]
 }) {
   const currentDate = new Date()
-  const elapsedYears = currentDate.getFullYear() - new Date(staffData.profile?.career).getFullYear()
+  const elapsedYears = currentDate.getFullYear() - new Date(staffData.profile.career).getFullYear()
   const elapsedMonths =
-    currentDate.getMonth() - new Date(staffData.profile?.career).getMonth() + 12 * elapsedYears
+    currentDate.getMonth() - new Date(staffData.profile.career).getMonth() + 12 * elapsedYears
   const careerYear = Math.floor(elapsedMonths / 12)
   const careerMonth = elapsedMonths % 12
+  // console.log(contentsData)
+  // console.log(sortedAccounts)
 
   return (
     <section className='w-layoutSm m-auto mt-96'>
@@ -108,22 +114,22 @@ export default function StaffDetail({
           </div>
           {/* sns */}
           <div className='flex flex-col gap-2 ml-72'>
-            {staffData.sns?.twitter && (
+            {staffData.sns.twitter && (
               <a href={staffData.sns.twitter} className='text-s3'>
                 twitter
               </a>
             )}
-            {staffData.sns?.instagram && (
+            {staffData.sns.instagram && (
               <a href={staffData.sns.instagram} className='text-s3'>
                 instagram
               </a>
             )}
-            {staffData.sns?.tiktok && (
+            {staffData.sns.tiktok && (
               <a href={staffData.sns.tiktok} className='text-s3'>
                 tiktok
               </a>
             )}
-            {staffData.sns?.other && (
+            {staffData.sns.other && (
               <a href={staffData.sns.other} className='text-s3'>
                 その他
               </a>
@@ -140,16 +146,16 @@ export default function StaffDetail({
               </dd>
             </dl>
             <dl className='flex gap-2 text-s4'>
-              <dt className=''>出身</dt> :{''} <dd className=''>{staffData.profile?.birthplace}</dd>
+              <dt className=''>出身</dt> :{''} <dd className=''>{staffData.profile.birthplace}</dd>
             </dl>
           </div>
         </div>
         {/* right */}
         <div className=''>
           {/* buttons */}
-          <div className='flex justify-end'>
+          <div className=''>
             <Link
-              href={`/${store}/`}
+              href=''
               className='inline-flex justify-center items-center mt-12 px-20 py-8 text-white text-s4 rounded-full bg-green'
             >
               店舗情報を見る
