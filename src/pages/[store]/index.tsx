@@ -5,7 +5,7 @@ import { StrapiCoupon, StrapiStaff, StrapiStore } from '@/type/strapi'
 import axios from 'axios'
 import { marked } from 'marked'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 export const getStaticPaths = async () => {
@@ -348,8 +348,8 @@ export default function StoreDetail({
   storeName: string
   storeStore: string
 }) {
-  const router = useRouter()
-  const [contentType, setContentType] = useState(router.query.type)
+  const router: NextRouter = useRouter()
+  const [contentType, setContentType] = useState<string | string[]>(router.query.type || '')
   useEffect(() => {
     if (router.query.type) {
       setContentType(router.query.type)
@@ -358,6 +358,26 @@ export default function StoreDetail({
   const handleSwitchType = (switchType: string) => {
     setContentType(switchType)
   }
+
+  const tabData = [
+    {
+      name: '店舗情報',
+      type: '',
+    },
+    {
+      name: 'スタッフ',
+      type: 'staff',
+    },
+    {
+      name: 'ギャラリー',
+      type: 'garelly',
+    },
+    {
+      name: 'クーポン',
+      type: 'coupon',
+    },
+  ]
+
   return (
     <section className='w-[100rem] m-auto mt-96'>
       {/* profile */}
@@ -405,26 +425,19 @@ export default function StoreDetail({
         {/* tab */}
         <nav className='border-b border-solid border-white border-opacity-60'>
           <ul className='grid grid-cols-4'>
-            <li className=''>
-              <button onClick={() => handleSwitchType('')} className='w-full p-10 text-s6'>
-                店舗情報
-              </button>
-            </li>
-            <li className=''>
-              <button onClick={() => handleSwitchType('staff')} className='w-full p-10 text-s6'>
-                スタッフ
-              </button>
-            </li>
-            <li className=''>
-              <button onClick={() => handleSwitchType('garelly')} className='w-full p-10 text-s6'>
-                ギャラリー
-              </button>
-            </li>
-            <li className=''>
-              <button onClick={() => handleSwitchType('coupon')} className='w-full p-10 text-s6'>
-                クーポン
-              </button>
-            </li>
+            {tabData.map((tab, index) => (
+              <li key={index} className=''>
+                <button onClick={() => handleSwitchType(`${tab.type}`)} className='w-full  text-s6'>
+                  <span
+                    className={`inline-block py-10 ${
+                      contentType === `${tab.type}` && 'border-b-4 border-solid border-green'
+                    }`}
+                  >
+                    {tab.name}
+                  </span>
+                </button>
+              </li>
+            ))}
           </ul>
         </nav>
         {/* content */}
