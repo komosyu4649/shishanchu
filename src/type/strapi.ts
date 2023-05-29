@@ -97,7 +97,44 @@ export type StrapiStore = Base<{
       tiktok: string
       other: string
     }
-    information: { id: 1; holiday: string; remarks: string }
+    information: {
+      id: number
+      holiday: string
+      remarks: string
+      address: {
+        id: number
+        name: string
+        url: string
+        tag: string
+      }
+      businessHours: {
+        id: number
+        monday?: string
+        tuesday?: string
+        wednesday?: string
+        thursday?: string
+        friday?: string
+        saturday?: string
+        sunday?: string
+        same?: string
+      }
+      facility: {
+        id: number
+        name: string
+      }[]
+      budget: {
+        id: number
+        lowest: string
+        highest: string
+      }
+      system: {
+        id: number
+        chargeFee: string
+        shishaFee: string
+        oneDrinkSystem: string
+        options: string
+      }
+    }
     garelly: { id: number; name: string }[]
   } & Date
 }>

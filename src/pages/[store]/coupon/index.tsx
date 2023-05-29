@@ -19,7 +19,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (params: any) => {
   const coupons = await axios.get(`http://localhost:3000/api/strapi/getAllCoupons`)
 
-  const couponsData = coupons.data.map((coupon: StrapiCoupon) => ({
+  const couponsData: StrapiCoupon[] = coupons.data.map((coupon: StrapiCoupon) => ({
     ...coupon,
   }))
   const flattenedCoupons = couponsData.flat()
@@ -35,6 +35,6 @@ export const getStaticProps = async (params: any) => {
   }
 }
 
-export default function Coupon({ coupons }) {
+export default function Coupon({ coupons }: { coupons: StrapiCoupon[] }) {
   return <section className=''></section>
 }
