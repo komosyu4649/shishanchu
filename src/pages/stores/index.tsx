@@ -13,7 +13,6 @@ export const getStaticProps = async () => {
 }
 
 export default function Stores({ stores }: { stores: StrapiStore[] }) {
-  console.log(stores)
   return (
     <section className='w-layoutMd m-auto mt-96'>
       <h1 className='relative flex items-end gap-6 mb-36 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
