@@ -12,6 +12,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
+  const feature = await fetch('http://localhost:3000/api/strapi/getCMS')
+  const featureData = await feature.json()
   const contents = await fetch('http://localhost:3000/api/strapi/getTopContents')
   const contentsData = await contents.json()
   const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
