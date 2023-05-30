@@ -13,7 +13,7 @@ export const getStaticProps = async () => {
   }
 }
 
-export default function contents({ contents }: { contents: StrapiContent[] }) {
+export default function Contents({ contents }: { contents: StrapiContent[] }) {
   return (
     <section className='w-layoutSm m-auto'>
       <h1>
