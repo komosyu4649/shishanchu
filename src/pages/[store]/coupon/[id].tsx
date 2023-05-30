@@ -79,23 +79,25 @@ export default function CouponDetail({ couponData, storeData, storeName, store }
                   <span className='text-s5'>店舗詳細</span>
                 </Link>
               </li>
-              <li className=''>
-                <Link
-                  href={storeData.attributes.information.address.url}
-                  target='_blank'
-                  rel='noopener'
-                  className='grid grid-cols-[auto_1fr] gap-4 items-center'
-                >
-                  <Image
-                    src={`/asset/img/iconAccess.svg`}
-                    alt='store icon'
-                    width={20}
-                    height={20}
-                    className='w-8'
-                  />
-                  <span className='text-s5'>店舗アクセス</span>
-                </Link>
-              </li>
+              {storeData.attributes.information.address.url && (
+                <li className=''>
+                  <Link
+                    href={storeData.attributes.information.address.url}
+                    target='_blank'
+                    rel='noopener'
+                    className='grid grid-cols-[auto_1fr] gap-4 items-center'
+                  >
+                    <Image
+                      src={`/asset/img/iconAccess.svg`}
+                      alt='store icon'
+                      width={20}
+                      height={20}
+                      className='w-8'
+                    />
+                    <span className='text-s5'>店舗アクセス</span>
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           {/* main */}
