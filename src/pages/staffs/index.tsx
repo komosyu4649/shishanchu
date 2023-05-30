@@ -14,37 +14,39 @@ export const getStaticProps = async () => {
 
 export default function index({ staffs }: { staffs: StrapiStaff[] }) {
   return (
-    <section className='w-layoutMd m-auto'>
-      <h1>
-        <span>スタッフ一覧</span>
-        <span>【{staffs.length}】</span>
+    <section className='w-layoutMd m-auto mt-96'>
+      <h1 className='relative flex items-end gap-6 mb-36 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+        <span className='text-s9'>スタッフ一覧</span>
+        <span className='text-s7'>【{staffs.length}】</span>
       </h1>
-      <div className='grid grid-cols-[20rem_1fr] content-between'>
+      <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
         {/* side */}
-        <div className=''>
+        <div className='flex flex-col gap-20'>
           {/* gender */}
           <div className=''>
-            <span className=''>性別</span>
-            <div className=''>
-              <label htmlFor='none'>
+            <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>性別</span>
+            <div className='flex flex-col gap-2 mt-8'>
+              <label htmlFor='none' className='flex flex-row gap-2'>
                 <input type='radio' id='none' name='none' />
-                <span>指定なし</span>
+                <span className='text-s3'>指定なし</span>
               </label>
-              <label htmlFor='women'>
+              <label htmlFor='women' className='flex flex-row gap-2'>
                 <input type='radio' id='women' name='women' />
-                <span>女性</span>
+                <span className='text-s3'>女性</span>
               </label>
-              <label htmlFor='men'>
+              <label htmlFor='men' className='flex flex-row gap-2'>
                 <input type='radio' id='men' name='men' />
-                <span>男性</span>
+                <span className='text-s3'>男性</span>
               </label>
             </div>
           </div>
           {/* career */}
           <div className=''>
-            <span className=''>シーシャバー暦</span>
-            <div className=''>
-              <select name='career' id='career'>
+            <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>
+              シーシャバー暦
+            </span>
+            <div className='mt-8'>
+              <select name='career' id='career' className='w-full px-6 py-4 text-black text-s3'>
                 <option value=''>キャリア何年？</option>
                 <option value='1'>1年</option>
                 <option value='2'>2年</option>
@@ -53,9 +55,9 @@ export default function index({ staffs }: { staffs: StrapiStaff[] }) {
           </div>
           {/* area */}
           <div className=''>
-            <span className=''>エリア</span>
-            <div className=''>
-              <select name='area' id='area'>
+            <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>エリア</span>
+            <div className='mt-8'>
+              <select name='area' id='area' className='w-full px-6 py-4 text-black text-s3'>
                 <option value=''>エリアを選択する</option>
                 <option value='tokyo'>東京</option>
                 <option value='chiba'>千葉</option>
