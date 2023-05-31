@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { Chivo, Inter } from 'next/font/google'
 import {
   StrapiContent,
   StrapiCoupon,
@@ -13,8 +13,8 @@ import axios from 'axios'
 import Link from 'next/link'
 import Store from '@/components/item/Store'
 import Coupon from '@/components/item/Coupon'
-
-const inter = Inter({ subsets: ['latin'] })
+import { chivo } from './_app'
+import Button from '@/components/common/Button'
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
@@ -76,11 +76,13 @@ export default function Home({
           ))}
         </ul>
       </section>
+
       {/* contents */}
-      <section className='w-layoutDefault m-auto'>
-        <h2 className=''>
-          <span className=''>Contents</span>
-          <span className=''>最新のスタッフ投稿</span>
+      <section className='w-layoutDefault m-auto mt-72'>
+        <h2 className='mb-16 mx-36'>
+          <span className={`text-s11 ${chivo.className}`}>Contents</span>
+          <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
+          <span className='text-s3'>最新のスタッフ投稿</span>
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
@@ -91,12 +93,17 @@ export default function Home({
             ))}
           </ul>
         </div>
+        <div className='flex justify-center w-full mt-32'>
+          <Button href='contents'>スタッフ投稿一覧</Button>
+        </div>
       </section>
+
       {/* staff */}
-      <section className='w-layoutDefault m-auto'>
-        <h2 className=''>
-          <span className=''>人気のスタッフ</span>
-          <span className=''>Staff</span>
+      <section className='w-layoutDefault m-auto mt-56'>
+        <h2 className='flex flex-col items-center mb-16'>
+          <span className='text-s3'>人気のスタッフ</span>
+          <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
+          <span className={`text-s11 ${chivo.className}`}>Staff</span>
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
@@ -107,13 +114,21 @@ export default function Home({
             ))}
           </ul>
         </div>
+        <div className='flex justify-center w-full mt-32'>
+          <Button href='contents'>スタッフ一覧</Button>
+        </div>
       </section>
+
       {/* store */}
-      <section className='w-layoutMd m-auto'>
-        <h2 className=''>
-          <span className=''>人気の店舗</span>
-          <span className=''>Store</span>
-        </h2>
+      <section className='w-layoutMd m-auto mt-56'>
+        <div className='flex justify-between items-center mb-16 mx-36'>
+          <h2 className=''>
+            <span className={`text-s11 ${chivo.className}`}>Store</span>
+            <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
+            <span className='text-s3'>店舗一覧</span>
+          </h2>
+          <Button href='contents'>店舗一覧</Button>
+        </div>
         <div className=''>
           <ul className='grid grid-cols-3 gap-12 justify-center '>
             {storesData.map((store, index) => (
@@ -124,11 +139,13 @@ export default function Home({
           </ul>
         </div>
       </section>
+
       {/* coupon */}
-      <section className='w-layoutDefault m-auto'>
-        <h2 className=''>
-          <span className=''>クーポン</span>
-          <span className=''>Coupon</span>
+      <section className='w-layoutDefault m-auto mt-56'>
+        <h2 className='flex flex-col mb-16 mx-36'>
+          <span className='text-s3'>クーポン</span>
+          <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
+          <span className={`text-s11 ${chivo.className}`}>Coupon</span>
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
@@ -138,6 +155,9 @@ export default function Home({
               </li>
             ))}
           </ul>
+        </div>
+        <div className='flex justify-center w-full mt-32'>
+          <Button href='contents'>クーポン一覧</Button>
         </div>
       </section>
     </main>

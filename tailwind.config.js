@@ -107,6 +107,13 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        s11: [
+          '4.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
         proseH2: [
           '2.4rem',
           {
@@ -142,6 +149,9 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+      },
+      fontFamily: {
+        chivo: ['var(--font-chivo)'],
       },
     },
   },
