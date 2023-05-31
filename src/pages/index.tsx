@@ -1,6 +1,12 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { StrapiContent, StrapiCoupon, StrapiStaff, StrapiStore } from '../type/strapi'
+import {
+  StrapiContent,
+  StrapiCoupon,
+  StrapiFeature,
+  StrapiStaff,
+  StrapiStore,
+} from '../type/strapi'
 import Content from '@/components/item/Content'
 import Staff from '@/components/item/Staff'
 import axios from 'axios'
@@ -22,8 +28,10 @@ export const getStaticProps = async () => {
   const storesData = await stores.json()
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
   const couponsData = await coupons.json()
+
   return {
     props: {
+      featureData,
       contentsData,
       staffsData,
       storesData,
@@ -33,11 +41,13 @@ export const getStaticProps = async () => {
 }
 
 export default function Home({
+  featureData,
   contentsData,
   staffsData,
   storesData,
   couponsData,
 }: {
+  featureData: StrapiFeature[]
   contentsData: StrapiContent[]
   staffsData: StrapiStaff[]
   storesData: StrapiStore[]
@@ -45,6 +55,27 @@ export default function Home({
 }) {
   return (
     <main>
+      {/* feature */}
+      <section className=''>
+        <ul className=''>
+          {featureData.map((feature, index) => (
+            <li key={index} className='w-layoutMd m-auto'>
+              <Link href={`/feature/${feature.id}`} className='relative'>
+                <Image
+                  src={`http://localhost:1330${feature.attributes.thumbnail.data.attributes.url}`}
+                  width={feature.attributes.thumbnail.data.attributes.width}
+                  height={feature.attributes.thumbnail.data.attributes.height}
+                  alt={feature.attributes.title}
+                />
+                <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'>
+                  <h2 className='mb-6 text-s9'>{feature.attributes.title}</h2>
+                  <p className='text-s3'>{feature.attributes.introduction}</p>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
       {/* contents */}
       <section className='w-layoutDefault m-auto'>
         <h2 className=''>
