@@ -1,4 +1,39 @@
-import { type } from 'os'
+export type StrapiFeature = Base<{
+  attributes: {
+    title: string
+    content: string
+    introduction: string
+    thumbnail: {
+      data: {
+        id: number
+        attributes: {
+          alternativeText?: string
+          caption?: string
+          createdAt: string
+          ext: string
+          formats: {
+            thumbnail: ImageFormat
+            small: ImageFormat
+            large: ImageFormat
+            medium: ImageFormat
+          }
+          hash: string
+          height: number
+          mime: string
+          name: string
+          previewUrl?: string
+          provider: string
+          provider_metadata?: string
+          size: number
+          updatedAt: string
+          url: string
+          width: number
+          id: number
+        }
+      }
+    }
+  }
+}>
 
 export type StrapiContent = Base<{
   attributes: {
