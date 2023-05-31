@@ -115,7 +115,7 @@ export default function Home({
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
-          <Button href='contents'>スタッフ一覧</Button>
+          <Button href='staffs'>スタッフ一覧</Button>
         </div>
       </section>
 
@@ -127,7 +127,7 @@ export default function Home({
             <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
             <span className='text-s3'>店舗一覧</span>
           </h2>
-          <Button href='contents'>店舗一覧</Button>
+          <Button href='stores'>店舗一覧</Button>
         </div>
         <div className=''>
           <ul className='grid grid-cols-3 gap-12 justify-center '>
@@ -157,7 +157,7 @@ export default function Home({
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
-          <Button href='contents'>クーポン一覧</Button>
+          <Button href='coupons'>クーポン一覧</Button>
         </div>
       </section>
     </main>
