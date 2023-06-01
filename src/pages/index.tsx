@@ -59,13 +59,14 @@ export default function Home({
       <section className=''>
         <ul className=''>
           {featureData.map((feature, index) => (
-            <li key={index} className='w-layoutMd m-auto'>
+            <li key={index} className='w-[100rem] h-[60rem] m-auto'>
               <Link href={`/feature/${feature.id}`} className='relative'>
                 <Image
                   src={`http://localhost:1330${feature.attributes.thumbnail.data.attributes.url}`}
                   width={feature.attributes.thumbnail.data.attributes.width}
                   height={feature.attributes.thumbnail.data.attributes.height}
                   alt={feature.attributes.title}
+                  className=''
                 />
                 <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'>
                   <h2 className='mb-6 text-s9'>{feature.attributes.title}</h2>

@@ -8,7 +8,7 @@ type Props = {
 
 const Button: FC<Props> = ({ children, href }) => {
   return (
-    <Link href={`/${href}/`} className='px-20 py-10 bg-white text-black text-s5 rounded-full'>
+    <Link href={`/${href}/`} className='px-16 py-8 bg-white text-black text-s5 rounded-full'>
       {children}
     </Link>
   )
