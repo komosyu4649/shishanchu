@@ -42,7 +42,7 @@ const Menu = () => {
     },
   ]
   return (
-    <nav className='fixed inset-x-0 bottom-12 w-fit m-auto bg-blackWeak border-2 border-solid border-green rounded-full z-10'>
+    <nav className='fixed inset-x-0 bottom-12 w-fit m-auto px-12 bg-blackWeak border-2 border-solid border-green rounded-full z-10'>
       <ul className='flex flex-row justify-center items-center'>
         {menus.map((menu, index) => (
           //   <li key={index} className='border-r-2 border-green border-opacity-20 last:border-none'>
