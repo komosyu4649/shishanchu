@@ -1,11 +1,15 @@
 import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
 import { StrapiStore } from '@/type/strapi'
+import { useRouter } from 'next/router'
 import React from 'react'
 
-export const getStaticProps = async () => {
+// export const getStaticProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllStores')
-  const stores = await res.json()
+  const stores: StrapiStore[] = await res.json()
+  const areaSelectedStore = stores.filter((store) => store.region?.prefectures === query.area)
+  console.log(query, areaSelectedStore)
   return {
     props: {
       stores,
@@ -14,11 +18,26 @@ export const getStaticProps = async () => {
 }
 
 export default function Stores({ stores }: { stores: StrapiStore[] }) {
+  const router = useRouter()
+  const { query } = router
+
+  const filterSearch = ({ area }) => {
+    if (area) query.area = area
+    router.push({
+      pathname: router.pathname,
+      query: query,
+    })
+  }
+
+  const handleSelectArea = (e) => {
+    filterSearch({ area: e.target.value })
+  }
+
   return (
     <Layout>
       <section className='w-layoutMd m-auto mt-36'>
         <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
-          <span className='text-s9'>スタッフ投稿</span>
+          <span className='text-s9'>店舗</span>
           <span className='text-s7'>【{stores.length}】</span>
         </h1>
         <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
@@ -46,10 +65,17 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>エリア</span>
               <div className='mt-8'>
-                <select name='area' id='area' className='w-full px-6 py-4 text-black text-s3'>
-                  <option value=''>エリアを選択する</option>
-                  <option value='tokyo'>東京</option>
-                  <option value='chiba'>千葉</option>
+                <select
+                  name='area'
+                  id='area'
+                  onChange={handleSelectArea}
+                  className='w-full px-6 py-4 text-black text-s3'
+                >
+                  <option value='' selected hidden>
+                    エリアを選択する
+                  </option>
+                  <option value='東京都'>東京都</option>
+                  <option value='千葉県'>千葉県</option>
                 </select>
               </div>
             </div>
