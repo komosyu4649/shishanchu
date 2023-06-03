@@ -1,4 +1,3 @@
-import Header from '@/components/common/Header'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Chivo } from 'next/font/google'
