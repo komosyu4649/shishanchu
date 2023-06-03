@@ -44,6 +44,13 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        s3Lt: [
+          '1.4rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s4: [
           '1.5rem',
           {

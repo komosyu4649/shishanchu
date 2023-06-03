@@ -15,7 +15,7 @@ import Store from '@/components/item/Store'
 import Coupon from '@/components/item/Coupon'
 import { chivo } from './_app'
 import Button from '@/components/common/Button'
-import Layout from '@/components/common/Layout'
+import Layout from '@/components/layout/Layout'
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
