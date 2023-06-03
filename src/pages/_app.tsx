@@ -1,3 +1,4 @@
+import Header from '@/components/common/Header'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Chivo } from 'next/font/google'
@@ -8,5 +9,9 @@ export const chivo = Chivo({
 })
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Component {...pageProps} />
+    </>
+  )
 }
