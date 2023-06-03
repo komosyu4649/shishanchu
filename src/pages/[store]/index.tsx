@@ -1,5 +1,6 @@
 import Coupon from '@/components/item/Coupon'
 import Staff from '@/components/item/Staff'
+import Layout from '@/components/layout/Layout'
 import { ACCOUNTS } from '@/constants/strapi'
 import { StrapiCoupon, StrapiStaff, StrapiStore } from '@/type/strapi'
 import axios from 'axios'
@@ -99,14 +100,10 @@ const StoreContent = ({
 }
 
 const StoreContentInformation = ({ name, storeData }: { name: string; storeData: StrapiStore }) => {
-  // const googleMapTag = storeData.attributes.information.address.tag
-  //   ? marked(storeData.attributes.information.address.tag)
-  //   : null
   const router = useRouter()
   useEffect(() => {
     router.push({
       pathname: `/${name}/`,
-      // query: { type: 'information' },
     })
   }, [])
   return (
@@ -377,78 +374,83 @@ export default function StoreDetail({
   ]
 
   return (
-    <section className='w-[100rem] m-auto mt-96'>
-      {/* profile */}
-      <div className='grid grid-cols-[1fr_50rem]'>
-        <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
-          <Image
-            src={`http://localhost:${storeName}${storeData.attributes.icon.data.attributes.url}`}
-            width={storeData.attributes.icon.data.attributes.width}
-            height={storeData.attributes.icon.data.attributes.height}
-            alt={storeData.attributes.icon.data.attributes.name}
-            className='rounded-full w-60 h-60 object-cover'
-          />
-          <div className=''>
-            <span className='text-s9'>{storeStore}</span>
+    <Layout>
+      <section className='w-[100rem] m-auto mt-36'>
+        {/* profile */}
+        <div className='grid grid-cols-[1fr_50rem]'>
+          <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
+            <Image
+              src={`http://localhost:${storeName}${storeData.attributes.icon.data.attributes.url}`}
+              width={storeData.attributes.icon.data.attributes.width}
+              height={storeData.attributes.icon.data.attributes.height}
+              alt={storeData.attributes.icon.data.attributes.name}
+              className='rounded-full w-60 h-60 object-cover'
+            />
             <div className=''>
-              {storeData.attributes.sns?.twitter && (
-                <a href={storeData.attributes.sns.twitter} className=''>
-                  twitter
-                </a>
-              )}
-              {storeData.attributes.sns?.instagram && (
-                <a href={storeData.attributes.sns.instagram} className=''>
-                  instagram
-                </a>
-              )}
-              {storeData.attributes.sns?.tiktok && (
-                <a href={storeData.attributes.sns.tiktok} className=''>
-                  tiktok
-                </a>
-              )}
-              {storeData.attributes.sns?.other && (
-                <a href={storeData.attributes.sns.other} className=''>
-                  other
-                </a>
-              )}
+              <span className='text-s9'>{storeStore}</span>
+              <div className=''>
+                {storeData.attributes.sns?.twitter && (
+                  <a href={storeData.attributes.sns.twitter} className=''>
+                    twitter
+                  </a>
+                )}
+                {storeData.attributes.sns?.instagram && (
+                  <a href={storeData.attributes.sns.instagram} className=''>
+                    instagram
+                  </a>
+                )}
+                {storeData.attributes.sns?.tiktok && (
+                  <a href={storeData.attributes.sns.tiktok} className=''>
+                    tiktok
+                  </a>
+                )}
+                {storeData.attributes.sns?.other && (
+                  <a href={storeData.attributes.sns.other} className=''>
+                    other
+                  </a>
+                )}
+              </div>
             </div>
           </div>
+          <div className='mt-24'>
+            <p className='text-s5LhLgLt'>{storeData.attributes.description}</p>
+          </div>
         </div>
-        <div className='mt-24'>
-          <p className='text-s5LhLgLt'>{storeData.attributes.description}</p>
-        </div>
-      </div>
-      {/* datas */}
-      <div className='mt-32 '>
-        {/* tab */}
-        <nav className='border-b border-solid border-white border-opacity-60'>
-          <ul className='grid grid-cols-4'>
-            {tabData.map((tab, index) => (
-              <li key={index} className=''>
-                <button onClick={() => handleSwitchType(`${tab.type}`)} className='w-full  text-s6'>
-                  <span
-                    className={`inline-block py-10 ${
-                      contentType === `${tab.type}` && 'border-b-4 border-solid border-green'
-                    }`}
+        {/* datas */}
+        <div className='mt-32 '>
+          {/* tab */}
+          <nav className='border-b border-solid border-white border-opacity-60'>
+            <ul className='grid grid-cols-4'>
+              {tabData.map((tab, index) => (
+                <li key={index} className=''>
+                  <button
+                    onClick={() => handleSwitchType(`${tab.type}`)}
+                    className='w-full  text-s6'
                   >
-                    {tab.name}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {/* content */}
-        <div className='w-layoutSm m-auto mt-32'>
-          <StoreContent
-            name={storeName}
-            contentType={contentType}
-            storeData={storeData}
-            staffsData={staffsData}
-            couponsData={couponsData}
-          />
+                    <span
+                      className={`inline-block py-10 ${
+                        contentType === `${tab.type}` && 'border-b-4 border-solid border-green'
+                      }`}
+                    >
+                      {tab.name}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {/* content */}
+          <div className='w-layoutSm m-auto mt-32'>
+            <StoreContent
+              name={storeName}
+              contentType={contentType}
+              storeData={storeData}
+              staffsData={staffsData}
+              couponsData={couponsData}
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </Layout>
   )
 }
