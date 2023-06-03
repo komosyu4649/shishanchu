@@ -1,4 +1,5 @@
 import Content from '@/components/item/Content'
+import Layout from '@/components/layout/Layout'
 import { ACCOUNTS } from '@/constants/strapi'
 import { Account, StrapiContent, StrapiStaff } from '@/type/strapi'
 import axios from 'axios'
@@ -93,90 +94,93 @@ export default function StaffDetail({
   // console.log(sortedAccounts)
 
   return (
-    <section className='w-layoutSm m-auto mt-96'>
-      {/* profile */}
-      <div className='grid grid-cols-[1fr_38.5rem] gap-12 border-b-2 border-solid border-white border-opacity-60 mb-32 pb-32'>
-        {/* left */}
-        <div className=''>
-          {/* account */}
-          <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
-            <Image
-              src={`http://localhost:${store}${staffData.icon.url}`}
-              width={staffData.icon.width}
-              height={staffData.icon.height}
-              alt='test'
-              className='w-60 h-60 rounded-full object-cover'
-            />
-            <div className='flex flex-col gap-4'>
-              <span className='text-s8'>{staffData.username}</span>
-              <span className='text-s7 opacity-60'>【{accuntData.store}】</span>
+    <Layout>
+      <section className='w-layoutSm m-auto mt-36'>
+        {/* profile */}
+        <div className='grid grid-cols-[1fr_38.5rem] gap-12 border-b-2 border-solid border-white border-opacity-60 mb-32 pb-32'>
+          {/* left */}
+          <div className=''>
+            {/* account */}
+            <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
+              <Image
+                src={`http://localhost:${store}${staffData.icon.url}`}
+                width={staffData.icon.width}
+                height={staffData.icon.height}
+                alt='test'
+                className='w-60 h-60 rounded-full object-cover'
+              />
+              <div className='flex flex-col gap-4'>
+                <span className='text-s8'>{staffData.username}</span>
+                <span className='text-s7 opacity-60'>【{accuntData.store}】</span>
+              </div>
+            </div>
+            {/* sns */}
+            <div className='flex flex-col gap-2 ml-72'>
+              {staffData.sns.twitter && (
+                <a href={staffData.sns.twitter} className='text-s3'>
+                  twitter
+                </a>
+              )}
+              {staffData.sns.instagram && (
+                <a href={staffData.sns.instagram} className='text-s3'>
+                  instagram
+                </a>
+              )}
+              {staffData.sns.tiktok && (
+                <a href={staffData.sns.tiktok} className='text-s3'>
+                  tiktok
+                </a>
+              )}
+              {staffData.sns.other && (
+                <a href={staffData.sns.other} className='text-s3'>
+                  その他
+                </a>
+              )}
+            </div>
+            {/* profile */}
+            <div className='flex flex-col gap-4 py-2 pl-8 mt-12 ml-72 border-l-2 border-solid border-green'>
+              <dl className='flex gap-2 text-s4'>
+                <dt className=''>シーシャバー暦</dt> :{' '}
+                <dd className=''>
+                  <span className=''>
+                    {careerYear}年{careerMonth > 0 && `${careerMonth}ヶ月`}
+                  </span>
+                </dd>
+              </dl>
+              <dl className='flex gap-2 text-s4'>
+                <dt className=''>出身</dt> :{''}{' '}
+                <dd className=''>{staffData.profile.birthplace}</dd>
+              </dl>
             </div>
           </div>
-          {/* sns */}
-          <div className='flex flex-col gap-2 ml-72'>
-            {staffData.sns.twitter && (
-              <a href={staffData.sns.twitter} className='text-s3'>
-                twitter
-              </a>
-            )}
-            {staffData.sns.instagram && (
-              <a href={staffData.sns.instagram} className='text-s3'>
-                instagram
-              </a>
-            )}
-            {staffData.sns.tiktok && (
-              <a href={staffData.sns.tiktok} className='text-s3'>
-                tiktok
-              </a>
-            )}
-            {staffData.sns.other && (
-              <a href={staffData.sns.other} className='text-s3'>
-                その他
-              </a>
-            )}
-          </div>
-          {/* profile */}
-          <div className='flex flex-col gap-4 py-2 pl-8 mt-12 ml-72 border-l-2 border-solid border-green'>
-            <dl className='flex gap-2 text-s4'>
-              <dt className=''>シーシャバー暦</dt> :{' '}
-              <dd className=''>
-                <span className=''>
-                  {careerYear}年{careerMonth > 0 && `${careerMonth}ヶ月`}
-                </span>
-              </dd>
-            </dl>
-            <dl className='flex gap-2 text-s4'>
-              <dt className=''>出身</dt> :{''} <dd className=''>{staffData.profile.birthplace}</dd>
-            </dl>
-          </div>
-        </div>
-        {/* right */}
-        <div className=''>
-          {/* buttons */}
+          {/* right */}
           <div className=''>
-            <Link
-              href=''
-              className='inline-flex justify-center items-center mt-12 px-20 py-8 text-white text-s4 rounded-full bg-green'
-            >
-              店舗情報を見る
-            </Link>
-          </div>
-          {/* bio */}
-          <div className='mt-16'>
-            <p className='text-s5LhLgLt'>{staffData.biography}</p>
+            {/* buttons */}
+            <div className='flex justify-end'>
+              <Link
+                href=''
+                className='inline-flex justify-center items-center mt-12 px-20 py-8 text-white text-s4 rounded-full bg-green'
+              >
+                店舗情報を見る
+              </Link>
+            </div>
+            {/* bio */}
+            <div className='mt-16'>
+              <p className='text-s5LhLgLt'>{staffData.biography}</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* contents */}
-      <div className=''>
-        <ul className='grid grid-cols-3 gap-4'>
-          {sortedAccounts.map((content, index) => (
-            <li key={index} className=''>
-              <Content content={content} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+        {/* contents */}
+        <div className=''>
+          <ul className='grid grid-cols-3 gap-4'>
+            {sortedAccounts.map((content, index) => (
+              <li key={index} className=''>
+                <Content content={content} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </Layout>
   )
 }
