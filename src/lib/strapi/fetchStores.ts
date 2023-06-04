@@ -6,7 +6,7 @@ export async function fetchStores(limit?: number): Promise<StrapiStore[]> {
   const accounts = await Promise.all(
     ACCOUNTS.map(async (account) => {
       const response = await axios.get(
-        `http://localhost:${account.name}/api/stores?populate=icon,sns,information,garelly`,
+        `http://localhost:${account.name}/api/stores?populate=icon,sns,information.budget,garelly`,
         {
           headers: {
             Authorization: `Bearer ${account.jwt}`,

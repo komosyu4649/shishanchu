@@ -1,15 +1,31 @@
+import Tag from '@/components/common/Tag'
 import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
+import { BUDGETS, REGIONS } from '@/constants/strapi'
 import { StrapiStore } from '@/type/strapi'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 // export const getStaticProps = async ({ query }) => {
 export const getServerSideProps = async ({ query }) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllStores')
-  const stores: StrapiStore[] = await res.json()
-  const areaSelectedStore = stores.filter((store) => store.region?.prefectures === query.area)
-  console.log(query, areaSelectedStore)
+  let stores: StrapiStore[] = await res.json()
+
+  if (query.area) {
+    stores = stores.filter((store) => store.region?.prefectures === query.area)
+  }
+  if (query.budgetMin) {
+    stores = stores.filter(
+      (store) => store.attributes.information?.budget?.lowest >= query.budgetMin,
+    )
+  }
+  if (query.budgetMax) {
+    stores = stores.filter(
+      (store) => store.attributes.information?.budget?.highest <= query.budgetMax,
+    )
+  }
+
   return {
     props: {
       stores,
@@ -21,16 +37,40 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
   const router = useRouter()
   const { query } = router
 
-  const filterSearch = ({ area }) => {
-    if (area) query.area = area
+  const handleSelectArea = (e) => {
     router.push({
       pathname: router.pathname,
-      query: query,
+      query: { ...query, area: e.target.value },
     })
   }
 
-  const handleSelectArea = (e) => {
-    filterSearch({ area: e.target.value })
+  const handleSelectBudgetMin = (e) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...query, budgetMin: e.target.value },
+    })
+  }
+
+  const handleSelectBudgetMax = (e) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...query, budgetMax: e.target.value },
+    })
+  }
+
+  // console.log(query)
+
+  const handleRemoveQuery = (queryItem, query) => {
+    console.log(queryItem, query)
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...query,
+        area: queryItem === queryItem ? '' : queryItem,
+        budgetMin: queryItem === queryItem ? '' : queryItem,
+        budgetMax: queryItem === queryItem ? '' : queryItem,
+      },
+    })
   }
 
   return (
@@ -40,25 +80,51 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
           <span className='text-s9'>店舗</span>
           <span className='text-s7'>【{stores.length}】</span>
         </h1>
+        {/* エリアを選択した場合に指定したエリアを表示してクリックすると削除する */}
+        {query.area && <Tag onClick={() => handleRemoveQuery(query.area, query)}>{query.area}</Tag>}
+        {/* 予算を選択した場合に指定した予算を表示してクリックすると削除する */}
+        {/* {query.budgetMin && (
+          <button onClick={() => handleRemoveQuery(query.budgetMin, query)}>
+            <span className='text-s6'>下限予算:{query.budgetMin}円</span>
+          </button>
+        )} */}
+        {/* 予算を選択した場合に指定した予算を表示してクリックすると削除する */}
         <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
           {/* side */}
           <div className='flex flex-col gap-20'>
             {/* budget */}
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>予算</span>
-              <div className='flex flex-col gap-2 mt-8'>
-                <label htmlFor='none' className='flex flex-row gap-2'>
-                  <input type='radio' id='none' name='none' />
-                  <span className='text-s3'>2,000円~</span>
-                </label>
-                <label htmlFor='women' className='flex flex-row gap-2'>
-                  <input type='radio' id='women' name='women' />
-                  <span className='text-s3'>4,000円~</span>
-                </label>
-                <label htmlFor='men' className='flex flex-row gap-2'>
-                  <input type='radio' id='men' name='men' />
-                  <span className='text-s3'>6,000円~</span>
-                </label>
+              <div className=''>
+                <select
+                  name='budgetMin'
+                  id='budgetMin'
+                  onChange={handleSelectBudgetMin}
+                  className='w-full px-6 py-4 text-black text-s3'
+                  value={query.budgetMin}
+                >
+                  <option value=''>下限なし</option>
+                  {BUDGETS.map((budget, index) => (
+                    <option key={index} value={budget.price}>
+                      {budget.price.toLocaleString()}円
+                    </option>
+                  ))}
+                </select>
+                <span className=''>〜</span>
+                <select
+                  name='budgetMax'
+                  id='budgetMax'
+                  onChange={handleSelectBudgetMax}
+                  className='w-full px-6 py-4 text-black text-s3'
+                  value={query.budgetMax}
+                >
+                  <option value=''>上限なし</option>
+                  {BUDGETS.map((budget, index) => (
+                    <option key={index} value={budget.price}>
+                      {budget.price.toLocaleString()}円
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             {/* area */}
@@ -69,13 +135,15 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
                   name='area'
                   id='area'
                   onChange={handleSelectArea}
+                  value={query.area}
                   className='w-full px-6 py-4 text-black text-s3'
                 >
-                  <option value='' selected hidden>
-                    エリアを選択する
-                  </option>
-                  <option value='東京都'>東京都</option>
-                  <option value='千葉県'>千葉県</option>
+                  <option value=''>エリアを選択する</option>
+                  {REGIONS.map((region, index) => (
+                    <option key={index} value={region.prefectures}>
+                      {region.prefectures}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -85,6 +153,7 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
               <li className=''></li>
             </ul>
           </div> */}
+            <Link href='/stores/'>条件をクリアする</Link>
           </div>
           {/* main */}
           <div className='w-layoutSm'>

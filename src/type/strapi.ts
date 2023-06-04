@@ -132,7 +132,12 @@ export type StrapiStore = Base<{
       tiktok: string
       other: string
     }
-    information: { id: 1; holiday: string; remarks: string }
+    information: {
+      id: 1
+      holiday: string
+      remarks: string
+      budget: { id: number; lowest: number; highest: number }
+    }
     garelly: { id: number; name: string }[]
   } & Date
 }>
