@@ -1,14 +1,25 @@
+import Button from '@/components/common/Button'
 import Tag from '@/components/common/Tag'
 import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
 import { BUDGETS, REGIONS } from '@/constants/strapi'
 import { StrapiStore } from '@/type/strapi'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-// export const getStaticProps = async ({ query }) => {
-export const getServerSideProps = async ({ query }) => {
+type Query = {
+  area?: string | null
+  budgetMin?: string | null
+  budgetMax?: string | null
+}
+
+export const getServerSideProps: GetServerSideProps<{ stores: StrapiStore[] }> = async ({
+  query,
+}: {
+  query: Query
+}) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllStores')
   let stores: StrapiStore[] = await res.json()
 
@@ -16,13 +27,15 @@ export const getServerSideProps = async ({ query }) => {
     stores = stores.filter((store) => store.region?.prefectures === query.area)
   }
   if (query.budgetMin) {
+    const budgetMinNumber = Number(query.budgetMin)
     stores = stores.filter(
-      (store) => store.attributes.information?.budget?.lowest >= query.budgetMin,
+      (store) => store.attributes.information?.budget?.lowest >= budgetMinNumber,
     )
   }
   if (query.budgetMax) {
+    const budgetMaxNumber = Number(query.budgetMax)
     stores = stores.filter(
-      (store) => store.attributes.information?.budget?.highest <= query.budgetMax,
+      (store) => store.attributes.information?.budget?.highest <= budgetMaxNumber,
     )
   }
 
@@ -37,39 +50,42 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
   const router = useRouter()
   const { query } = router
 
-  const handleSelectArea = (e) => {
+  const handleSelectArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
     router.push({
       pathname: router.pathname,
       query: { ...query, area: e.target.value },
     })
   }
 
-  const handleSelectBudgetMin = (e) => {
+  const handleSelectBudgetMin = (e: React.ChangeEvent<HTMLSelectElement>) => {
     router.push({
       pathname: router.pathname,
       query: { ...query, budgetMin: e.target.value },
     })
   }
 
-  const handleSelectBudgetMax = (e) => {
+  const handleSelectBudgetMax = (e: React.ChangeEvent<HTMLSelectElement>) => {
     router.push({
       pathname: router.pathname,
       query: { ...query, budgetMax: e.target.value },
     })
   }
 
-  // console.log(query)
-
-  const handleRemoveQuery = (queryItem, query) => {
-    console.log(queryItem, query)
+  const handleRemoveQuery = (queryItem?: string | string[]) => {
     router.push({
       pathname: router.pathname,
       query: {
-        ...query,
-        area: queryItem === queryItem ? '' : queryItem,
-        budgetMin: queryItem === queryItem ? '' : queryItem,
-        budgetMax: queryItem === queryItem ? '' : queryItem,
+        area: query.area === queryItem ? '' : query.area,
+        budgetMin: query.budgetMin === queryItem ? '' : query.budgetMin,
+        budgetMax: query.budgetMax === queryItem ? '' : query.budgetMax,
       },
+    })
+  }
+
+  const handleClearQuery = () => {
+    router.push({
+      pathname: router.pathname,
+      query: {},
     })
   }
 
@@ -80,27 +96,31 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
           <span className='text-s9'>店舗</span>
           <span className='text-s7'>【{stores.length}】</span>
         </h1>
-        {/* エリアを選択した場合に指定したエリアを表示してクリックすると削除する */}
-        {query.area && <Tag onClick={() => handleRemoveQuery(query.area, query)}>{query.area}</Tag>}
-        {/* 予算を選択した場合に指定した予算を表示してクリックすると削除する */}
-        {/* {query.budgetMin && (
-          <button onClick={() => handleRemoveQuery(query.budgetMin, query)}>
-            <span className='text-s6'>下限予算:{query.budgetMin}円</span>
-          </button>
-        )} */}
-        {/* 予算を選択した場合に指定した予算を表示してクリックすると削除する */}
-        <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
+        <div className='flex flex-row flex-wrap gap-4'>
+          {query.budgetMin && (
+            <Tag onClick={() => handleRemoveQuery(query.budgetMin)}>
+              下限予算 : {query.budgetMin}円
+            </Tag>
+          )}
+          {query.budgetMax && (
+            <Tag onClick={() => handleRemoveQuery(query.budgetMax)}>
+              上限予算 : {query.budgetMax}円
+            </Tag>
+          )}
+          {query.area && <Tag onClick={() => handleRemoveQuery(query.area)}>{query.area}</Tag>}
+        </div>
+        <div className='grid grid-cols-[20rem_1fr] content-between gap-24 mt-12'>
           {/* side */}
-          <div className='flex flex-col gap-20'>
+          <div className='flex flex-col gap-16'>
             {/* budget */}
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>予算</span>
-              <div className=''>
+              <div className='grid grid-cols-[1fr_auto_1fr] gap-2 items-center mt-6'>
                 <select
                   name='budgetMin'
                   id='budgetMin'
                   onChange={handleSelectBudgetMin}
-                  className='w-full px-6 py-4 text-black text-s3'
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
                   value={query.budgetMin}
                 >
                   <option value=''>下限なし</option>
@@ -110,12 +130,12 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
                     </option>
                   ))}
                 </select>
-                <span className=''>〜</span>
+                <span className='text-s1'>〜</span>
                 <select
                   name='budgetMax'
                   id='budgetMax'
                   onChange={handleSelectBudgetMax}
-                  className='w-full px-6 py-4 text-black text-s3'
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
                   value={query.budgetMax}
                 >
                   <option value=''>上限なし</option>
@@ -130,13 +150,13 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
             {/* area */}
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>エリア</span>
-              <div className='mt-8'>
+              <div className='mt-6'>
                 <select
                   name='area'
                   id='area'
-                  onChange={handleSelectArea}
+                  onChange={(e) => handleSelectArea(e)}
                   value={query.area}
-                  className='w-full px-6 py-4 text-black text-s3'
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
                 >
                   <option value=''>エリアを選択する</option>
                   {REGIONS.map((region, index) => (
@@ -153,7 +173,9 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
               <li className=''></li>
             </ul>
           </div> */}
-            <Link href='/stores/'>条件をクリアする</Link>
+            <Button onClick={handleClearQuery} className='bg-green'>
+              条件をクリア
+            </Button>
           </div>
           {/* main */}
           <div className='w-layoutSm'>

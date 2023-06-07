@@ -133,7 +133,7 @@ export type StrapiStore = Base<{
       other: string
     }
     information: {
-      id: 1
+      id: number
       holiday: string
       remarks: string
       budget: { id: number; lowest: number; highest: number }
