@@ -1,11 +1,30 @@
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
+import { CAREERS } from '@/constants/strapi'
 import { StrapiStaff } from '@/type/strapi'
+import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
 
-export const getStaticProps = async () => {
+type Query = {
+  career?: string | null
+}
+
+export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> = async ({
+  query,
+}: {
+  query: Query
+}) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllStaffs')
-  const staffs = await res.json()
+  let staffs: StrapiStaff[] = await res.json()
+
+  if (query.career) {
+    const currentYear = new Date().getFullYear()
+    staffs = staffs.filter(
+      (staff) => currentYear - new Date(staff.profile.career).getFullYear() >= Number(query.career),
+    )
+  }
+
   return {
     props: {
       staffs,
@@ -14,6 +33,16 @@ export const getStaticProps = async () => {
 }
 
 export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
+  const router = useRouter()
+  const { query } = router
+
+  const handleSelectCareer = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...query, career: e.target.value },
+    })
+  }
+
   return (
     <Layout>
       <section className='w-layoutMd m-auto mt-36'>
@@ -47,22 +76,21 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>
                 シーシャバー暦
               </span>
-              <div className='mt-8'>
-                <select name='career' id='career' className='w-full px-6 py-4 text-black text-s3'>
+              <div className='mt-6'>
+                <select
+                  name='career'
+                  id='career'
+                  onChange={handleSelectCareer}
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
+                  value={query.career}
+                >
                   <option value=''>キャリア何年？</option>
-                  <option value='1'>1年</option>
-                  <option value='2'>2年</option>
-                </select>
-              </div>
-            </div>
-            {/* area */}
-            <div className=''>
-              <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>エリア</span>
-              <div className='mt-8'>
-                <select name='area' id='area' className='w-full px-6 py-4 text-black text-s3'>
-                  <option value=''>エリアを選択する</option>
-                  <option value='tokyo'>東京</option>
-                  <option value='chiba'>千葉</option>
+                  <option value='0'>1年未満</option>
+                  {CAREERS.map((career, index) => (
+                    <option key={index} value={career.year}>
+                      {career.year}年以上
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

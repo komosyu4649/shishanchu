@@ -19,3 +19,5 @@ export const ACCOUNTS = [
     jwt: process.env.STRAPI_JWT_STORETEMPLATE2,
   },
 ]
+
+export const CAREERS = [{ year: 1 }, { year: 3 }, { year: 5 }, { year: 7 }, { year: 10 }]

@@ -5,11 +5,14 @@ import { ACCOUNTS } from '@/constants/strapi'
 export async function fetchStaffs(limit?: number): Promise<StrapiStaff[]> {
   const accounts: StrapiStaff[] = await Promise.all(
     ACCOUNTS.map(async (account) => {
-      const response = await axios.get(`http://localhost:${account.name}/api/users?populate=icon`, {
-        headers: {
-          Authorization: `Bearer ${account.jwt}`,
+      const response = await axios.get(
+        `http://localhost:${account.name}/api/users?populate=icon,profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${account.jwt}`,
+          },
         },
-      })
+      )
       const accountDataWithAccountName = response.data.map((staff: StrapiStaff) => ({
         ...staff,
         accountName: account.name,
