@@ -20,6 +20,8 @@ export const ACCOUNTS = [
   },
 ]
 
+export const CAREERS = [{ year: 1 }, { year: 3 }, { year: 5 }, { year: 7 }, { year: 10 }]
+
 export const BUDGETS = [
   { price: 2000 },
   { price: 4000 },
@@ -91,4 +93,19 @@ export const REGIONS = [
   { prefectures: '宮崎県' },
   { prefectures: '鹿児島県' },
   { prefectures: '沖縄県' },
+]
+
+export const GENDERS = [
+  {
+    value: 'all',
+    label: '指定なし',
+  },
+  {
+    value: 'man',
+    label: '男性',
+  },
+  {
+    value: 'woman',
+    label: '女性',
+  },
 ]

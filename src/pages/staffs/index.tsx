@@ -1,11 +1,50 @@
+import Button from '@/components/common/Button'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
+import { CAREERS, GENDERS } from '@/constants/strapi'
 import { StrapiStaff } from '@/type/strapi'
-import React from 'react'
+import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 
-export const getStaticProps = async () => {
+type Query = {
+  career?: string | null
+  gender?: string | null
+}
+
+export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> = async ({
+  query,
+}: {
+  query: Query
+}) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllStaffs')
-  const staffs = await res.json()
+  let staffs: StrapiStaff[] = await res.json()
+
+  if (query.career) {
+    const careerYear = Number(query.career)
+    const currentYear = new Date().getFullYear()
+    if (careerYear >= 0 && careerYear < 1) {
+      staffs = staffs.filter(
+        (staff) =>
+          currentYear - new Date(staff.profile.career).getFullYear() >= 0 &&
+          currentYear - new Date(staff.profile.career).getFullYear() < 1,
+      )
+    } else {
+      staffs = staffs.filter(
+        (staff) => currentYear - new Date(staff.profile.career).getFullYear() >= careerYear,
+      )
+    }
+  }
+
+  if (query.gender) {
+    if (query.gender === 'all') {
+      staffs = staffs
+    } else {
+      staffs = staffs.filter((staff) => staff.profile.gender === query.gender)
+    }
+  }
+  console.log(staffs)
+
   return {
     props: {
       staffs,
@@ -14,6 +53,37 @@ export const getStaticProps = async () => {
 }
 
 export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
+  const router = useRouter()
+
+  const [searchParams, setSearchParams] = useState({
+    career: '',
+    gender: '',
+  })
+
+  const handleSelectCareer = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({
+      ...searchParams,
+      career: e.target.value,
+    })
+  }
+
+  const handleSelectGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchParams({
+      ...searchParams,
+      gender: e.target.value,
+    })
+  }
+
+  const handleSearchQuery = () => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        career: searchParams.career,
+        gender: searchParams.gender,
+      },
+    })
+  }
+
   return (
     <Layout>
       <section className='w-layoutMd m-auto mt-36'>
@@ -27,19 +97,24 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
             {/* gender */}
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>性別</span>
-              <div className='flex flex-col gap-2 mt-8'>
-                <label htmlFor='none' className='flex flex-row gap-2'>
-                  <input type='radio' id='none' name='none' />
-                  <span className='text-s3'>指定なし</span>
-                </label>
-                <label htmlFor='women' className='flex flex-row gap-2'>
-                  <input type='radio' id='women' name='women' />
-                  <span className='text-s3'>女性</span>
-                </label>
-                <label htmlFor='men' className='flex flex-row gap-2'>
-                  <input type='radio' id='men' name='men' />
-                  <span className='text-s3'>男性</span>
-                </label>
+              <div className='flex flex-col gap-4 mt-8'>
+                {GENDERS.map((gender, index) => (
+                  <label
+                    key={index}
+                    htmlFor={gender.value}
+                    className='flex flex-row items-center gap-2'
+                  >
+                    <input
+                      type='radio'
+                      id={gender.value}
+                      value={gender.value}
+                      name='gender'
+                      onChange={handleSelectGender}
+                      className='w-8 h-8'
+                    />
+                    <span className='text-s3'>{gender.label}</span>
+                  </label>
+                ))}
               </div>
             </div>
             {/* career */}
@@ -47,25 +122,27 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>
                 シーシャバー暦
               </span>
-              <div className='mt-8'>
-                <select name='career' id='career' className='w-full px-6 py-4 text-black text-s3'>
+              <div className='mt-6'>
+                <select
+                  name='career'
+                  id='career'
+                  onChange={handleSelectCareer}
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
+                  value={searchParams.career}
+                >
                   <option value=''>キャリア何年？</option>
-                  <option value='1'>1年</option>
-                  <option value='2'>2年</option>
+                  <option value='0'>1年未満</option>
+                  {CAREERS.map((career, index) => (
+                    <option key={index} value={career.year}>
+                      {career.year}年目〜
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
-            {/* area */}
-            <div className=''>
-              <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>エリア</span>
-              <div className='mt-8'>
-                <select name='area' id='area' className='w-full px-6 py-4 text-black text-s3'>
-                  <option value=''>エリアを選択する</option>
-                  <option value='tokyo'>東京</option>
-                  <option value='chiba'>千葉</option>
-                </select>
-              </div>
-            </div>
+            <Button onClick={handleSearchQuery} className='bg-green'>
+              検索する
+            </Button>
           </div>
           {/* main */}
           <div className='w-layoutSm'>
