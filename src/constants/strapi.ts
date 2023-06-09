@@ -94,3 +94,18 @@ export const REGIONS = [
   { prefectures: '鹿児島県' },
   { prefectures: '沖縄県' },
 ]
+
+export const GENDERS = [
+  {
+    value: 'all',
+    label: '指定なし',
+  },
+  {
+    value: 'man',
+    label: '男性',
+  },
+  {
+    value: 'woman',
+    label: '女性',
+  },
+]

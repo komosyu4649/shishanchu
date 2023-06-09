@@ -78,7 +78,7 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
     })
   }
 
-  const handleClearQuery = () => {
+  const handleSearchQuery = () => {
     router.push({
       pathname: router.pathname,
       query: {
@@ -174,7 +174,7 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
               <li className=''></li>
             </ul>
           </div> */}
-            <Button onClick={handleClearQuery} className='bg-green'>
+            <Button onClick={handleSearchQuery} className='bg-green'>
               検索する
             </Button>
           </div>

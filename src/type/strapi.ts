@@ -116,6 +116,7 @@ export type StrapiStaff = Base<
       id: number
       birthplace: string
       career: string
+      gender: string
     }
   } & Date
 >
