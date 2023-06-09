@@ -5,9 +5,8 @@ import Layout from '@/components/layout/Layout'
 import { BUDGETS, REGIONS } from '@/constants/strapi'
 import { StrapiStore } from '@/type/strapi'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 type Query = {
   area?: string | null
@@ -50,7 +49,7 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
   const router = useRouter()
   const { query } = router
 
-  const [searchParams, setSearchParams] = React.useState({
+  const [searchParams, setSearchParams] = useState({
     area: '',
     budgetMin: '',
     budgetMax: '',
@@ -68,12 +67,14 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
     setSearchParams({ ...searchParams, budgetMax: e.target.value })
   }
 
-  const handleRemoveQuery = (queryItem: Query) => {
-    console.log(queryItem, searchParams.area)
-    setSearchParams({
-      area: queryItem === searchParams.area ? '' : searchParams.area,
-      budgetMin: queryItem === searchParams.budgetMin ? '' : searchParams.budgetMin,
-      budgetMax: queryItem === searchParams.budgetMax ? '' : searchParams.budgetMax,
+  const handleRemoveQuery = (queryItem?: string | string[]) => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        area: query.area === queryItem ? '' : query.area,
+        budgetMin: query.budgetMin === queryItem ? '' : query.budgetMin,
+        budgetMax: query.budgetMax === queryItem ? '' : query.budgetMax,
+      },
     })
   }
 
@@ -97,19 +98,17 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
           <span className='text-s7'>【{stores.length}】</span>
         </h1>
         <div className='flex flex-row flex-wrap gap-4'>
-          {searchParams.budgetMin && (
-            <Tag onClick={() => handleRemoveQuery(searchParams.budgetMin)}>
-              下限予算 : {searchParams.budgetMin}円
+          {query.budgetMin && (
+            <Tag onClick={() => handleRemoveQuery(query.budgetMin)}>
+              下限予算 : {query.budgetMin}円
             </Tag>
           )}
-          {searchParams.budgetMax && (
-            <Tag onClick={() => handleRemoveQuery(searchParams.budgetMax)}>
-              上限予算 : {searchParams.budgetMax}円
+          {query.budgetMax && (
+            <Tag onClick={() => handleRemoveQuery(query.budgetMax)}>
+              上限予算 : {query.budgetMax}円
             </Tag>
           )}
-          {searchParams.area && (
-            <Tag onClick={() => handleRemoveQuery(searchParams.area)}>{searchParams.area}</Tag>
-          )}
+          {query.area && <Tag onClick={() => handleRemoveQuery(query.area)}>{query.area}</Tag>}
         </div>
         <div className='grid grid-cols-[20rem_1fr] content-between gap-24 mt-12'>
           {/* side */}
