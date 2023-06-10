@@ -43,7 +43,6 @@ export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> =
       staffs = staffs.filter((staff) => staff.profile.gender === query.gender)
     }
   }
-  console.log(staffs)
 
   return {
     props: {
@@ -99,21 +98,49 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>性別</span>
               <div className='flex flex-col gap-4 mt-8'>
                 {GENDERS.map((gender, index) => (
-                  <label
-                    key={index}
-                    htmlFor={gender.value}
-                    className='flex flex-row items-center gap-2'
-                  >
-                    <input
-                      type='radio'
-                      id={gender.value}
-                      value={gender.value}
-                      name='gender'
-                      onChange={handleSelectGender}
-                      className='w-8 h-8'
-                    />
-                    <span className='text-s3'>{gender.label}</span>
-                  </label>
+                  // <label
+                  //   key={index}
+                  //   htmlFor={gender.value}
+                  //   className='flex flex-row items-center gap-2'
+                  // >
+                  //   <input
+                  //     type='radio'
+                  //     id={gender.value}
+                  //     value={gender.value}
+                  //     name='gender'
+                  //     onChange={handleSelectGender}
+                  //     className='w-8 h-8'
+                  //   />
+                  //   <span className='text-s3'>{gender.label}</span>
+                  // </label>
+                  <div key={index} className='flex items-center gap-4'>
+                    <label
+                      className='relative flex cursor-pointer items-center rounded-full'
+                      htmlFor={gender.value}
+                    >
+                      <input
+                        type='radio'
+                        id={gender.value}
+                        value={gender.value}
+                        name='gender'
+                        onChange={handleSelectGender}
+                        className="before:content[''] peer relative h-6 w-6 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-green transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green checked:before:bg-green hover:before:opacity-10"
+                      />
+                      <div className='pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-green opacity-0 transition-opacity peer-checked:opacity-100'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          className='h-3.5 w-3.5'
+                          viewBox='0 0 16 16'
+                          fill='currentColor'
+                        >
+                          <circle data-name='ellipse' cx='8' cy='8' r='8'></circle>
+                        </svg>
+                      </div>
+                    </label>
+                    <label className='w-full text-s3 cursor-pointer' htmlFor={gender.value}>
+                      {gender.label}
+                    </label>
+                  </div>
                 ))}
               </div>
             </div>
