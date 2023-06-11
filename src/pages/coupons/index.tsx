@@ -7,12 +7,17 @@ import Button from '@/components/common/Button'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import Tag from '@/components/common/Tag'
+import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import { chivo } from '../_app'
 
 type Query = {
   type?: string | null
   deadline?: string | null
   area?: string | null
+  page?: number | null
 }
+
+const PAGE_SIZE = 3
 
 export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }> = async ({
   query,
@@ -24,9 +29,13 @@ export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }>
 
   // typeによる絞り込み
   if (query.type) {
-    coupons = coupons.filter((coupon: StrapiCoupon) => {
-      return coupon.attributes.types === query.type
-    })
+    if (query.type === 'all') {
+      coupons = coupons
+    } else {
+      coupons = coupons.filter((coupon: StrapiCoupon) => {
+        return coupon.attributes.types === query.type
+      })
+    }
   }
 
   // deadlineによる絞り込み
@@ -49,22 +58,52 @@ export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }>
     })
   }
 
+  const page = query.page || 1
+  const pages = Math.ceil(coupons.length / PAGE_SIZE)
+
+  // pageによる絞り込み
+  if (page) {
+    coupons = coupons.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  }
+
   return {
     props: {
       coupons,
+      page,
+      pages,
     },
   }
 }
 
-export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
+export default function Coupons({
+  coupons,
+  page,
+  pages,
+}: {
+  coupons: StrapiCoupon[]
+  page: number
+  pages: number
+}) {
   const router = useRouter()
   const { query } = router
+
+  const rangeWithDots = usePaginationGenerater(page, pages)
 
   const [searchParams, setSearchParams] = useState({
     type: '',
     deadline: '',
     area: '',
   })
+
+  const handleSelectPage = (pageNumber: number | string) => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...query,
+        page: pageNumber,
+      },
+    })
+  }
 
   const handleSelectType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -219,13 +258,37 @@ export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
           </div>
           {/* main */}
           <div className='w-layoutSm'>
-            <ul className='grid grid-cols-3 gap-4'>
+            <ul className='grid grid-cols-3 gap-4 mb-32'>
               {coupons.map((coupon, index) => (
                 <li key={index} className=''>
                   <Coupon coupon={coupon} />
                 </li>
               ))}
             </ul>
+            {pages > 1 && (
+              <nav>
+                <ul className='flex items-center justify-center gap-4'>
+                  {rangeWithDots.map((pageNumber: number | string, index: number) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => handleSelectPage(pageNumber)}
+                        className={`${
+                          pageNumber === '...'
+                            ? 'pointer-events-none border-none'
+                            : 'pointer-events-auto'
+                        }
+                            ${pageNumber === Number(page) ? 'bg-blackWeak' : 'bg-none'}
+                        text-s4 ${
+                          chivo.className
+                        } border-2 border-white border-opacity-60 rounded-xl w-16 h-16 flex items-center justify-center`}
+                      >
+                        {pageNumber}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
           </div>
         </div>
       </section>

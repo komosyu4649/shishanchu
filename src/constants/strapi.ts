@@ -124,6 +124,10 @@ export const DEADLINES = [
 
 export const COUPON_TYPES = [
   {
+    value: 'all',
+    label: '指定なし',
+  },
+  {
     value: 'service',
     label: 'サービス',
   },
