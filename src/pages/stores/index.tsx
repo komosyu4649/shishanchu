@@ -226,11 +226,15 @@ export default function Stores({
                 </li>
               ))}
             </ul>
-            <Pagination
-              rangeWithDots={rangeWithDots}
-              page={page}
-              handleSelectPage={handleSelectPage}
-            />
+            {rangeWithDots.length > 1 ? (
+              <div className='mt-32'>
+                <Pagination
+                  rangeWithDots={rangeWithDots}
+                  page={page}
+                  handleSelectPage={handleSelectPage}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </section>

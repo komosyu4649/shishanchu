@@ -80,11 +80,15 @@ export default function Contents({
               </li>
             ))}
           </ul>
-          <Pagination
-            rangeWithDots={rangeWithDots}
-            page={page}
-            handleSelectPage={handleSelectPage}
-          />
+          {rangeWithDots.length > 1 ? (
+            <div className='mt-32'>
+              <Pagination
+                rangeWithDots={rangeWithDots}
+                page={page}
+                handleSelectPage={handleSelectPage}
+              />
+            </div>
+          ) : null}
         </div>
       </section>
     </Layout>
