@@ -121,3 +121,18 @@ export const DEADLINES = [
     month: 6,
   },
 ]
+
+export const COUPON_TYPES = [
+  {
+    value: 'service',
+    label: 'サービス',
+  },
+  {
+    value: 'present',
+    label: 'プレゼント',
+  },
+  {
+    value: 'discount',
+    label: '割引き',
+  },
+]

@@ -1,3 +1,5 @@
+import { types } from 'util'
+
 export type StrapiFeature = Base<{
   attributes: {
     title: string
@@ -146,13 +148,13 @@ export type StrapiStore = Base<{
 export type StrapiCoupon = Base<{
   attributes: {
     title: string
-    address: string
     termsOfUse: string
     presentationConditions: string
     dateOfExpiry: string
     createdAt: string
     updatedAt: string
     publishedAt: string
+    types: string
   }
 }>
 
