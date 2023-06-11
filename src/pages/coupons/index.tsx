@@ -82,7 +82,6 @@ export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
 
   const handleSelectArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value })
-    console.log(searchParams)
   }
 
   const handleSearchQuery = () => {
