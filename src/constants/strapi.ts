@@ -124,6 +124,10 @@ export const DEADLINES = [
 
 export const COUPON_TYPES = [
   {
+    value: 'all',
+    label: '指定なし',
+  },
+  {
     value: 'service',
     label: 'サービス',
   },
@@ -136,3 +140,5 @@ export const COUPON_TYPES = [
     label: '割引き',
   },
 ]
+
+export const PAGE_SIZE = 3
