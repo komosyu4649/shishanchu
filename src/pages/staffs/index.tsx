@@ -1,4 +1,5 @@
 import Button from '@/components/common/Button'
+import Tag from '@/components/common/Tag'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
 import { CAREERS, GENDERS } from '@/constants/strapi'
@@ -53,6 +54,7 @@ export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> =
 
 export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
   const router = useRouter()
+  const { query } = router
 
   const [searchParams, setSearchParams] = useState({
     career: '',
@@ -83,6 +85,16 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
     })
   }
 
+  const handleRemoveQuery = (queryItem?: string | string[]) => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        career: query.career === queryItem ? '' : query.career,
+        gender: query.gender === queryItem ? '' : query.gender,
+      },
+    })
+  }
+
   return (
     <Layout>
       <section className='w-layoutMd m-auto mt-36'>
@@ -90,6 +102,21 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
           <span className='text-s9'>スタッフ一覧</span>
           <span className='text-s7'>【{staffs.length}】</span>
         </h1>
+        {query.career || query.gender ? (
+          <div className='flex flex-row flex-wrap gap-4 mb-12'>
+            {query.career && (
+              <Tag onClick={() => handleRemoveQuery(query.career)}>
+                キャリア
+                {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
+              </Tag>
+            )}
+            {query.gender && (
+              <Tag onClick={() => handleRemoveQuery(query.gender)}>
+                {GENDERS.find((gender) => gender.value === query.gender)?.label}スタッフ
+              </Tag>
+            )}
+          </div>
+        ) : null}
         <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
           {/* side */}
           <div className='flex flex-col gap-20'>
