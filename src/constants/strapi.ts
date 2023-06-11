@@ -140,3 +140,5 @@ export const COUPON_TYPES = [
     label: '割引き',
   },
 ]
+
+export const PAGE_SIZE = 3

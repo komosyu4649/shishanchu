@@ -1,8 +1,10 @@
 import Button from '@/components/common/Button'
+import Pagination from '@/components/common/Pagination'
 import Tag from '@/components/common/Tag'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
-import { CAREERS, GENDERS } from '@/constants/strapi'
+import { CAREERS, GENDERS, PAGE_SIZE } from '@/constants/strapi'
+import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { StrapiStaff } from '@/type/strapi'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -11,6 +13,7 @@ import React, { useState } from 'react'
 type Query = {
   career?: string | null
   gender?: string | null
+  page?: number | null
 }
 
 export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> = async ({
@@ -45,21 +48,55 @@ export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> =
     }
   }
 
+  let totalCount = staffs.length
+  const page = query.page || 1
+  const pages = Math.ceil(staffs.length / PAGE_SIZE)
+
+  // pageによる絞り込み
+  if (page) {
+    staffs = staffs.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  }
+
   return {
     props: {
       staffs,
+      page,
+      pages,
+      totalCount,
     },
   }
 }
 
-export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
+export default function Staffs({
+  staffs,
+  page,
+  pages,
+  totalCount,
+}: {
+  staffs: StrapiStaff[]
+  page: number
+  pages: number
+  totalCount: number
+}) {
   const router = useRouter()
   const { query } = router
+
+  const rangeWithDots = usePaginationGenerater(page, pages)
 
   const [searchParams, setSearchParams] = useState({
     career: '',
     gender: '',
   })
+
+  const handleSelectPage = (pageNumber: number | string) => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...query,
+        page: pageNumber,
+      },
+    })
+  }
 
   const handleSelectCareer = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchParams({
@@ -100,7 +137,7 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
       <section className='w-layoutMd m-auto mt-36'>
         <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
           <span className='text-s9'>スタッフ一覧</span>
-          <span className='text-s7'>【{staffs.length}】</span>
+          <span className='text-s7'>【{totalCount}】</span>
         </h1>
         {query.career || query.gender ? (
           <div className='flex flex-row flex-wrap gap-4 mb-12'>
@@ -192,6 +229,11 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
                 </li>
               ))}
             </ul>
+            <Pagination
+              rangeWithDots={rangeWithDots}
+              page={page}
+              handleSelectPage={handleSelectPage}
+            />
           </div>
         </div>
       </section>

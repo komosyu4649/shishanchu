@@ -1,8 +1,10 @@
 import Button from '@/components/common/Button'
+import Pagination from '@/components/common/Pagination'
 import Tag from '@/components/common/Tag'
 import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
-import { BUDGETS, REGIONS } from '@/constants/strapi'
+import { BUDGETS, PAGE_SIZE, REGIONS } from '@/constants/strapi'
+import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { StrapiStore } from '@/type/strapi'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -12,6 +14,7 @@ type Query = {
   area?: string | null
   budgetMin?: string | null
   budgetMax?: string | null
+  page?: number | null
 }
 
 export const getServerSideProps: GetServerSideProps<{ stores: StrapiStore[] }> = async ({
@@ -25,12 +28,14 @@ export const getServerSideProps: GetServerSideProps<{ stores: StrapiStore[] }> =
   if (query.area) {
     stores = stores.filter((store) => store.region?.prefectures === query.area)
   }
+
   if (query.budgetMin) {
     const budgetMinNumber = Number(query.budgetMin)
     stores = stores.filter(
       (store) => store.attributes.information?.budget?.lowest >= budgetMinNumber,
     )
   }
+
   if (query.budgetMax) {
     const budgetMaxNumber = Number(query.budgetMax)
     stores = stores.filter(
@@ -38,22 +43,56 @@ export const getServerSideProps: GetServerSideProps<{ stores: StrapiStore[] }> =
     )
   }
 
+  let totalCount = stores.length
+  const page = query.page || 1
+  const pages = Math.ceil(stores.length / PAGE_SIZE)
+
+  // pageによる絞り込み
+  if (page) {
+    stores = stores.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  }
+
   return {
     props: {
       stores,
+      page,
+      pages,
+      totalCount,
     },
   }
 }
 
-export default function Stores({ stores }: { stores: StrapiStore[] }) {
+export default function Stores({
+  stores,
+  page,
+  pages,
+  totalCount,
+}: {
+  stores: StrapiStore[]
+  page: number
+  pages: number
+  totalCount: number
+}) {
   const router = useRouter()
   const { query } = router
+
+  const rangeWithDots = usePaginationGenerater(page, pages)
 
   const [searchParams, setSearchParams] = useState({
     area: '',
     budgetMin: '',
     budgetMax: '',
   })
+
+  const handleSelectPage = (pageNumber: number | string) => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...query,
+        page: pageNumber,
+      },
+    })
+  }
 
   const handleSelectArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchParams({ ...searchParams, area: e.target.value })
@@ -95,7 +134,7 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
       <section className='w-layoutMd m-auto mt-36'>
         <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
           <span className='text-s9'>店舗</span>
-          <span className='text-s7'>【{stores.length}】</span>
+          <span className='text-s7'>【{totalCount}】</span>
         </h1>
         <div className='flex flex-row flex-wrap gap-4'>
           {query.budgetMin && (
@@ -187,6 +226,11 @@ export default function Stores({ stores }: { stores: StrapiStore[] }) {
                 </li>
               ))}
             </ul>
+            <Pagination
+              rangeWithDots={rangeWithDots}
+              page={page}
+              handleSelectPage={handleSelectPage}
+            />
           </div>
         </div>
       </section>
