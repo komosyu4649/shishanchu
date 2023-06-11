@@ -2,13 +2,14 @@ import { StrapiCoupon } from '@/type/strapi'
 import React, { useState } from 'react'
 import Coupon from '@/components/item/Coupon'
 import Layout from '@/components/layout/Layout'
-import { COUPON_TYPES, DEADLINES, REGIONS } from '@/constants/strapi'
+import { COUPON_TYPES, DEADLINES, PAGE_SIZE, REGIONS } from '@/constants/strapi'
 import Button from '@/components/common/Button'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import Tag from '@/components/common/Tag'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { chivo } from '../_app'
+import Pagination from '@/components/common/Pagination'
 
 type Query = {
   type?: string | null
@@ -16,8 +17,6 @@ type Query = {
   area?: string | null
   page?: number | null
 }
-
-const PAGE_SIZE = 3
 
 export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }> = async ({
   query,
@@ -58,8 +57,9 @@ export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }>
     })
   }
 
+  let totalCount = coupons.length
   const page = query.page || 1
-  const pages = Math.ceil(coupons.length / PAGE_SIZE)
+  const pages = Math.ceil(totalCount / PAGE_SIZE)
 
   // pageによる絞り込み
   if (page) {
@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }>
       coupons,
       page,
       pages,
+      totalCount,
     },
   }
 }
@@ -79,10 +80,12 @@ export default function Coupons({
   coupons,
   page,
   pages,
+  totalCount,
 }: {
   coupons: StrapiCoupon[]
   page: number
   pages: number
+  totalCount: number
 }) {
   const router = useRouter()
   const { query } = router
@@ -150,7 +153,7 @@ export default function Coupons({
       <section className='w-layoutMd m-auto mt-36'>
         <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
           <span className='text-s9'>クーポン一覧</span>
-          <span className='text-s7'>【{coupons.length}】</span>
+          <span className='text-s7'>【{totalCount}】</span>
         </h1>
         {query.type || query.deadline || query.area ? (
           <div className='flex flex-row flex-wrap gap-4 mb-12'>
@@ -258,37 +261,18 @@ export default function Coupons({
           </div>
           {/* main */}
           <div className='w-layoutSm'>
-            <ul className='grid grid-cols-3 gap-4 mb-32'>
+            <ul className='grid grid-cols-3 gap-4'>
               {coupons.map((coupon, index) => (
                 <li key={index} className=''>
                   <Coupon coupon={coupon} />
                 </li>
               ))}
             </ul>
-            {pages > 1 && (
-              <nav>
-                <ul className='flex items-center justify-center gap-4'>
-                  {rangeWithDots.map((pageNumber: number | string, index: number) => (
-                    <li key={index}>
-                      <button
-                        onClick={() => handleSelectPage(pageNumber)}
-                        className={`${
-                          pageNumber === '...'
-                            ? 'pointer-events-none border-none'
-                            : 'pointer-events-auto'
-                        }
-                            ${pageNumber === Number(page) ? 'bg-blackWeak' : 'bg-none'}
-                        text-s4 ${
-                          chivo.className
-                        } border-2 border-white border-opacity-60 rounded-xl w-16 h-16 flex items-center justify-center`}
-                      >
-                        {pageNumber}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            )}
+            <Pagination
+              rangeWithDots={rangeWithDots}
+              page={page}
+              handleSelectPage={handleSelectPage}
+            />
           </div>
         </div>
       </section>
