@@ -15,6 +15,7 @@ export async function fetchCoupons(limit?: number) {
         ...coupon,
         accountName: account.name,
         storeName: account.store,
+        region: account.region,
         jwt: account.jwt,
       }))
       return accountDataWithAccountName

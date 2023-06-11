@@ -1,4 +1,5 @@
 import { StrapiCoupon } from '@/type/strapi'
+import dayjs from 'dayjs'
 import Link from 'next/link'
 import React from 'react'
 
@@ -24,7 +25,9 @@ const Coupon = ({ coupon }: { coupon: StrapiCoupon }) => {
           </dl>
           <dl className='grid grid-cols-[auto_1fr] gap-4'>
             <dt className='inline-block h-fit px-4 py-2 text-s1 text-black bg-white'>有効期限</dt>
-            <dd className='text-s1 py-2'>{coupon.attributes.dateOfExpiry}</dd>
+            <dd className='text-s1 py-2'>
+              {dayjs(coupon.attributes.dateOfExpiry).format('YYYY年MM月DD日')}まで
+            </dd>
           </dl>
         </div>
       </div>

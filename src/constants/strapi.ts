@@ -109,3 +109,30 @@ export const GENDERS = [
     label: '女性',
   },
 ]
+
+export const DEADLINES = [
+  {
+    month: 1,
+  },
+  {
+    month: 3,
+  },
+  {
+    month: 6,
+  },
+]
+
+export const COUPON_TYPES = [
+  {
+    value: 'service',
+    label: 'サービス',
+  },
+  {
+    value: 'present',
+    label: 'プレゼント',
+  },
+  {
+    value: 'discount',
+    label: '割引き',
+  },
+]
