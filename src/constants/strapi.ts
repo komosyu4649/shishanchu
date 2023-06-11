@@ -109,3 +109,15 @@ export const GENDERS = [
     label: '女性',
   },
 ]
+
+export const DEADLINES = [
+  {
+    month: 1,
+  },
+  {
+    month: 3,
+  },
+  {
+    month: 6,
+  },
+]

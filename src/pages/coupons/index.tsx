@@ -1,11 +1,41 @@
 import { StrapiCoupon } from '@/type/strapi'
-import React from 'react'
+import React, { useState } from 'react'
 import Coupon from '@/components/item/Coupon'
 import Layout from '@/components/layout/Layout'
+import { DEADLINES } from '@/constants/strapi'
+import Button from '@/components/common/Button'
+import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 
-export const getStaticProps = async () => {
+type Query = {
+  deadline?: string | null
+}
+
+export const getServerSideProps: GetServerSideProps<{ coupons: StrapiCoupon[] }> = async ({
+  query,
+}: {
+  query: Query
+}) => {
   const res = await fetch('http://localhost:3000/api/strapi/getAllCoupons')
-  const coupons = await res.json()
+  let coupons = await res.json()
+
+  console.log(coupons)
+  // if (query.deadline) {
+  //   const deadlineMonth = Number(query.deadline)
+  //   const currentMonth = new Date().getMonth()
+  //   if (deadlineMonth >= 0 && deadlineMonth < 1) {
+  //     coupons = coupons.filter(
+  //       (coupon) =>
+  //         currentMonth - new Date(coupon.deadline).getMonth() >= 0 &&
+  //         currentMonth - new Date(coupon.deadline).getMonth() < 1,
+  //     )
+  //   } else {
+  //     coupons = coupons.filter(
+  //       (coupon) => currentMonth - new Date(coupon.deadline).getMonth() >= deadlineMonth,
+  //     )
+  //   }
+  // }
+
   return {
     props: {
       coupons,
@@ -14,6 +44,28 @@ export const getStaticProps = async () => {
 }
 
 export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
+  const router = useRouter()
+
+  const [searchParams, setSearchParams] = useState({
+    deadline: 0,
+  })
+
+  const handleSelectCareer = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({
+      ...searchParams,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSearchQuery = () => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        deadline: searchParams.deadline,
+      },
+    })
+  }
+
   return (
     <Layout>
       <section className='w-layoutMd m-auto mt-36'>
@@ -27,19 +79,21 @@ export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
             {/* deadline */}
             <div className=''>
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>期限</span>
-              <div className='flex flex-col gap-2 mt-8'>
-                <label htmlFor='one' className='flex flex-row gap-2'>
-                  <input type='radio' id='one' name='one' />
-                  <span className='text-s3'>1ヶ月以内</span>
-                </label>
-                <label htmlFor='three' className='flex flex-row gap-2'>
-                  <input type='radio' id='three' name='three' />
-                  <span className='text-s3'>3ヶ月以内</span>
-                </label>
-                <label htmlFor='six' className='flex flex-row gap-2'>
-                  <input type='radio' id='six' name='six' />
-                  <span className='text-s3'>6ヶ月以内</span>
-                </label>
+              <div className='mt-6'>
+                <select
+                  name='deadline'
+                  id='deadline'
+                  onChange={handleSelectCareer}
+                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
+                  value={searchParams.deadline}
+                >
+                  <option value=''>いつまで使える？</option>
+                  {DEADLINES.map((deadline, index) => (
+                    <option key={index} value={deadline.month}>
+                      {deadline.month}ヶ月以内
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             {/* area */}
@@ -72,6 +126,9 @@ export default function Coupons({ coupons }: { coupons: StrapiCoupon[] }) {
               <li className=''></li>
             </ul>
           </div> */}
+            <Button onClick={handleSearchQuery} className='bg-green'>
+              検索する
+            </Button>
           </div>
           {/* main */}
           <div className='w-layoutSm'>

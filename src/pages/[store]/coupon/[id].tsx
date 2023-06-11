@@ -2,6 +2,7 @@ import Layout from '@/components/layout/Layout'
 import { ACCOUNTS } from '@/constants/strapi'
 import { StrapiCoupon } from '@/type/strapi'
 import axios from 'axios'
+import dayjs from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -123,7 +124,9 @@ export default function CouponDetail({ couponData, storeData, storeName, store }
                 <dt className='inline-block h-fit px-4 py-2 text-s3 text-black bg-white'>
                   有効期限
                 </dt>
-                <dd className='text-s3 py-2'>{couponData.attributes.dateOfExpiry}</dd>
+                <dd className='text-s3 py-2'>
+                  {dayjs(couponData.attributes.dateOfExpiry).format('YYYY年MM月DD日')}まで
+                </dd>
               </dl>
             </div>
           </div>

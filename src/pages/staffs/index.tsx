@@ -98,21 +98,6 @@ export default function Staffs({ staffs }: { staffs: StrapiStaff[] }) {
               <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>性別</span>
               <div className='flex flex-col gap-4 mt-8'>
                 {GENDERS.map((gender, index) => (
-                  // <label
-                  //   key={index}
-                  //   htmlFor={gender.value}
-                  //   className='flex flex-row items-center gap-2'
-                  // >
-                  //   <input
-                  //     type='radio'
-                  //     id={gender.value}
-                  //     value={gender.value}
-                  //     name='gender'
-                  //     onChange={handleSelectGender}
-                  //     className='w-8 h-8'
-                  //   />
-                  //   <span className='text-s3'>{gender.label}</span>
-                  // </label>
                   <div key={index} className='flex items-center gap-4'>
                     <label
                       className='relative flex cursor-pointer items-center rounded-full'
