@@ -58,7 +58,7 @@ export const getStaticProps = async (params: Params) => {
   const flattenedAccounts = contentsData.flat()
 
   const sortedAccounts = flattenedAccounts.sort(
-    (a, b) =>
+    (a: any, b: any) =>
       new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
   )
   // console.log(1, sortedAccounts)

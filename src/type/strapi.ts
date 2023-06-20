@@ -140,8 +140,44 @@ export type StrapiStore = Base<{
       holiday: string
       remarks: string
       budget: { id: number; lowest: number; highest: number }
+      address: {
+        url: string
+        name: string
+      }
+      system: {
+        chargeFee: string
+        shishaFee: string
+        oneDrinkSystem: string
+        options: string
+      }
+      businessHours: {
+        same: string
+        monday: string
+        tuesday: string
+        wednesday: string
+        thursday: string
+        friday: string
+        saturday: string
+        sunday: string
+      }
+      facility: {
+        name: string
+      }[]
     }
-    garelly: { id: number; name: string }[]
+    garelly: {
+      id: number
+      name: string
+      img: {
+        data: {
+          attributes: {
+            url: string
+            width: number
+            height: number
+            name: string
+          }
+        }
+      }
+    }[]
   } & Date
 }>
 

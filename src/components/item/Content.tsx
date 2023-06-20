@@ -12,7 +12,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
     // <li className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
     <Link
       href={`${accountName}/${attributes.users_permissions_user.data.attributes.username}/${id}`}
-      className='flex flex-col justify-between w-full h-full pt-12 pb-16 px-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'
+      className='flex flex-col w-full h-full pt-12 pb-16 px-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'
     >
       <div className='flex justify-between items-center'>
         {/* staff */}
@@ -28,7 +28,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
             {attributes.users_permissions_user.data.attributes.username}
           </span>
         </div>
-        <Bookmark />
+        {/* <Bookmark /> */}
       </div>
       <div className=''>
         {/* main */}

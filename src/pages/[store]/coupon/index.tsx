@@ -24,7 +24,7 @@ export const getStaticProps = async (params: any) => {
   }))
   const flattenedCoupons = couponsData.flat()
   const sortedCoupons = flattenedCoupons.sort(
-    (a, b) =>
+    (a: any, b: any) =>
       new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
   )
 
@@ -35,6 +35,6 @@ export const getStaticProps = async (params: any) => {
   }
 }
 
-export default function Coupon({ coupons }) {
+export default function Coupon({ coupons }: { coupons: StrapiCoupon[] }) {
   return <section className=''></section>
 }

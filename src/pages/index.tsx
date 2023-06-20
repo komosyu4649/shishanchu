@@ -63,7 +63,7 @@ export default function Home({
             <li key={index} className='w-[100rem] h-[60rem] m-auto'>
               <Link href={`/feature/${feature.id}`} className='relative'>
                 <Image
-                  src={`http://localhost:1330${feature.attributes.thumbnail.data.attributes.url}`}
+                  src={feature.attributes.thumbnail.data.attributes.url}
                   width={feature.attributes.thumbnail.data.attributes.width}
                   height={feature.attributes.thumbnail.data.attributes.height}
                   alt={feature.attributes.title}
@@ -88,11 +88,11 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {contentsData.map((content, index) => (
+            {/* {contentsData.map((content, index) => (
               <li key={index} className=''>
                 <Content content={content} />
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
@@ -109,11 +109,11 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {staffsData.map((staff, index) => (
+            {/* {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Staff staff={staff} />
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
@@ -133,11 +133,11 @@ export default function Home({
         </div>
         <div className=''>
           <ul className='grid grid-cols-3 gap-12 justify-center '>
-            {storesData.map((store, index) => (
+            {/* {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
       </section>
@@ -151,11 +151,11 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {couponsData.map((coupon, index) => (
+            {/* {couponsData.map((coupon, index) => (
               <li key={index} className=''>
                 <Coupon coupon={coupon} />
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
