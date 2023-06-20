@@ -14,7 +14,7 @@ const Store = ({ store }: { store: StrapiStore }) => {
         className='w-full h-96 object-cover rounded-br-[6rem]'
       />
       <div className='flex flex-col gap-2 mt-8'>
-        <span className='text-s6'>{store.storeName}</span>
+        <span className='text-s6 line-clamp-1'>{store.storeName}</span>
         <span className='text-s2 opacity-60'>
           {store.region?.prefectures}
           {store.region?.city}

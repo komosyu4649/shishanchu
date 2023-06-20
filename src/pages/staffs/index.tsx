@@ -154,7 +154,7 @@ export default function Staffs({
             )}
           </div>
         ) : null}
-        <div className='grid grid-cols-[20rem_1fr] content-between gap-24'>
+        <div className='grid grid-cols-[24rem_auto] justify-between gap-8'>
           {/* side */}
           <div className='flex flex-col gap-20'>
             {/* gender */}

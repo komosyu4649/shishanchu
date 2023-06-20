@@ -12,7 +12,7 @@ const Content = ({ content }: { content: StrapiContent }) => {
     // <li className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
     <Link
       href={`${accountName}/${attributes.users_permissions_user.data.attributes.username}/${id}`}
-      className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak inline-block w-full pt-12 pb-16 px-12'
+      className='flex flex-col w-full h-full pt-12 pb-16 px-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'
     >
       <div className='flex justify-between items-center'>
         {/* staff */}
@@ -28,27 +28,31 @@ const Content = ({ content }: { content: StrapiContent }) => {
             {attributes.users_permissions_user.data.attributes.username}
           </span>
         </div>
-        <Bookmark />
+        {/* <Bookmark /> */}
       </div>
-      {/* main */}
-      <div className='mt-8'>
-        <Image
-          src={`http:localhost:${accountName}${attributes.thumbnail.data.attributes.url}`}
-          width={attributes.thumbnail.data.attributes.width}
-          height={attributes.thumbnail.data.attributes.height}
-          alt='test'
-          className='w-full h-60 object-cover'
-        />
-        <p className='text-s5 mt-8'>{attributes.title}</p>
-      </div>
-      {/* sub */}
-      <div className='flex justify-between items-center border-t mt-4 pt-4'>
-        {/* store */}
-        <div className=''>
-          <p className='text-s1'>【{storeName}】</p>
+      <div className=''>
+        {/* main */}
+        <div className='mt-8'>
+          <Image
+            src={`http:localhost:${accountName}${attributes.thumbnail.data.attributes.url}`}
+            width={attributes.thumbnail.data.attributes.width}
+            height={attributes.thumbnail.data.attributes.height}
+            alt='test'
+            className='w-full h-60 object-cover'
+          />
         </div>
-        {/* time */}
-        <span className='text-s1'>{useTimeAgo(attributes.publishedAt)}</span>
+        {/* sub */}
+        <div className='mt-8'>
+          <p className='text-s5 line-clamp-2'>{attributes.title}</p>
+          <div className='flex justify-between items-center border-t mt-4 pt-4'>
+            {/* store */}
+            <div className=''>
+              <p className='text-s1'>【{storeName}】</p>
+            </div>
+            {/* time */}
+            <span className='text-s1'>{useTimeAgo(attributes.publishedAt)}</span>
+          </div>
+        </div>
       </div>
     </Link>
     // </li>

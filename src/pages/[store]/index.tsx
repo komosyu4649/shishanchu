@@ -80,7 +80,7 @@ const StoreContent = ({
   couponsData,
 }: {
   name: string
-  contentType: string
+  contentType: string | string[]
   storeData: StrapiStore
   staffsData: StrapiStaff[]
   couponsData: StrapiCoupon[]
