@@ -5,6 +5,7 @@ export const getMicroCMSData = async (endpointName: string, contentId: string) =
     endpoint: endpointName,
     contentId: contentId,
   })
+  return res
 }
 
 export const getMicroCMSDataList = async (
