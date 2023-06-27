@@ -16,11 +16,14 @@ import Coupon from '@/components/item/Coupon'
 import { chivo } from './_app'
 import Button from '@/components/common/Button'
 import Layout from '@/components/layout/Layout'
+import { getMicroCMSDataList } from '@/lib/microcms/fetchCMS'
+import { CMSFeature } from '@/type/microcms'
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
-  const feature = await fetch('http://localhost:3000/api/strapi/getCMS')
-  const featureData = await feature.json()
+  // const feature = await fetch('http://localhost:3000/api/strapi/getCMS')
+  // const featureData = await feature.json()
+  // console.log(featureData)
   const contents = await fetch('http://localhost:3000/api/strapi/getTopContents')
   const contentsData = await contents.json()
   const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
@@ -29,6 +32,9 @@ export const getStaticProps = async () => {
   const storesData = await stores.json()
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
   const couponsData = await coupons.json()
+
+  const features = await getMicroCMSDataList(process.env.MICROCMS_ENDPOINT_FEATURES ?? '', 0, 3)
+  const featureData = features.contents
 
   return {
     props: {
@@ -48,7 +54,7 @@ export default function Home({
   storesData,
   couponsData,
 }: {
-  featureData: StrapiFeature[]
+  featureData: CMSFeature[]
   contentsData: StrapiContent[]
   staffsData: StrapiStaff[]
   storesData: StrapiStore[]
@@ -63,15 +69,15 @@ export default function Home({
             <li key={index} className='w-[100rem] h-[60rem] m-auto'>
               <Link href={`/feature/${feature.id}`} className='relative'>
                 <Image
-                  src={feature.attributes.thumbnail.data.attributes.url}
-                  width={feature.attributes.thumbnail.data.attributes.width}
-                  height={feature.attributes.thumbnail.data.attributes.height}
-                  alt={feature.attributes.title}
-                  className=''
+                  src={feature.thumbnail.url}
+                  width={feature.thumbnail.width}
+                  height={feature.thumbnail.height}
+                  alt={feature.title}
+                  className='w-[100rem] h-[60rem] object-cover'
                 />
                 <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'>
-                  <h2 className='mb-6 text-s9'>{feature.attributes.title}</h2>
-                  <p className='text-s3'>{feature.attributes.introduction}</p>
+                  <h2 className='mb-6 text-s9'>{feature.title}</h2>
+                  <p className='text-s3'>{feature.introduction}</p>
                 </div>
               </Link>
             </li>
