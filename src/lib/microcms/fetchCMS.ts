@@ -1,7 +1,8 @@
-import { client } from '.'
+import { createClient } from 'microcms-js-sdk'
+import { cmsClient } from '.'
 
 export const getMicroCMSData = async (endpointName: string, contentId: string) => {
-  const res = await client.get({
+  const res = await cmsClient.get({
     endpoint: endpointName,
     contentId: contentId,
   })
@@ -13,7 +14,7 @@ export const getMicroCMSDataList = async (
   offsetNumber: number = 0,
   limitNumber: number = 100,
 ) => {
-  const res = await client.getList({
+  const res = await cmsClient.getList({
     endpoint: endpointName,
     queries: {
       offset: offsetNumber,
