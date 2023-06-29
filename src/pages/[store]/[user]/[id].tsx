@@ -1,5 +1,8 @@
 import Layout from '@/components/layout/Layout'
 import { ACCOUNTS } from '@/constants/strapi'
+import { fetchContent } from '@/lib/microcms/fetchContent'
+import { fetchContents } from '@/lib/microcms/fetchContents'
+import { CMSContents } from '@/type/microcms'
 import { StrapiContent } from '@/type/strapi'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -10,13 +13,14 @@ import Link from 'next/link'
 
 // [store]/[user]/[id].tsxのパスをgetStaticPathで作る
 export const getStaticPaths = async () => {
-  const contents = await fetch('http://localhost:3000/api/strapi/getAllContents')
-  const contentsData: StrapiContent[] = await contents.json()
+  // const contents = await fetch('http://localhost:3000/api/strapi/getAllContents')
+  // const contentsData: StrapiContent[] = await contents.json()
+  const contentsData = await fetchContents()
   return {
     paths: contentsData.map((content) => ({
       params: {
         store: content.accountName,
-        user: decodeURI(content.attributes.users_permissions_user.data.attributes.username),
+        user: decodeURI(content.staff.name),
         id: content.id.toString(),
       },
     })),
@@ -33,24 +37,15 @@ type Params = {
 }
 
 export const getStaticProps = async (params: Params) => {
-  // console.log(123, params)
+  const {} = params.params
   const { store, user, id } = params.params
-  const accuntData = ACCOUNTS.find((account) => account.name === store)
-  const content = await axios.get(
-    `http://localhost:${store}/api/contents/${id}?populate=users_permissions_user.icon,thumbnail`,
-    {
-      headers: {
-        Authorization: `Bearer ${accuntData?.jwt}`,
-      },
-    },
-  )
-  const parsedMarkdown = fm(content.data.data.attributes.content)
-  // console.log(parsedMarkdown)
+  const contentData = await fetchContent(store, id)
+  const contentsData = await fetchContents()
+  const parsedMarkdown = fm(contentData.content)
   const htmlString = marked(parsedMarkdown.body)
-  const contentsData = content.data.data
   return {
     props: {
-      contentsData,
+      contentData,
       htmlString,
       store,
       user,
@@ -59,30 +54,29 @@ export const getStaticProps = async (params: Params) => {
 }
 
 export default function ContentDetail({
-  contentsData,
+  contentData,
   htmlString,
   store,
   user,
 }: {
-  contentsData: StrapiContent
+  contentData: CMSContents
   htmlString: string
   store: string
   user: string
 }) {
-  // console.log(contentsData.attributes.users_permissions_user.data.attributes.biography)
-  // console.log(store, user)
+  const { title, thumbnail, publishedAt, staff } = contentData
   return (
     <Layout>
       <article className='mt-36 m-auto w-layoutMd'>
-        <h1 className='text-s10 text-center mb-24'>{contentsData.attributes.title}</h1>
+        <h1 className='text-s10 text-center mb-24'>{title}</h1>
         <div className='grid grid-cols-[1fr_34rem] justify-between gap-16'>
           {/* main */}
           <div className='p-20 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
             <Image
-              src={`http://localhost:${store}${contentsData.attributes.thumbnail.data.attributes.url}`}
-              width={contentsData.attributes.thumbnail.data.attributes.width}
-              height={contentsData.attributes.thumbnail.data.attributes.height}
-              alt='test'
+              src={thumbnail.url}
+              width={thumbnail.width}
+              height={thumbnail.height}
+              alt={title}
               className='w-full h-[42rem] mb-28 object-cover'
             />
             {/* attributes.contentを表示 */}
@@ -102,39 +96,27 @@ export default function ContentDetail({
                 Twitterでシェア
               </a>
               {/* 投稿日 */}
-              <time className='text-s2'>
-                {dayjs(contentsData.attributes.publishedAt).format('YYYY.MM.DD')}
-              </time>
+              <time className='text-s2'>{dayjs(publishedAt).format('YYYY.MM.DD')}</time>
             </div>
             {/* staff */}
             <div className='p-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
               {/* name */}
               <div className='flex items-center gap-4'>
                 <Image
-                  src={`http://localhost:${store}${contentsData.attributes.users_permissions_user.data.attributes.icon.data.attributes.url}`}
-                  width={
-                    contentsData.attributes.users_permissions_user.data.attributes.icon.data
-                      .attributes.width
-                  }
-                  height={
-                    contentsData.attributes.users_permissions_user.data.attributes.icon.data
-                      .attributes.height
-                  }
+                  src={staff.icon.url}
+                  width={staff.icon.width}
+                  height={staff.icon.height}
                   alt='test'
                   className='w-20 h-20 rounded-full object-cover'
                 />
                 <span className='flex flex-col gap-1'>
-                  <span className='text-s5'>
-                    {contentsData.attributes.users_permissions_user.data.attributes.username}
-                  </span>
+                  <span className='text-s5'>{staff.name}</span>
                   {/* 店舗名 */}
                   <span className='text-s2 opacity-60'>【{store}】</span>
                 </span>
               </div>
               {/* biography */}
-              <p className='mt-8 text-s3'>
-                {contentsData.attributes.users_permissions_user.data.attributes.biography}
-              </p>
+              <p className='mt-8 text-s3'>{staff.biography}</p>
               {/* link */}
               <div className='mt-8 flex justify-center'>
                 <Link
