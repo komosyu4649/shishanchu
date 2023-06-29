@@ -8,6 +8,32 @@ export type CMSFeature = ContentsBase<{
   }>
 }>
 
+export type CMSContents = ContentsBase<{
+  title: string
+  thumbnail: Image
+  content: string
+  staff: CMSStaff
+}>
+
+export type CMSStaff = ContentsBase<{
+  name: string
+  icon: Image[]
+  biography: string
+  sns: {
+    fieldId: 'sns'
+    twitter?: string
+    instagram?: string
+    tiktok?: string
+    website?: string
+  }
+  profile: {
+    fieldId: 'profile'
+    birthplace: string
+    career: string
+    gender: '女性' | '男性' | '回答しない'
+  }
+}>
+
 type Image = {
   url: string
   height: number

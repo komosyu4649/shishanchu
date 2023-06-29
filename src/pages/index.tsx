@@ -17,9 +17,10 @@ import { chivo } from './_app'
 import Button from '@/components/common/Button'
 import Layout from '@/components/layout/Layout'
 import { getMicroCMSDataList } from '@/lib/microcms/fetchCMS'
-import { CMSFeature } from '@/type/microcms'
+import { CMSContents, CMSFeature } from '@/type/microcms'
 import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
 import { createClient } from 'microcms-js-sdk'
+import { fetchContents } from '@/lib/microcms/fetchContents'
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
@@ -37,29 +38,12 @@ export const getStaticProps = async () => {
 
   const features = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES, 0, 3)
   const featureData = features.contents
-  // const contents = await fetch('http://localhost:3000/api/microcms/getAllContents')
-
-  // const contentsData = await contents.json()
-  // console.log(contents)
-
-  // microcmsのcreateClientを使って、複数のACCOUNTSのcontentsエンドポイントのデータを配列として取得する
-  const contentsData = await Promise.all(
-    ACCOUNTS.map(async (account) => {
-      const res = createClient({
-        serviceDomain: account.name,
-        apiKey: account.key,
-      }).get({
-        endpoint: 'contents',
-      })
-      return await res
-    }),
-  )
-  console.log(contentsData)
+  const contentsData = await fetchContents(4)
 
   return {
     props: {
       featureData,
-      // contentsData,
+      contentsData,
       staffsData,
       storesData,
       couponsData,
@@ -69,13 +53,13 @@ export const getStaticProps = async () => {
 
 export default function Home({
   featureData,
-  // contentsData,
+  contentsData,
   staffsData,
   storesData,
   couponsData,
 }: {
   featureData: CMSFeature[]
-  // contentsData: StrapiContent[]
+  contentsData: CMSContents[]
   staffsData: StrapiStaff[]
   storesData: StrapiStore[]
   couponsData: StrapiCoupon[]
