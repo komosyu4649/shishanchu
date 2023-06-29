@@ -1,5 +1,5 @@
 import { ACCOUNTS } from '@/constants/microcms'
-import axios from 'axios'
+import { CMSContents } from '@/type/microcms'
 import { createClient } from 'microcms-js-sdk'
 
 export const fetchContents = async (limit?: number) => {
@@ -12,8 +12,10 @@ export const fetchContents = async (limit?: number) => {
         endpoint: 'contents',
       })
       const response = await res
-      const contents = response.contents.map((content, index) => ({
+      const contents = response.contents.map((content: CMSContents) => ({
         ...content,
+        accountName: account.name,
+        storeName: account.store,
       }))
       return contents
     }),

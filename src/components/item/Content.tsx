@@ -4,29 +4,27 @@ import Image from 'next/image'
 import React from 'react'
 import Bookmark from '../icon/Bookmark'
 import Link from 'next/link'
+import { CMSContents } from '@/type/microcms'
 
-const Content = ({ content }: { content: StrapiContent }) => {
-  const { id, storeName, accountName, attributes } = content
+const Content = ({ content }: { content: CMSContents }) => {
+  const { accountName, storeName, staff, id, thumbnail, title, createdAt } = content
 
   return (
-    // <li className='h-fit rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
     <Link
-      href={`${accountName}/${attributes.users_permissions_user.data.attributes.username}/${id}`}
+      href={`${accountName}/${staff.name}/${id}`}
       className='flex flex-col w-full h-full pt-12 pb-16 px-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'
     >
       <div className='flex justify-between items-center'>
         {/* staff */}
         <div className='flex items-center gap-4'>
           <Image
-            src={`http:localhost:${accountName}${attributes.users_permissions_user.data.attributes.icon.data.attributes.url}`}
-            width={attributes.users_permissions_user.data.attributes.icon.data.attributes.width}
-            height={attributes.users_permissions_user.data.attributes.icon.data.attributes.height}
-            alt='test'
+            src={staff.icon.url}
+            width={staff.icon.width}
+            height={staff.icon.height}
+            alt={staff.name}
             className='w-16 h-16 rounded-full object-cover'
           />
-          <span className='text-s2'>
-            {attributes.users_permissions_user.data.attributes.username}
-          </span>
+          <span className='text-s2'>{staff.name}</span>
         </div>
         {/* <Bookmark /> */}
       </div>
@@ -34,28 +32,27 @@ const Content = ({ content }: { content: StrapiContent }) => {
         {/* main */}
         <div className='mt-8'>
           <Image
-            src={`http:localhost:${accountName}${attributes.thumbnail.data.attributes.url}`}
-            width={attributes.thumbnail.data.attributes.width}
-            height={attributes.thumbnail.data.attributes.height}
-            alt='test'
+            src={thumbnail.url}
+            width={thumbnail.width}
+            height={thumbnail.height}
+            alt={title}
             className='w-full h-60 object-cover'
           />
         </div>
         {/* sub */}
         <div className='mt-8'>
-          <p className='text-s5 line-clamp-2'>{attributes.title}</p>
+          <p className='text-s5 line-clamp-2'>{title}</p>
           <div className='flex justify-between items-center border-t mt-4 pt-4'>
             {/* store */}
             <div className=''>
               <p className='text-s1'>【{storeName}】</p>
             </div>
             {/* time */}
-            <span className='text-s1'>{useTimeAgo(attributes.publishedAt)}</span>
+            <span className='text-s1'>{useTimeAgo(createdAt)}</span>
           </div>
         </div>
       </div>
     </Link>
-    // </li>
   )
 }
 

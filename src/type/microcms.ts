@@ -13,11 +13,13 @@ export type CMSContents = ContentsBase<{
   thumbnail: Image
   content: string
   staff: CMSStaff
+  accountName: string
+  storeName: string
 }>
 
 export type CMSStaff = ContentsBase<{
   name: string
-  icon: Image[]
+  icon: Image
   biography: string
   sns: {
     fieldId: 'sns'

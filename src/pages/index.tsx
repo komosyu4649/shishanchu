@@ -98,11 +98,11 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {/* {contentsData.map((content, index) => (
+            {contentsData.map((content, index) => (
               <li key={index} className=''>
                 <Content content={content} />
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
