@@ -2,27 +2,28 @@ import { ACCOUNTS } from '@/constants/microcms'
 import { CMSContents } from '@/type/microcms'
 import { createClient } from 'microcms-js-sdk'
 
-export const fetchContents = async (limit?: number) => {
-  const contentsData = await Promise.all(
+export const fetchCommonJsonDatas = async (endpoint: string, limit?: number) => {
+  const datas = await Promise.all(
     ACCOUNTS.map(async (account) => {
       const res = createClient({
         serviceDomain: account.name,
         apiKey: account.key,
       }).get({
-        endpoint: 'contents',
+        endpoint: endpoint,
       })
       const response = await res
-      const contents = response.contents.map((content: CMSContents) => ({
+      const responseData = Array.isArray(response) ? response : [response]
+
+      return responseData.map((content: CMSContents) => ({
         ...content,
         accountName: account.name,
         storeName: account.store,
       }))
-      return contents
     }),
   )
-  const flattenedContents = contentsData.flat()
+  const flattenedDataContents = datas.flat()
 
-  const sortedAccounts = flattenedContents.sort(
+  const sortedAccounts = flattenedDataContents.sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
   )
 

@@ -17,10 +17,10 @@ import { chivo } from './_app'
 import Button from '@/components/common/Button'
 import Layout from '@/components/layout/Layout'
 import { getMicroCMSDataList } from '@/lib/microcms/fetchCMS'
-import { CMSContents, CMSFeature } from '@/type/microcms'
+import { CMSContents, CMSFeature, CMSStaff } from '@/type/microcms'
 import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
-import { createClient } from 'microcms-js-sdk'
-import { fetchContents } from '@/lib/microcms/fetchContents'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
+import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
 
 // /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
@@ -29,16 +29,19 @@ export const getStaticProps = async () => {
   // console.log(featureData)
   // const contents = await fetch('http://localhost:3000/api/strapi/getTopContents')
   // const contentsData = await contents.json()
-  const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
-  const staffsData = await staffs.json()
-  const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
-  const storesData = await stores.json()
+  // const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
+  // const staffsData = await staffs.json()
+  // const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
+  // const storesData = await stores.json()
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
   const couponsData = await coupons.json()
 
   const features = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES, 0, 3)
   const featureData = features.contents
-  const contentsData = await fetchContents(4)
+  const contentsData = await fetchCommonListDatas('contents', 4)
+  const staffsData = await fetchCommonListDatas('staffs', 4)
+  const storesData = await fetchCommonJsonDatas('store', 4)
+  console.log(storesData[0].information)
 
   return {
     props: {
@@ -60,7 +63,7 @@ export default function Home({
 }: {
   featureData: CMSFeature[]
   contentsData: CMSContents[]
-  staffsData: StrapiStaff[]
+  staffsData: CMSStaff[]
   storesData: StrapiStore[]
   couponsData: StrapiCoupon[]
 }) {
@@ -119,11 +122,11 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {/* {staffsData.map((staff, index) => (
+            {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Staff staff={staff} />
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
@@ -142,13 +145,13 @@ export default function Home({
           <Button href='stores'>店舗一覧</Button>
         </div>
         <div className=''>
-          <ul className='grid grid-cols-3 gap-12 justify-center '>
-            {/* {storesData.map((store, index) => (
+          {/* <ul className='grid grid-cols-3 gap-12 justify-center '>
+            {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
               </li>
-            ))} */}
-          </ul>
+            ))}
+          </ul> */}
         </div>
       </section>
 

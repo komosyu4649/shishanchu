@@ -1,7 +1,7 @@
 import Layout from '@/components/layout/Layout'
 import { ACCOUNTS } from '@/constants/strapi'
-import { fetchContent } from '@/lib/microcms/fetchContent'
-import { fetchContents } from '@/lib/microcms/fetchContents'
+import { fetchCommonData } from '@/lib/microcms/fetchCommonData'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { CMSContents } from '@/type/microcms'
 import { StrapiContent } from '@/type/strapi'
 import axios from 'axios'
@@ -15,7 +15,7 @@ import Link from 'next/link'
 export const getStaticPaths = async () => {
   // const contents = await fetch('http://localhost:3000/api/strapi/getAllContents')
   // const contentsData: StrapiContent[] = await contents.json()
-  const contentsData = await fetchContents()
+  const contentsData = await fetchCommonListDatas('contents')
   return {
     paths: contentsData.map((content) => ({
       params: {
@@ -39,8 +39,8 @@ type Params = {
 export const getStaticProps = async (params: Params) => {
   const {} = params.params
   const { store, user, id } = params.params
-  const contentData = await fetchContent(store, id)
-  const contentsData = await fetchContents()
+  const contentData = await fetchCommonData(store, 'contents', id)
+  const contentsData = await fetchCommonListDatas('contents')
   const parsedMarkdown = fm(contentData.content)
   const htmlString = marked(parsedMarkdown.body)
   return {

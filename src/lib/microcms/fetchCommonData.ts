@@ -12,7 +12,7 @@ type IdAccount = {
   key: string
 }
 
-export const fetchContent = async (store: string, id: string) => {
+export const fetchCommonData = async (store: string, endpoint: string, id: string) => {
   const idAccount = ACCOUNTS.find((account) => account.name === store)
   if (!idAccount) return
   const { name, key } = idAccount
@@ -20,7 +20,7 @@ export const fetchContent = async (store: string, id: string) => {
     serviceDomain: name,
     apiKey: key,
   }).get({
-    endpoint: 'contents',
+    endpoint: endpoint,
     contentId: id,
   })
   return res
