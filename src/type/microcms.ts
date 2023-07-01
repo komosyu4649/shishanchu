@@ -75,9 +75,10 @@ export type CMSStore = ContentsBase<{
   description: string
   sns: {
     fieldId: string
-    twitter: string
-    instagram: string
-    website: string
+    twitter?: string
+    instagram?: string
+    tiktok?: string
+    website?: string
   }
   information: {
     fieldId: string
@@ -108,12 +109,13 @@ export type CMSStore = ContentsBase<{
     address: string
     tel: string
     paymentMethod: PaymentMethod
+    remarks: string
   }
   garelly: {
     fieldId: string
     image: ImageBase
     description: string
-  }
+  }[]
   accountName: string
   storeName: string
 }>

@@ -1,8 +1,11 @@
 import Coupon from '@/components/item/Coupon'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
-import { ACCOUNTS } from '@/constants/strapi'
-import { StrapiCoupon, StrapiStaff, StrapiStore } from '@/type/strapi'
+import { ACCOUNTS } from '@/constants/microcms'
+import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
+import { CMSStaff, CMSStore } from '@/type/microcms'
+import { StrapiCoupon, StrapiStaff } from '@/type/strapi'
 import axios from 'axios'
 import { marked } from 'marked'
 import Image from 'next/image'
@@ -22,90 +25,107 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (params: any) => {
   const { store } = params.params
-  const accuntData = ACCOUNTS.find((account) => account.name === store)
-  const stores = await axios.get(
-    `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours,information.address,garelly.img,`,
-    {
-      headers: {
-        Authorization: `Bearer ${accuntData?.jwt}`,
-      },
-    },
-  )
-  const storeData = stores.data.data
+  const storeDatas = await fetchCommonJsonDatas('store')
+  const storeData = storeDatas.find((s) => s.accountName === store)
+  const allStaffsDatas = await fetchCommonListDatas('staffs')
+  const staffsData = allStaffsDatas.filter((s) => s.accountName === store)
+  // const accuntData = ACCOUNTS.find((account) => account.name === store)
+  // const stores = await axios.get(
+  //   `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours[0],information.address,garelly.img,`,
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${accuntData?.jwt}`,
+  //     },
+  //   },
+  // )
+  // const storeData = stores.data.data
 
-  const coupons = await axios.get(`http://localhost:${accuntData?.name}/api/coupons`, {
-    headers: {
-      Authorization: `Bearer ${accuntData?.jwt}`,
-    },
-  })
-  const couponsData = coupons.data.data.map((coupon: StrapiCoupon) => ({
-    ...coupon,
-    accountName: accuntData?.name,
-    storeName: accuntData?.store,
-    jwt: accuntData?.jwt,
-  }))
+  // const coupons = await axios.get(`http://localhost:${accuntData?.name}/api/coupons`, {
+  //   headers: {
+  //     Authorization: `Bearer ${accuntData?.jwt}`,
+  //   },
+  // })
+  // const couponsData = coupons.data.data.map((coupon: StrapiCoupon) => ({
+  //   ...coupon,
+  //   accountName: accuntData?.name,
+  //   storeName: accuntData?.store,
+  //   jwt: accuntData?.jwt,
+  // }))
 
-  const response = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
-    headers: {
-      Authorization: `Bearer ${accuntData?.jwt}`,
-    },
-  })
+  // const response = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
+  //   headers: {
+  //     Authorization: `Bearer ${accuntData?.jwt}`,
+  //   },
+  // })
 
-  const staffsData = response.data.map((staff: StrapiStaff) => ({
-    ...staff,
-    accountName: accuntData?.name,
-    storeName: accuntData?.store,
-    jwt: accuntData?.jwt,
-  }))
+  // const staffsData = response.data.map((staff: StrapiStaff) => ({
+  //   ...staff,
+  //   accountName: accuntData?.name,
+  //   storeName: accuntData?.store,
+  //   jwt: accuntData?.jwt,
+  // }))
 
-  const storeName = accuntData?.name
-  const storeStore = accuntData?.store
+  // const storeName = accuntData?.name
+  // const storeStore = accuntData?.store
 
   return {
     props: {
+      store,
       storeData,
       staffsData,
-      couponsData,
-      storeName,
-      storeStore,
+      // staffsData,
+      // couponsData,
+      // storeName,
+      // storeStore,
     },
   }
 }
 
 const StoreContent = ({
+  accountName,
   name,
   contentType,
   storeData,
   staffsData,
   couponsData,
 }: {
+  accountName: string
   name: string
   contentType: string | string[]
-  storeData: StrapiStore
-  staffsData: StrapiStaff[]
+  storeData: CMSStore
+  staffsData: CMSStaff[]
   couponsData: StrapiCoupon[]
 }): JSX.Element | null => {
   switch (contentType) {
     case 'staff':
-      return <StoreContentStaff name={name} staffsData={staffsData} />
+      return <StoreContentStaff accountName={accountName} staffsData={staffsData} />
     case 'garelly':
-      return <StoreContentGarelly name={name} storeData={storeData} />
-    case 'coupon':
-      return <StoreContentCoupon name={name} couponsData={couponsData} />
+      return <StoreContentGarelly accountName={accountName} storeData={storeData} />
+    // case 'coupon':
+    //   return <StoreContentCoupon name={name} couponsData={couponsData} />
     default:
-      return <StoreContentInformation name={name} storeData={storeData} />
+      return <StoreContentInformation accountName={accountName} storeData={storeData} />
       break
   }
   // return null
 }
 
-const StoreContentInformation = ({ name, storeData }: { name: string; storeData: StrapiStore }) => {
+const StoreContentInformation = ({
+  accountName,
+  storeData,
+}: {
+  accountName: string
+  storeData: CMSStore
+}) => {
   const router = useRouter()
   useEffect(() => {
     router.push({
-      pathname: `/${name}/`,
+      pathname: accountName,
     })
   }, [])
+
+  const { information } = storeData
+
   return (
     <div className='grid gap-16 w-[80rem] m-auto'>
       {/* system */}
@@ -115,27 +135,19 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
           <ul className='grid grid-cols-auto gap-6'>
             <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
               <span className=''>チャージ料</span>
-              <span className='text-s5LhLgLt opacity-60'>
-                {storeData.attributes.information.system.chargeFee}
-              </span>
+              <span className='text-s5LhLgLt opacity-60'>{information.system[0].chargeFee}</span>
             </li>
             <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
               <span className='text-s5LhLgLt'> シーシャ代</span>
-              <span className='text-s5LhLgLt opacity-60'>
-                {storeData.attributes.information.system.shishaFee}
-              </span>
+              <span className='text-s5LhLgLt opacity-60'>{information.system[0].shishaFee}</span>
             </li>
             <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
               <span className='text-s5LhLgLt'>ワンドリンク制</span>
-              <span className='text-s5LhLgLt opacity-60'>
-                {storeData.attributes.information.system.oneDrinkSystem}
-              </span>
+              <span className='text-s5LhLgLt opacity-60'>{information.system[0].drinkFee}</span>
             </li>
             <li className='relative flex flex-col pl-8 text-s5LhLgLt before:content-[""] before:absolute before:top-4 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
               <span className='text-s5LhLgLt'>オプション</span>
-              <span className='text-s5LhLgLt opacity-60'>
-                {storeData.attributes.information.system.options}
-              </span>
+              <span className='text-s5LhLgLt opacity-60'>{information.system[0].options}</span>
             </li>
           </ul>
         </dd>
@@ -144,8 +156,21 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
       <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
         <dt className='text-s5LhLg'>予算</dt>
         <dd className='text-s5LhLgLt'>
-          <span className=''>{storeData.attributes.information.budget.lowest}円 </span>~{' '}
-          <span className=''>{storeData.attributes.information.budget.highest}円</span>
+          <span className=''>{information.budget[0].lowest}円 </span>~{' '}
+          <span className=''>{information.budget[0].highest}円</span>
+        </dd>
+      </dl>
+      {/* paymentMethod */}
+      <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
+        <dt className='text-s5LhLg'>お支払い方法</dt>
+        <dd className=''>
+          <ul className='flex flex-row flex-wrap gap-8'>
+            {information.paymentMethod.map((paymentMethod, index) => (
+              <li key={index} className=''>
+                <span className='text-s5LhLgLt'>#{paymentMethod}</span>
+              </li>
+            ))}
+          </ul>
         </dd>
       </dl>
       {/* facility */}
@@ -153,9 +178,9 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
         <dt className='text-s5LhLg'>設備</dt>
         <dd className=''>
           <ul className='flex flex-row flex-wrap gap-8'>
-            {storeData.attributes.information.facility.map((facility, index) => (
+            {information.facility.map((facility, index) => (
               <li key={index} className=''>
-                <span className='text-s5LhLgLt'>#{facility.name}</span>
+                <span className='text-s5LhLgLt'>#{facility}</span>
               </li>
             ))}
           </ul>
@@ -167,60 +192,89 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
         <dd className='text-s5LhLgLt'>
           <ul className=''>
             <li className=''>
-              <span className=''>月曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.monday}
-              </span>
+              <span className=''>月曜日 : </span>
+              {information.businessHours[0].monday[0].openingHour &&
+              information.businessHours[0].monday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].monday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].monday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>火曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.tuesday}
-              </span>
+              <span className=''>火曜日 : </span>
+              {information.businessHours[0].tuesday[0].openingHour &&
+              information.businessHours[0].tuesday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].tuesday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].tuesday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>水曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.wednesday}
-              </span>
+              <span className=''>水曜日 : </span>
+              {information.businessHours[0].wednesday[0].openingHour &&
+              information.businessHours[0].wednesday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].wednesday[0].openingHour}</span>
+                  〜
+                  <span className=''>{information.businessHours[0].wednesday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>木曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.thursday}
-              </span>
+              <span className=''>木曜日 : </span>
+              {information.businessHours[0].thursday[0].openingHour &&
+              information.businessHours[0].thursday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].thursday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].thursday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>金曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.friday}
-              </span>
+              <span className=''>金曜日 : </span>
+              {information.businessHours[0].friday[0].openingHour &&
+              information.businessHours[0].friday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].friday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].friday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>土曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.saturday}
-              </span>
+              <span className=''>土曜日 : </span>
+              {information.businessHours[0].saturday[0].openingHour &&
+              information.businessHours[0].saturday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].saturday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].saturday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
             <li className=''>
-              <span className=''>日曜日</span>
-              <span className=''>
-                {storeData.attributes.information.businessHours.same
-                  ? storeData.attributes.information.businessHours.same
-                  : storeData.attributes.information.businessHours.sunday}
-              </span>
+              <span className=''>日曜日 : </span>
+              {information.businessHours[0].sunday[0].openingHour &&
+              information.businessHours[0].sunday[0].closingHours ? (
+                <span>
+                  <span className=''>{information.businessHours[0].sunday[0].openingHour}</span>〜
+                  <span className=''>{information.businessHours[0].sunday[0].closingHours}</span>
+                </span>
+              ) : (
+                <span>定休日</span>
+              )}
             </li>
           </ul>
         </dd>
@@ -229,7 +283,7 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
       <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
         <dt className='text-s5LhLg'>休業日</dt>
         <dd className=''>
-          <span className='text-s5LhLgLt'>{storeData.attributes.information.holiday}</span>
+          <span className='text-s5LhLgLt'>{information.holiday}</span>
         </dd>
       </dl>
       {/* address */}
@@ -237,35 +291,42 @@ const StoreContentInformation = ({ name, storeData }: { name: string; storeData:
         <dt className='text-s5LhLg'>店舗所在地</dt>
         <dd className=''>
           <a
-            href={storeData.attributes.information.address.url}
+            href={`https://www.google.com/maps/place/${encodeURIComponent(information.address)}`}
+            target='_blank'
+            rel='noopener noreferrer'
             className='text-s5LhLgLt underline'
           >
-            {storeData.attributes.information.address.name}
+            {information.address}
           </a>
-          {/* {googleMapTag && (
-            <div className='mt-8' dangerouslySetInnerHTML={{ __html: googleMapTag }}></div>
-          )} */}
         </dd>
       </dl>
       {/* remarks */}
       <dl className='grid grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
         <dt className='text-s5LhLg'>備考</dt>
         <dd className=''>
-          <span className='text-s5LhLgLt'>{storeData.attributes.information.remarks}</span>
+          <span className='text-s5LhLgLt'>{information.remarks}</span>
         </dd>
       </dl>
     </div>
   )
 }
 
-const StoreContentStaff = ({ name, staffsData }: { name: string; staffsData: StrapiStaff[] }) => {
+const StoreContentStaff = ({
+  accountName,
+  staffsData,
+}: {
+  accountName: string
+  staffsData: CMSStaff[]
+}) => {
   const router = useRouter()
+
   useEffect(() => {
     router.push({
-      pathname: `/${name}/`,
+      pathname: accountName,
       query: { type: 'staff' },
     })
   }, [])
+
   return (
     <ul className='grid grid-cols-3 gap-8 justify-center'>
       {staffsData.map((staff, index) => (
@@ -277,27 +338,36 @@ const StoreContentStaff = ({ name, staffsData }: { name: string; staffsData: Str
   )
 }
 
-const StoreContentGarelly = ({ name, storeData }: { name: string; storeData: StrapiStore }) => {
+const StoreContentGarelly = ({
+  accountName,
+  storeData,
+}: {
+  accountName: string
+  storeData: CMSStore
+}) => {
   const router = useRouter()
   useEffect(() => {
     router.push({
-      pathname: `/${name}/`,
+      pathname: accountName,
       query: { type: 'garelly' },
     })
   }, [])
+
+  const { garelly } = storeData
+
   return (
     <div className=''>
       <ul className='grid grid-cols-3 gap-x-4 gap-y-10'>
-        {storeData.attributes.garelly.map((garelly, index) => (
+        {garelly.map((g, index) => (
           <li key={index}>
             <Image
-              src={`http://localhost:${name}${garelly.img.data.attributes.url}`}
-              width={garelly.img.data.attributes.width}
-              height={garelly.img.data.attributes.height}
-              alt={garelly.img.data.attributes.name}
+              src={g.image.url}
+              width={g.image.width}
+              height={g.image.height}
+              alt={g.description}
               className='mb-4'
             />
-            <span className='text-s3Lt'>{garelly.name}</span>
+            <span className='text-s3Lt'>{g.description}</span>
           </li>
         ))}
       </ul>
@@ -305,54 +375,54 @@ const StoreContentGarelly = ({ name, storeData }: { name: string; storeData: Str
   )
 }
 
-const StoreContentCoupon = ({
-  name,
-  couponsData,
-}: {
-  name: string
-  couponsData: StrapiCoupon[]
-}) => {
-  const router = useRouter()
-  useEffect(() => {
-    router.push({
-      pathname: `/${name}/`,
-      query: { type: 'coupon' },
-    })
-  }, [])
-  return (
-    <ul className='grid grid-cols-3 gap-8 justify-center'>
-      {couponsData.map((coupon, index) => (
-        <li key={index} className=''>
-          <Coupon coupon={coupon} />
-        </li>
-      ))}
-    </ul>
-  )
-}
+// const StoreContentCoupon = ({
+//   name,
+//   couponsData,
+// }: {
+//   name: string
+//   couponsData: StrapiCoupon[]
+// }) => {
+//   // const router = useRouter()
+//   // useEffect(() => {
+//   //   router.push({
+//   //     pathname: `/${name}/`,
+//   //     query: { type: 'coupon' },
+//   //   })
+//   // }, [])
+//   return (
+//     <ul className='grid grid-cols-3 gap-8 justify-center'>
+//       {couponsData.map((coupon, index) => (
+//         <li key={index} className=''>
+//           <Coupon coupon={coupon} />
+//         </li>
+//       ))}
+//     </ul>
+//   )
+// }
 
 export default function StoreDetail({
   storeData,
   staffsData,
   couponsData,
-  storeName,
-  storeStore,
 }: {
-  storeData: StrapiStore
-  staffsData: StrapiStaff[]
+  storeData: CMSStore
+  staffsData: CMSStaff[]
   couponsData: StrapiCoupon[]
-  storeName: string
-  storeStore: string
 }) {
   const router: NextRouter = useRouter()
   const [contentType, setContentType] = useState<string | string[]>(router.query.type || '')
+
   useEffect(() => {
     if (router.query.type) {
       setContentType(router.query.type)
     }
   }, [router.isReady, router.query.type])
+
   const handleSwitchType = (switchType: string) => {
     setContentType(switchType)
   }
+
+  const { icon, name, sns, description, storeName, accountName } = storeData
 
   const tabData = [
     {
@@ -367,10 +437,10 @@ export default function StoreDetail({
       name: 'ギャラリー',
       type: 'garelly',
     },
-    {
-      name: 'クーポン',
-      type: 'coupon',
-    },
+    // {
+    //   name: 'クーポン',
+    //   type: 'coupon',
+    // },
   ]
 
   return (
@@ -380,52 +450,53 @@ export default function StoreDetail({
         <div className='grid grid-cols-[1fr_50rem]'>
           <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
             <Image
-              src={`http://localhost:${storeName}${storeData.attributes.icon.data.attributes.url}`}
-              width={storeData.attributes.icon.data.attributes.width}
-              height={storeData.attributes.icon.data.attributes.height}
-              alt={storeData.attributes.icon.data.attributes.name}
+              src={icon.url}
+              width={icon.width}
+              height={icon.height}
+              alt={name}
               className='rounded-full w-60 h-60 object-cover'
             />
             <div className=''>
-              <span className='text-s9'>{storeStore}</span>
-              <div className=''>
-                {storeData.attributes.sns?.twitter && (
-                  <a href={storeData.attributes.sns.twitter} className=''>
-                    twitter
+              <span className='text-s9'>{storeName}</span>
+              <div className='flex flex-col gap-1 mt-4 text-s3'>
+                {sns?.twitter && (
+                  <a href={sns.twitter} className=''>
+                    Twitter
                   </a>
                 )}
-                {storeData.attributes.sns?.instagram && (
-                  <a href={storeData.attributes.sns.instagram} className=''>
-                    instagram
+                {sns?.instagram && (
+                  <a href={sns.instagram} className=''>
+                    Instagram
                   </a>
                 )}
-                {storeData.attributes.sns?.tiktok && (
-                  <a href={storeData.attributes.sns.tiktok} className=''>
-                    tiktok
+                {sns?.tiktok && (
+                  <a href={sns.tiktok} className=''>
+                    Tiktok
                   </a>
                 )}
-                {storeData.attributes.sns?.other && (
-                  <a href={storeData.attributes.sns.other} className=''>
-                    other
+                {sns?.website && (
+                  <a href={sns.website} className=''>
+                    Webサイト
                   </a>
                 )}
               </div>
             </div>
           </div>
           <div className='mt-24'>
-            <p className='text-s5LhLgLt'>{storeData.attributes.description}</p>
+            <p className='text-s5LhLgLt whitespace-pre'>{description}</p>
           </div>
         </div>
         {/* datas */}
         <div className='mt-32 '>
           {/* tab */}
           <nav className='border-b border-solid border-white border-opacity-60'>
-            <ul className='grid grid-cols-4'>
+            {/* <ul className='grid grid-cols-4'> */}
+            <ul className='flex justify-center'>
               {tabData.map((tab, index) => (
                 <li key={index} className=''>
                   <button
                     onClick={() => handleSwitchType(`${tab.type}`)}
-                    className='w-full  text-s6'
+                    className='w-full px-16 text-s6'
                   >
                     <span
                       className={`inline-block py-10 ${
@@ -442,6 +513,7 @@ export default function StoreDetail({
           {/* content */}
           <div className='w-layoutSm m-auto mt-32'>
             <StoreContent
+              accountName={accountName}
               name={storeName}
               contentType={contentType}
               storeData={storeData}
