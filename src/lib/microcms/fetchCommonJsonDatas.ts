@@ -1,5 +1,4 @@
 import { ACCOUNTS } from '@/constants/microcms'
-import { CMSContents } from '@/type/microcms'
 import { createClient } from 'microcms-js-sdk'
 
 export const fetchCommonJsonDatas = async (endpoint: string, limit?: number) => {
@@ -14,7 +13,7 @@ export const fetchCommonJsonDatas = async (endpoint: string, limit?: number) => 
       const response = await res
       const responseData = Array.isArray(response) ? response : [response]
 
-      return responseData.map((content: CMSContents) => ({
+      return responseData.map((content) => ({
         ...content,
         accountName: account.name,
         storeName: account.store,

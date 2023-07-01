@@ -70,10 +70,9 @@ export type CMSStaff = ContentsBase<{
 }>
 
 export type CMSStore = ContentsBase<{
-  name: string
   icon: ImageBase
   description: string
-  sns: {
+  sns?: {
     fieldId: string
     twitter?: string
     instagram?: string
