@@ -17,7 +17,7 @@ import { chivo } from './_app'
 import Button from '@/components/common/Button'
 import Layout from '@/components/layout/Layout'
 import { getMicroCMSDataList } from '@/lib/microcms/fetchCMS'
-import { CMSContents, CMSFeature, CMSStaff } from '@/type/microcms'
+import { CMSContents, CMSFeature, CMSStaff, CMSStore } from '@/type/microcms'
 import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
@@ -41,7 +41,6 @@ export const getStaticProps = async () => {
   const contentsData = await fetchCommonListDatas('contents', 4)
   const staffsData = await fetchCommonListDatas('staffs', 4)
   const storesData = await fetchCommonJsonDatas('store', 4)
-  console.log(storesData[0].information)
 
   return {
     props: {
@@ -64,7 +63,7 @@ export default function Home({
   featureData: CMSFeature[]
   contentsData: CMSContents[]
   staffsData: CMSStaff[]
-  storesData: StrapiStore[]
+  storesData: CMSStore[]
   couponsData: StrapiCoupon[]
 }) {
   return (
@@ -145,13 +144,13 @@ export default function Home({
           <Button href='stores'>店舗一覧</Button>
         </div>
         <div className=''>
-          {/* <ul className='grid grid-cols-3 gap-12 justify-center '>
+          <ul className='grid grid-cols-3 gap-12 justify-center '>
             {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
               </li>
             ))}
-          </ul> */}
+          </ul>
         </div>
       </section>
 
