@@ -39,6 +39,10 @@ export type CMSFeature = ContentsBase<{
   }>
 }>
 
+export type CMSFeatureCategory = ContentsBase<{
+  name: string
+}>
+
 export type CMSContents = ContentsBase<{
   title: string
   thumbnail: ImageBase
