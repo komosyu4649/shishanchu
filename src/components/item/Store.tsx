@@ -5,7 +5,6 @@ import React from 'react'
 
 const Store = ({ store }: { store: CMSStore }) => {
   const { icon, storeName, information } = store
-  console.log(store)
   return (
     <Link href={`${store.accountName}`}>
       <Image

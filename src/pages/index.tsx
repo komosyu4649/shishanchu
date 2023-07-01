@@ -155,7 +155,7 @@ export default function Home({
       </section>
 
       {/* coupon */}
-      <section className='w-layoutDefault m-auto mt-56'>
+      {/* <section className='w-layoutDefault m-auto mt-56'>
         <h2 className='flex flex-col mb-16 mx-36'>
           <span className='text-s3'>クーポン</span>
           <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
@@ -163,17 +163,17 @@ export default function Home({
         </h2>
         <div className=''>
           <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {/* {couponsData.map((coupon, index) => (
+            {couponsData.map((coupon, index) => (
               <li key={index} className=''>
                 <Coupon coupon={coupon} />
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
         <div className='flex justify-center w-full mt-32'>
           <Button href='coupons'>クーポン一覧</Button>
         </div>
-      </section>
+      </section> */}
     </Layout>
   )
 }
