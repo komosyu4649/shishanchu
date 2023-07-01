@@ -19,3 +19,19 @@ export const ACCOUNTS = [
     key: process.env.MICROCMS_API_KEY_STORE_2 ?? '',
   },
 ]
+
+export const GENDERS = [
+  {
+    label: '指定なし',
+  },
+  {
+    label: '男性',
+  },
+  {
+    label: '女性',
+  },
+]
+
+export const CAREERS = [{ year: 1 }, { year: 3 }, { year: 5 }, { year: 7 }, { year: 10 }]
+
+export const PAGE_SIZE = 3

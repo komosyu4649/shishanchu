@@ -3,8 +3,10 @@ import Pagination from '@/components/common/Pagination'
 import Tag from '@/components/common/Tag'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
-import { CAREERS, GENDERS, PAGE_SIZE } from '@/constants/strapi'
+import { GENDERS, CAREERS, PAGE_SIZE } from '@/constants/microcms'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
+import { CMSStaff } from '@/type/microcms'
 import { StrapiStaff } from '@/type/strapi'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -16,13 +18,13 @@ type Query = {
   page?: number | null
 }
 
-export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> = async ({
-  query,
-}: {
-  query: Query
-}) => {
-  const res = await fetch('http://localhost:3000/api/strapi/getAllStaffs')
-  let staffs: StrapiStaff[] = await res.json()
+export const getServerSideProps: GetServerSideProps<{
+  staffs: CMSStaff[]
+  page: number
+  pages: number
+  totalCount: number
+}> = async ({ query }: { query: Query }) => {
+  let staffs: CMSStaff[] = await fetchCommonListDatas('staffs')
 
   if (query.career) {
     const careerYear = Number(query.career)
@@ -41,10 +43,10 @@ export const getServerSideProps: GetServerSideProps<{ staffs: StrapiStaff[] }> =
   }
 
   if (query.gender) {
-    if (query.gender === 'all') {
+    if (query.gender === '指定なし') {
       staffs = staffs
     } else {
-      staffs = staffs.filter((staff) => staff.profile.gender === query.gender)
+      staffs = staffs.filter((staff) => staff.profile.gender[0] === query.gender)
     }
   }
 
@@ -73,7 +75,7 @@ export default function Staffs({
   pages,
   totalCount,
 }: {
-  staffs: StrapiStaff[]
+  staffs: CMSStaff[]
   page: number
   pages: number
   totalCount: number
@@ -149,7 +151,7 @@ export default function Staffs({
             )}
             {query.gender && (
               <Tag onClick={() => handleRemoveQuery(query.gender)}>
-                {GENDERS.find((gender) => gender.value === query.gender)?.label}スタッフ
+                {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
               </Tag>
             )}
           </div>
@@ -165,12 +167,12 @@ export default function Staffs({
                   <div key={index} className='flex items-center gap-4'>
                     <label
                       className='relative flex cursor-pointer items-center rounded-full'
-                      htmlFor={gender.value}
+                      htmlFor={gender.label}
                     >
                       <input
                         type='radio'
-                        id={gender.value}
-                        value={gender.value}
+                        id={gender.label}
+                        value={gender.label}
                         name='gender'
                         onChange={handleSelectGender}
                         className="before:content[''] peer relative h-6 w-6 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-green transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green checked:before:bg-green hover:before:opacity-10"
@@ -186,7 +188,7 @@ export default function Staffs({
                         </svg>
                       </div>
                     </label>
-                    <label className='w-full text-s3 cursor-pointer' htmlFor={gender.value}>
+                    <label className='w-full text-s3 cursor-pointer' htmlFor={gender.label}>
                       {gender.label}
                     </label>
                   </div>
