@@ -21,6 +21,11 @@ import { CMSContents, CMSFeature, CMSStaff, CMSStore } from '@/type/microcms'
 import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Autoplay, Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -55,29 +60,72 @@ export default function Home({
   storesData: CMSStore[]
   couponsData: StrapiCoupon[]
 }) {
+  const swiperPagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return `<span class="${className} bg-green opacity-100 w-12 h-12 block"></span>`
+    },
+  }
+
   return (
     <Layout>
       {/* feature */}
-      <section className=''>
-        <ul className=''>
+      <section className='top-feature'>
+        <Swiper
+          spaceBetween={15}
+          slidesPerView={1.2}
+          centeredSlides={true}
+          autoplay={{
+            delay: 8000,
+            disableOnInteraction: false,
+          }}
+          // loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          // navigation={true}
+          navigation={{
+            nextEl: '.next-slide-button',
+            prevEl: '.prev-slide-button',
+          }}
+          modules={[Navigation, Autoplay, Pagination]}
+          className='h-[calc(100vh-18rem)]'
+        >
           {featureData.map((feature, index) => (
-            <li key={index} className='w-[100rem] h-[60rem] m-auto'>
-              <Link href={`/features/${feature.id}`} className='relative'>
+            <SwiperSlide key={index}>
+              <Link href={`/features/${feature.id}`} className='relative block h-full'>
                 <Image
                   src={feature.thumbnail.url}
                   width={feature.thumbnail.width}
                   height={feature.thumbnail.height}
                   alt={feature.title}
-                  className='w-[100rem] h-[60rem] object-cover'
+                  className='h-full object-cover'
+                  // className='w-[100rem] h-[60rem] object-cover'
                 />
-                <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'>
-                  <h2 className='mb-6 text-s9'>{feature.title}</h2>
+                <div className='absolute bottom-32 left-24 text-white'>
+                  <h2 className='mb-6 text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
                 </div>
               </Link>
-            </li>
+            </SwiperSlide>
           ))}
-        </ul>
+        </Swiper>
+        <div className='absolute top-56 right-72 flex flex-row gap-2 z-10'>
+          <button className='prev-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
+            {/* &#128072; */}
+            <Image
+              src='/asset/img/arrow.svg'
+              width={8}
+              height={8}
+              alt='前へ'
+              className='rotate-180'
+            />
+          </button>
+          <button className='next-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
+            {/* &#128073; */}
+            <Image src='/asset/img/arrow.svg' width={8} height={8} alt='前へ' />
+          </button>
+        </div>
       </section>
 
       {/* contents */}
