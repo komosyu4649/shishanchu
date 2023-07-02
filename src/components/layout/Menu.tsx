@@ -5,6 +5,15 @@ import React from 'react'
 const Menu = () => {
   const menus = [
     {
+      name: '特集',
+      path: 'features',
+      icon: {
+        path: 'iconFeature',
+        width: 20,
+        height: 20,
+      },
+    },
+    {
       name: '投稿',
       path: 'contents',
       icon: {
@@ -42,7 +51,7 @@ const Menu = () => {
     // },
   ]
   return (
-    <nav className='fixed inset-x-0 bottom-8 w-fit m-auto px-12 bg-blackWeak border-2 border-solid border-green rounded-full z-10'>
+    <nav className='fixed inset-x-0 bottom-8 w-fit m-auto px-12 bg-blackWeak border border-solid border-green rounded-full z-10'>
       <ul className='flex flex-row justify-center items-center'>
         {menus.map((menu, index) => (
           <li
