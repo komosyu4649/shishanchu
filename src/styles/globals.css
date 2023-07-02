@@ -27,6 +27,7 @@
   .swiper-pagination-bullet-active {
     @apply bg-green;
   }
+  /* navigation */
   .swiper-button-disabled {
     @apply opacity-40;
   }
