@@ -73,7 +73,7 @@ export default function Home({
         <ul className=''>
           {featureData.map((feature, index) => (
             <li key={index} className='w-[100rem] h-[60rem] m-auto'>
-              <Link href={`/feature/${feature.id}`} className='relative'>
+              <Link href={`/features/${feature.id}`} className='relative'>
                 <Image
                   src={feature.thumbnail.url}
                   width={feature.thumbnail.width}

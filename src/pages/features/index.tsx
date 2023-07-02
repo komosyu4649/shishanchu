@@ -14,6 +14,7 @@ import { chivo } from '../_app'
 import { useRouter } from 'next/router'
 import Pagination from '@/components/common/Pagination'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import Feature from '@/components/item/Feature'
 
 type Query = {
   category?: string | null
@@ -105,26 +106,9 @@ const Features = ({
         {/* main */}
         <div className='flex flex-col w-[92rem]'>
           <ul className='grid grid-cols-3 gap-x-8 gap-y-16'>
-            {features.map((features, index) => (
+            {features.map((feature, index) => (
               <li key={index}>
-                <Link href={`features/${features.id}`}>
-                  <Image
-                    src={features.thumbnail.url}
-                    width={features.thumbnail.width}
-                    height={features.thumbnail.height}
-                    alt={features.title}
-                    className='h-80 object-cover'
-                  />
-                  <div className='mt-8'>
-                    <div className='flex flex-row justify-between mb-2'>
-                      <time className={`text-s1 ${chivo.className}`}>
-                        {dayjs(features.publishedAt).format('YYYY.MM.DD')}
-                      </time>
-                      <span className='text-s1'>#{features.featureCategories.name}</span>
-                    </div>
-                    <h2 className='inline text-s4 border-b-2 border-white'>{features.title}</h2>
-                  </div>
-                </Link>
+                <Feature feature={feature} />
               </li>
             ))}
           </ul>

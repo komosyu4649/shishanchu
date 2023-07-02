@@ -34,30 +34,30 @@ type Params = {
 
 export const getStaticProps = async (params: Params) => {
   const { id } = params.params
-  const contentData = await getMicroCMSData(MICROCMS_ENDPOINT_CMS_FEATURES, id)
-  const parsedMarkdown = fm(contentData.content)
+  const featureData = await getMicroCMSData(MICROCMS_ENDPOINT_CMS_FEATURES, id)
+  const parsedMarkdown = fm(featureData.content)
   const htmlString = marked(parsedMarkdown.body)
   const featureCategoriesData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES)
-  const featureCategoriesContents = featureCategoriesData.contents
+  const featureCategories = featureCategoriesData.contents
   return {
     props: {
-      contentData,
+      featureData,
       htmlString,
-      featureCategoriesContents,
+      featureCategories,
     },
   }
 }
 
 export default function FeatureDetail({
-  contentData,
+  featureData,
   htmlString,
-  featureCategoriesContents,
+  featureCategories,
 }: {
-  contentData: CMSFeature
+  featureData: CMSFeature
   htmlString: string
-  featureCategoriesContents: CMSFeatureCategory[]
+  featureCategories: CMSFeatureCategory[]
 }) {
-  const { title, content, publishedAt, thumbnail, featureCategories } = contentData
+  const { title, content, publishedAt, thumbnail } = featureData
   return (
     <Layout>
       <article className='flex flex-row justify-center gap-24 mt-36'>
@@ -68,9 +68,14 @@ export default function FeatureDetail({
           </h1>
           <div className='rounded-3xl border-2 border-white border-opacity-60 border-solid p-10 bg-blackWeak'>
             <ul className='flex flex-col gap-4'>
-              {featureCategoriesContents.map((featureCategory, index) => (
+              <li>
+                <Link href='/features' className='text-s3'>
+                  #すべて
+                </Link>
+              </li>
+              {featureCategories.map((featureCategory, index) => (
                 <li key={index}>
-                  <Link href={`/features?category=${featureCategory.name}`} className='text-s3'>
+                  <Link href={`features?category=${featureCategory.name}`} className='text-s3'>
                     #{featureCategory.name}
                   </Link>
                 </li>
@@ -83,7 +88,7 @@ export default function FeatureDetail({
           <time dateTime={publishedAt} className={`text-s1 ${chivo.className}`}>
             {dayjs(publishedAt).format('YYYY.MM.DD')}
           </time>
-          <span className='mt-2 text-s1'>#{featureCategories.name}</span>
+          <span className='mt-2 text-s1'>#{featureData.featureCategories.name}</span>
           <h2 className='mt-16 mb-12 text-s9'>{title}</h2>
           <Image
             src={thumbnail.url}
