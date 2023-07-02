@@ -1,20 +1,23 @@
 import Content from '@/components/item/Content'
 import Layout from '@/components/layout/Layout'
-import { ACCOUNTS } from '@/constants/strapi'
+import { ACCOUNTS } from '@/constants/microcms'
+import { fetchCommonData } from '@/lib/microcms/fetchCommonData'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
+import { CMSContents, CMSStaff } from '@/type/microcms'
 import { Account, StrapiContent, StrapiStaff } from '@/type/strapi'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export const getStaticPaths = async () => {
-  const staffs = await fetch('http://localhost:3000/api/strapi/getAllStaffs')
-  const staffsData: StrapiStaff[] = await staffs.json()
-  //   console.log(staffsData[0].id)
+  const staffsData = await fetchCommonListDatas('staffs')
+  // console.log(staffsData)
+
   return {
     paths: staffsData.map((staff) => ({
       params: {
         store: staff.accountName,
-        user: decodeURI(staff.username),
+        user: decodeURI(staff.name),
       },
     })),
     fallback: false,
@@ -30,44 +33,20 @@ type Params = {
 
 export const getStaticProps = async (params: Params) => {
   const { store, user } = params.params
-  const accuntData = ACCOUNTS.find((account) => account.name === store)
-  const staff = await axios.get(`http://localhost:${store}/api/users/?populate=icon,sns,profile`, {
-    headers: {
-      Authorization: `Bearer ${accuntData?.jwt}`,
-    },
-  })
-  const staffData = staff.data.find((data: any) => data.username === user)
-  const contents = await axios.get(
-    `http://localhost:${accuntData?.name}/api/contents?populate=users_permissions_user.icon,thumbnail`,
-    {
-      headers: {
-        Authorization: `Bearer ${accuntData?.jwt}`,
-      },
-    },
-  )
+  const staffsData = await fetchCommonListDatas('staffs')
+  const staffData = staffsData.find((staff) => staff.name === user)
+  const contentsData = await fetchCommonListDatas('contents')
+  const contentData = contentsData.filter((content) => content.staff.name === user)
 
-  // console.log(contents.data.data)
-  // console.log(accuntData)
-  const contentsData = contents.data.data.map((content: StrapiContent) => ({
-    ...content,
-    accountName: accuntData?.name,
-    storeName: accuntData?.store,
-    jwt: accuntData?.jwt,
-  }))
-
-  const flattenedAccounts = contentsData.flat()
+  const flattenedAccounts = contentData.flat()
 
   const sortedAccounts = flattenedAccounts.sort(
-    (a: any, b: any) =>
-      new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime(),
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
   )
-  // console.log(1, sortedAccounts)
-  // console.log(2, contentsData)
+
   return {
     props: {
       staffData,
-      store,
-      accuntData,
       sortedAccounts,
     },
   }
@@ -75,23 +54,18 @@ export const getStaticProps = async (params: Params) => {
 
 export default function StaffDetail({
   staffData,
-  store,
-  accuntData,
   sortedAccounts,
 }: {
-  staffData: StrapiStaff
-  store: string
-  accuntData: Account
-  sortedAccounts: StrapiContent[]
+  staffData: CMSStaff
+  sortedAccounts: CMSContents[]
 }) {
+  const { icon, name, profile, sns, biography, storeName } = staffData
   const currentDate = new Date()
-  const elapsedYears = currentDate.getFullYear() - new Date(staffData.profile.career).getFullYear()
+  const elapsedYears = currentDate.getFullYear() - new Date(profile.career).getFullYear()
   const elapsedMonths =
-    currentDate.getMonth() - new Date(staffData.profile.career).getMonth() + 12 * elapsedYears
+    currentDate.getMonth() - new Date(profile.career).getMonth() + 12 * elapsedYears
   const careerYear = Math.floor(elapsedMonths / 12)
   const careerMonth = elapsedMonths % 12
-  // console.log(contentsData)
-  // console.log(sortedAccounts)
 
   return (
     <Layout>
@@ -103,40 +77,42 @@ export default function StaffDetail({
             {/* account */}
             <div className='grid grid-cols-[auto_1fr] items-center gap-12'>
               <Image
-                src={`http://localhost:${store}${staffData.icon.url}`}
-                width={staffData.icon.width}
-                height={staffData.icon.height}
-                alt='test'
+                src={icon.url}
+                width={icon.width}
+                height={icon.height}
+                alt={name}
                 className='w-60 h-60 rounded-full object-cover'
               />
               <div className='flex flex-col gap-4'>
-                <span className='text-s8'>{staffData.username}</span>
-                <span className='text-s7 opacity-60'>【{accuntData.store}】</span>
+                <span className='text-s8'>{name}</span>
+                <span className='text-s7 opacity-60'>【{storeName}】</span>
               </div>
             </div>
             {/* sns */}
-            <div className='flex flex-col gap-2 ml-72'>
-              {staffData.sns.twitter && (
-                <a href={staffData.sns.twitter} className='text-s3'>
-                  twitter
-                </a>
-              )}
-              {staffData.sns.instagram && (
-                <a href={staffData.sns.instagram} className='text-s3'>
-                  instagram
-                </a>
-              )}
-              {staffData.sns.tiktok && (
-                <a href={staffData.sns.tiktok} className='text-s3'>
-                  tiktok
-                </a>
-              )}
-              {staffData.sns.other && (
-                <a href={staffData.sns.other} className='text-s3'>
-                  その他
-                </a>
-              )}
-            </div>
+            {sns && (
+              <div className='flex flex-col gap-2 ml-72'>
+                {sns.twitter && (
+                  <a href={sns.twitter} className='text-s3'>
+                    twitter
+                  </a>
+                )}
+                {sns.instagram && (
+                  <a href={sns.instagram} className='text-s3'>
+                    instagram
+                  </a>
+                )}
+                {sns.tiktok && (
+                  <a href={sns.tiktok} className='text-s3'>
+                    tiktok
+                  </a>
+                )}
+                {sns.website && (
+                  <a href={sns.website} className='text-s3'>
+                    Webサイト
+                  </a>
+                )}
+              </div>
+            )}
             {/* profile */}
             <div className='flex flex-col gap-4 py-2 pl-8 mt-12 ml-72 border-l-2 border-solid border-green'>
               <dl className='flex gap-2 text-s4'>
@@ -148,8 +124,7 @@ export default function StaffDetail({
                 </dd>
               </dl>
               <dl className='flex gap-2 text-s4'>
-                <dt className=''>出身</dt> :{''}{' '}
-                <dd className=''>{staffData.profile.birthplace}</dd>
+                <dt className=''>出身</dt> : <dd className=''>{profile.birthplace}</dd>
               </dl>
             </div>
           </div>
@@ -166,7 +141,7 @@ export default function StaffDetail({
             </div>
             {/* bio */}
             <div className='mt-16'>
-              <p className='text-s5LhLgLt'>{staffData.biography}</p>
+              <p className='text-s5LhLgLt whitespace-pre'>{biography}</p>
             </div>
           </div>
         </div>

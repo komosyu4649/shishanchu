@@ -5,7 +5,8 @@ import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
 import { BUDGETS, PAGE_SIZE, REGIONS } from '@/constants/strapi'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
-import { StrapiStore } from '@/type/strapi'
+import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
+import { CMSStore } from '@/type/microcms'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
@@ -17,30 +18,26 @@ type Query = {
   page?: number | null
 }
 
-export const getServerSideProps: GetServerSideProps<{ stores: StrapiStore[] }> = async ({
-  query,
-}: {
-  query: Query
-}) => {
-  const res = await fetch('http://localhost:3000/api/strapi/getAllStores')
-  let stores: StrapiStore[] = await res.json()
+export const getServerSideProps: GetServerSideProps<{
+  stores: CMSStore[]
+  page: number
+  pages: number
+  totalCount: number
+}> = async ({ query }: { query: Query }) => {
+  let stores: CMSStore[] = await fetchCommonJsonDatas('store')
 
   if (query.area) {
-    stores = stores.filter((store) => store.region?.prefectures === query.area)
+    stores = stores.filter((store) => store.information?.address.includes(query.area || ''))
   }
 
   if (query.budgetMin) {
     const budgetMinNumber = Number(query.budgetMin)
-    stores = stores.filter(
-      (store) => store.attributes.information?.budget?.lowest >= budgetMinNumber,
-    )
+    stores = stores.filter((store) => store.information?.budget[0]?.lowest >= budgetMinNumber)
   }
 
   if (query.budgetMax) {
     const budgetMaxNumber = Number(query.budgetMax)
-    stores = stores.filter(
-      (store) => store.attributes.information?.budget?.highest <= budgetMaxNumber,
-    )
+    stores = stores.filter((store) => store.information?.budget[0]?.highest <= budgetMaxNumber)
   }
 
   let totalCount = stores.length
@@ -68,7 +65,7 @@ export default function Stores({
   pages,
   totalCount,
 }: {
-  stores: StrapiStore[]
+  stores: CMSStore[]
   page: number
   pages: number
   totalCount: number
@@ -121,7 +118,6 @@ export default function Stores({
     router.push({
       pathname: router.pathname,
       query: {
-        // ...query,
         area: searchParams.area,
         budgetMin: searchParams.budgetMin,
         budgetMax: searchParams.budgetMax,

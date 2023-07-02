@@ -3,6 +3,8 @@ import Content from '@/components/item/Content'
 import Layout from '@/components/layout/Layout'
 import { PAGE_SIZE } from '@/constants/strapi'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
+import { CMSContents } from '@/type/microcms'
 import { StrapiContent } from '@/type/strapi'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -12,13 +14,13 @@ type Query = {
   page?: number | null
 }
 
-export const getServerSideProps: GetServerSideProps<{ contents: StrapiContent }> = async ({
-  query,
-}: {
-  query: Query
-}) => {
-  const res = await fetch('http://localhost:3000/api/strapi/getAllContents')
-  let contents = await res.json()
+export const getServerSideProps: GetServerSideProps<{
+  contents: CMSContents[]
+  page: number
+  pages: number
+  totalCount: number
+}> = async ({ query }: { query: Query }) => {
+  let contents = await fetchCommonListDatas('contents')
 
   let totalCount = contents.length
   const page = query.page || 1
@@ -45,7 +47,7 @@ export default function Contents({
   pages,
   totalCount,
 }: {
-  contents: StrapiContent[]
+  contents: CMSContents[]
   page: number
   pages: number
   totalCount: number
