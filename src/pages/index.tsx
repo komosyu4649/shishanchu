@@ -21,6 +21,9 @@ import { CMSContents, CMSFeature, CMSStaff, CMSStore } from '@/type/microcms'
 import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Autoplay, Pagination } from 'swiper'
+import 'swiper/css'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -59,25 +62,38 @@ export default function Home({
     <Layout>
       {/* feature */}
       <section className=''>
-        <ul className=''>
+        <Swiper
+          spaceBetween={15}
+          slidesPerView={1.2}
+          centeredSlides={true}
+          autoplay={{
+            delay: 8000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          modules={[Navigation, Autoplay, Pagination]}
+          className='h-[calc(100vh-18rem)]'
+        >
           {featureData.map((feature, index) => (
-            <li key={index} className='w-[100rem] h-[60rem] m-auto'>
-              <Link href={`/features/${feature.id}`} className='relative'>
+            <SwiperSlide key={index}>
+              <Link href={`/features/${feature.id}`} className='relative block h-full'>
                 <Image
                   src={feature.thumbnail.url}
                   width={feature.thumbnail.width}
                   height={feature.thumbnail.height}
                   alt={feature.title}
-                  className='w-[100rem] h-[60rem] object-cover'
+                  // className='w-[100rem] h-[60rem] object-cover'
                 />
-                <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'>
-                  <h2 className='mb-6 text-s9'>{feature.title}</h2>
+                {/* <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'> */}
+                {/* <div className='absolute bottom-20 left-16 text-white pt-12 px-16 pb-16 border-2 border-solid border-white'> */}
+                <div className='absolute bottom-32 left-24 text-white'>
+                  <h2 className='mb-6 text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
                 </div>
               </Link>
-            </li>
+            </SwiperSlide>
           ))}
-        </ul>
+        </Swiper>
       </section>
 
       {/* contents */}
