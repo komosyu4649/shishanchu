@@ -5,7 +5,7 @@ import React from 'react'
 const Menu = () => {
   const menus = [
     {
-      name: 'Contents',
+      name: '投稿',
       path: 'contents',
       icon: {
         path: 'iconContent',
@@ -14,7 +14,7 @@ const Menu = () => {
       },
     },
     {
-      name: 'Staffs',
+      name: 'スタッフ',
       path: 'staffs',
       icon: {
         path: 'iconStaff',
@@ -23,7 +23,7 @@ const Menu = () => {
       },
     },
     {
-      name: 'Stores',
+      name: '店舗',
       path: 'stores',
       icon: {
         path: 'iconStore',
@@ -31,33 +31,33 @@ const Menu = () => {
         height: 17.78,
       },
     },
-    {
-      name: 'Coupons',
-      path: 'coupons',
-      icon: {
-        path: 'iconCoupon',
-        width: 20,
-        height: 18.22,
-      },
-    },
+    // {
+    //   name: 'Coupons',
+    //   path: 'coupons',
+    //   icon: {
+    //     path: 'iconCoupon',
+    //     width: 20,
+    //     height: 18.22,
+    //   },
+    // },
   ]
   return (
-    <nav className='fixed inset-x-0 bottom-12 w-fit m-auto px-12 bg-blackWeak border-2 border-solid border-green rounded-full z-10'>
+    <nav className='fixed inset-x-0 bottom-8 w-fit m-auto px-12 bg-blackWeak border-2 border-solid border-green rounded-full z-10'>
       <ul className='flex flex-row justify-center items-center'>
         {menus.map((menu, index) => (
-          //   <li key={index} className='border-r-2 border-green border-opacity-20 last:border-none'>
           <li
             key={index}
-            className='relative before:content-[""] before:absolute before:top-12 before:right-0 before:inline-block before:w-[1px] before:h-6 before:bg-white before:opacity-60 last:before:hidden'
+            className='relative before:content-[""] before:absolute before:top-10 before:right-0 before:inline-block before:w-[1px] before:h-8 before:bg-white before:opacity-60 last:before:hidden'
           >
-            <Link href={`/${menu.path}/`} className='flex flex-row items-center gap-4 px-16 py-10'>
+            <Link href={`/${menu.path}/`} className='flex flex-col items-center gap-1 px-16 py-4'>
               <Image
                 src={`/asset/img/${menu.icon.path}.svg`}
                 alt={menu.name}
                 width={menu.icon.width}
                 height={menu.icon.height}
+                className='w-10'
               />
-              <span className='text-s4'>{menu.name}</span>
+              <span className='text-s1Lt'>{menu.name}</span>
             </Link>
           </li>
         ))}
