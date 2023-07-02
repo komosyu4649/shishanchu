@@ -33,6 +33,13 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        s1Lt: [
+          '1.2rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s2: [
           '1.3rem',
           {

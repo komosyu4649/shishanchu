@@ -62,7 +62,7 @@ const Footer = () => {
   ]
   const thisYear = new Date().getFullYear()
   return (
-    <footer className='mt-80 pt-40 px-48 pb-64 bg-blackWeak'>
+    <footer className='mt-80 pt-40 px-48 pb-56 bg-blackWeak'>
       <Link href='/' className='inline-block mb-24'>
         <Image src='/asset/img/logo.svg' alt='shushanchu' width={584} height={119} />
       </Link>
