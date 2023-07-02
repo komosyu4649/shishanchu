@@ -25,6 +25,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -82,7 +83,11 @@ export default function Home({
           pagination={{
             clickable: true,
           }}
-          // // navigation={true}
+          // navigation={true}
+          navigation={{
+            nextEl: '.next-slide-button',
+            prevEl: '.prev-slide-button',
+          }}
           modules={[Navigation, Autoplay, Pagination]}
           className='h-[calc(100vh-18rem)]'
         >
@@ -97,8 +102,6 @@ export default function Home({
                   className='h-full object-cover'
                   // className='w-[100rem] h-[60rem] object-cover'
                 />
-                {/* <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'> */}
-                {/* <div className='absolute bottom-20 left-16 text-white pt-12 px-16 pb-16 border-2 border-solid border-white'> */}
                 <div className='absolute bottom-32 left-24 text-white'>
                   <h2 className='mb-6 text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
@@ -107,7 +110,22 @@ export default function Home({
             </SwiperSlide>
           ))}
         </Swiper>
-        <div id='pagination' className='swiper-pagination bg-white'></div>
+        <div className='absolute top-56 right-72 flex flex-row gap-2 z-10'>
+          <button className='prev-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
+            {/* &#128072; */}
+            <Image
+              src='/asset/img/arrow.svg'
+              width={8}
+              height={8}
+              alt='前へ'
+              className='rotate-180'
+            />
+          </button>
+          <button className='next-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
+            {/* &#128073; */}
+            <Image src='/asset/img/arrow.svg' width={8} height={8} alt='前へ' />
+          </button>
+        </div>
       </section>
 
       {/* contents */}

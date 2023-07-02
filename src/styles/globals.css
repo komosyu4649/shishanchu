@@ -14,6 +14,7 @@
 } */
 
 .top-feature {
+  /* pagination */
   .swiper-horizontal > .swiper-pagination-bullets,
   .swiper-pagination-bullets.swiper-pagination-horizontal,
   .swiper-pagination-custom,
@@ -25,6 +26,9 @@
   }
   .swiper-pagination-bullet-active {
     @apply bg-green;
+  }
+  .swiper-button-disabled {
+    @apply opacity-40;
   }
 }
 
