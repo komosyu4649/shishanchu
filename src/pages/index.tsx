@@ -24,6 +24,7 @@ import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
+import 'swiper/css/pagination'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -58,10 +59,17 @@ export default function Home({
   storesData: CMSStore[]
   couponsData: StrapiCoupon[]
 }) {
+  const swiperPagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return `<span class="${className} bg-green opacity-100 w-12 h-12 block"></span>`
+    },
+  }
+
   return (
     <Layout>
       {/* feature */}
-      <section className=''>
+      <section className='top-feature'>
         <Swiper
           spaceBetween={15}
           slidesPerView={1.2}
@@ -70,7 +78,11 @@ export default function Home({
             delay: 8000,
             disableOnInteraction: false,
           }}
-          loop={true}
+          // loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          // // navigation={true}
           modules={[Navigation, Autoplay, Pagination]}
           className='h-[calc(100vh-18rem)]'
         >
@@ -82,6 +94,7 @@ export default function Home({
                   width={feature.thumbnail.width}
                   height={feature.thumbnail.height}
                   alt={feature.title}
+                  className='h-full object-cover'
                   // className='w-[100rem] h-[60rem] object-cover'
                 />
                 {/* <div className='absolute bottom-12 left-16 text-green bg-black pt-12 px-16 pb-16 border-2 border-solid border-green max-w-[48rem]'> */}
@@ -94,6 +107,7 @@ export default function Home({
             </SwiperSlide>
           ))}
         </Swiper>
+        <div id='pagination' className='swiper-pagination bg-white'></div>
       </section>
 
       {/* contents */}

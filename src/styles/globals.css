@@ -13,6 +13,21 @@
 
 } */
 
+.top-feature {
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal,
+  .swiper-pagination-custom,
+  .swiper-pagination-fraction {
+    @apply bottom-32 right-72 left-auto w-fit;
+  }
+  .swiper-pagination-bullet {
+    @apply bg-white w-4 h-4 opacity-100;
+  }
+  .swiper-pagination-bullet-active {
+    @apply bg-green;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
