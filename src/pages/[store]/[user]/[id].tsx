@@ -39,7 +39,6 @@ type Params = {
 export const getStaticProps = async (params: Params) => {
   const { store, user, id } = params.params
   const contentData = await fetchCommonData(store, 'contents', id)
-  const contentsData = await fetchCommonListDatas('contents')
   const parsedMarkdown = fm(contentData.content)
   const htmlString = marked(parsedMarkdown.body)
   return {

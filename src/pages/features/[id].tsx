@@ -70,7 +70,7 @@ export default function FeatureDetail({
             <ul className='flex flex-col gap-4'>
               {featureCategoriesContents.map((featureCategory, index) => (
                 <li key={index}>
-                  <Link href={featureCategory.id} className='text-s3'>
+                  <Link href={`/features?category=${featureCategory.name}`} className='text-s3'>
                     #{featureCategory.name}
                   </Link>
                 </li>
