@@ -22,22 +22,11 @@ import { ACCOUNTS, MICROCMS_ENDPOINT_CMS_FEATURES } from '@/constants/microcms'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
 
-// /api/strapi/getTopStaff.tsで作成したapiをgetStaticPropsで取得
 export const getStaticProps = async () => {
-  // const feature = await fetch('http://localhost:3000/api/strapi/getCMS')
-  // const featureData = await feature.json()
-  // console.log(featureData)
-  // const contents = await fetch('http://localhost:3000/api/strapi/getTopContents')
-  // const contentsData = await contents.json()
-  // const staffs = await fetch('http://localhost:3000/api/strapi/getTopStaffs')
-  // const staffsData = await staffs.json()
-  // const stores = await fetch('http://localhost:3000/api/strapi/getTopStores')
-  // const storesData = await stores.json()
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
   const couponsData = await coupons.json()
 
-  const features = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES, 0, 3)
-  const featureData = features.contents
+  const featureData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES, 0, 3)
   const contentsData = await fetchCommonListDatas('contents', 4)
   const staffsData = await fetchCommonListDatas('staffs', 4)
   const storesData = await fetchCommonJsonDatas('store', 4)

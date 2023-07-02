@@ -22,13 +22,11 @@ type Query = {
 }
 
 export const getServerSideProps = async ({ query }: { query: Query }) => {
-  const featuresData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES)
-  let features = featuresData.contents
+  let features = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES)
   if (query.category) {
     features = features.filter((features) => features.featureCategories.name === query.category)
   }
-  const featureCategoriesData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES)
-  const featureCategories = featureCategoriesData.contents
+  const featureCategories = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES)
 
   let totalCount = features.length
   const page = Number(query.page) || 1

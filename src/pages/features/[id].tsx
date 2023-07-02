@@ -15,11 +15,11 @@ import { chivo } from '../_app'
 import { CMSFeature, CMSFeatureCategory } from '@/type/microcms'
 
 export const getStaticPaths = async () => {
-  const contentsData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES)
+  const featuresData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES)
   return {
-    paths: contentsData.contents.map((content) => ({
+    paths: featuresData.map((feature) => ({
       params: {
-        id: content.id.toString(),
+        id: feature.id.toString(),
       },
     })),
     fallback: false,
@@ -37,8 +37,7 @@ export const getStaticProps = async (params: Params) => {
   const featureData = await getMicroCMSData(MICROCMS_ENDPOINT_CMS_FEATURES, id)
   const parsedMarkdown = fm(featureData.content)
   const htmlString = marked(parsedMarkdown.body)
-  const featureCategoriesData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES)
-  const featureCategories = featureCategoriesData.contents
+  const featureCategories = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES)
   return {
     props: {
       featureData,

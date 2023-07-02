@@ -21,5 +21,5 @@ export const getMicroCMSDataList = async (
       limit: limitNumber,
     },
   })
-  return res
+  return res.contents
 }
