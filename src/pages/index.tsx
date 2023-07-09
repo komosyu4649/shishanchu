@@ -129,14 +129,15 @@ export default function Home({
       </section>
 
       {/* contents */}
-      <section className='w-layoutDefault m-auto mt-72'>
+      <section className=' m-auto mt-72 md:w-layoutDefault'>
         <h2 className='mb-16 mx-36'>
           <span className={`text-s11 ${chivo.className}`}>Contents</span>
           <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
           <span className='text-s3'>最新のスタッフ投稿</span>
         </h2>
         <div className=''>
-          <ul className='grid grid-cols-4 gap-8 justify-center'>
+          {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
+          <ul className=''>
             {contentsData.map((content, index) => (
               <li key={index} className=''>
                 <Content content={content} />

@@ -7,7 +7,7 @@ import React from 'react'
 const Staff = ({ staff }: { staff: CMSStaff }) => {
   const { accountName, storeName, icon, name, biography } = staff
   return (
-    <div className='flex flex-col justify-between h-full p-12 bg-blackWeak border-b border-white border-opacity-50'>
+    <div className='flex flex-col justify-between h-full p-12 bg-blackWeak border-b border-white border-opacity-60'>
       <div className='grid grid-cols-[1fr_auto] gap-6 justify-between items-center'>
         {/* name */}
         <div className='flex items-center gap-4'>
@@ -15,12 +15,11 @@ const Staff = ({ staff }: { staff: CMSStaff }) => {
             src={icon.url}
             width={icon.width}
             height={icon.height}
-            alt='test'
+            alt={name}
             className='w-20 h-20 rounded-full object-cover'
           />
           <span className='flex flex-col gap-1'>
             <span className='text-s4'>{name}</span>
-            {/* 店舗名 */}
             <span className='text-s0 opacity-60'>【{storeName}】</span>
           </span>
         </div>
@@ -33,7 +32,7 @@ const Staff = ({ staff }: { staff: CMSStaff }) => {
         </Link>
       </div>
       {/* biography */}
-      <p className='mt-6 text-s3Lt whitespace-pre line-clamp-3'>{biography}</p>
+      <p className='mt-5 text-s3Lt whitespace-pre line-clamp-3'>{biography}</p>
     </div>
   )
 }
