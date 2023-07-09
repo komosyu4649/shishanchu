@@ -185,6 +185,13 @@ module.exports = {
         chivo: ['var(--font-chivo)'],
       },
     },
+    borderRadius: {
+      none: '0',
+      sm: '.5rem',
+      md: '1rem',
+      lg: '1.5rem',
+      full: '50%',
+    },
     screens: {
       sm: '640px',
       // => @media (min-width: 640px) { ... }
