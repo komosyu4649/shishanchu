@@ -27,6 +27,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import TitleSection from '@/components/common/TitleSection'
+import ContentSm from '@/components/item/ContentSm'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -144,10 +145,12 @@ export default function Home({
         </h2> */}
         <TitleSection en='Contents' ja='最新のスタッフ投稿' className='mb-10' />
         {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
-        <ul className='flex flex-col gap-8'>
+        {/* <ul className='flex flex-col gap-8'> */}
+        <ul className='grid grid-cols-2 gap-x-4 gap-y-8'>
           {contentsData.map((content, index) => (
             <li key={index} className=''>
-              <Content content={content} />
+              {/* <Content content={content} /> */}
+              <ContentSm content={content} />
             </li>
           ))}
         </ul>
