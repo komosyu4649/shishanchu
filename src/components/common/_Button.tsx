@@ -9,10 +9,7 @@ type Props = {
 
 const Button: FC<Props> = ({ onClick, children, href }) => {
   return href ? (
-    <Link
-      href={`/${href}/`}
-      className='flex justify-center w-full px-16 py-6 bg-green text-white text-s3 rounded-md'
-    >
+    <Link href={`/${href}/`} className='px-16 py-8 bg-white text-black text-s5 rounded-full'>
       {children}
     </Link>
   ) : (

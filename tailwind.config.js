@@ -18,6 +18,7 @@ module.exports = {
         layoutDefault: '126rem',
         layoutMd: '118rem',
         layoutSm: '92rem',
+        layoutMbDefault: '35.8rem',
       },
       colors: {
         blackWeak: '#1E1E1E',

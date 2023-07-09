@@ -18,7 +18,7 @@ const Content = ({ content }: { content: CMSContents }) => {
         width={thumbnail.width}
         height={thumbnail.height}
         alt={title}
-        className='w-full h-auto mt-8 rounded-md object-cover'
+        className='w-full h-auto rounded-md object-cover'
       />
       {/* content */}
       <div className='mt-4'>
@@ -33,7 +33,7 @@ const Content = ({ content }: { content: CMSContents }) => {
               alt={staff.name}
               className='w-16 h-16 rounded-full object-cover'
             />
-            <span className='text-s3'>{staff.name}</span>
+            <span className='text-s2'>{staff.name}</span>
           </div>
           {/* time */}
           <span className='text-s1Lt'>{useTimeAgo(createdAt)}</span>

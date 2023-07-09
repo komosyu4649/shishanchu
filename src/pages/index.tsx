@@ -26,6 +26,7 @@ import { Navigation, Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
+import TitleSection from '@/components/common/TitleSection'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -135,15 +136,16 @@ export default function Home({
       </section>
 
       {/* contents */}
-      <section className=' m-auto mt-72 md:w-layoutDefault'>
-        <h2 className='mb-16 mx-36'>
+      <section className='w-layoutMbDefault m-auto mt-32 md:w-layoutDefault md:mt-72'>
+        {/* <h2 className='mb-16 mx-36'>
           <span className={`text-s11 ${chivo.className}`}>Contents</span>
           <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
           <span className='text-s3'>最新のスタッフ投稿</span>
-        </h2>
-        <div className=''>
+        </h2> */}
+        <TitleSection en='Contents' ja='最新のスタッフ投稿' />
+        <div className='mt-12'>
           {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
-          <ul className=''>
+          <ul className='flex flex-col gap-10'>
             {contentsData.map((content, index) => (
               <li key={index} className=''>
                 <Content content={content} />
@@ -151,7 +153,7 @@ export default function Home({
             ))}
           </ul>
         </div>
-        <div className='flex justify-center w-full mt-32'>
+        <div className='flex justify-center mt-16'>
           <Button href='contents'>スタッフ投稿一覧</Button>
         </div>
       </section>
