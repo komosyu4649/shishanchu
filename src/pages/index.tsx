@@ -150,14 +150,15 @@ export default function Home({
       </section>
 
       {/* staff */}
-      <section className='w-layoutDefault m-auto mt-56'>
+      <section className=' m-auto mt-56 md:w-layoutDefault'>
         <h2 className='flex flex-col items-center mb-16'>
           <span className='text-s3'>人気のスタッフ</span>
           <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
           <span className={`text-s11 ${chivo.className}`}>Staff</span>
         </h2>
         <div className=''>
-          <ul className='grid grid-cols-4 gap-8 justify-center'>
+          {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
+          <ul className=''>
             {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Staff staff={staff} />

@@ -190,6 +190,7 @@ module.exports = {
       sm: '.5rem',
       md: '1rem',
       lg: '1.5rem',
+      xl: '3rem',
       full: '50%',
     },
     screens: {
