@@ -7,18 +7,16 @@ const Store = ({ store }: { store: CMSStore }) => {
   const { icon, storeName, information } = store
   return (
     <Link href={`${store.accountName}`}>
-      {/* thumbnail */}
       <Image
         src={icon.url}
         width={icon.width}
         height={icon.height}
         alt={storeName}
-        className='w-60 h-60 object-cover rounded-lg'
+        className='w-full h-96 object-cover rounded-br-[6rem]'
       />
-      {/* content */}
-      <div className='flex flex-col gap-1 mt-4'>
-        <span className='text-s4 line-clamp-1'>{storeName}</span>
-        <span className='text-s1Lt opacity-60'>{information.address}</span>
+      <div className='flex flex-col gap-2 mt-8'>
+        <span className='text-s6 line-clamp-1'>{storeName}</span>
+        <span className='text-s2 opacity-60'>{information.address}</span>
       </div>
     </Link>
   )

@@ -173,7 +173,7 @@ export default function Home({
       </section>
 
       {/* store */}
-      <section className='w-layoutMd m-auto mt-56'>
+      <section className='m-auto mt-56 md:w-layoutMd'>
         <div className='flex justify-between items-center mb-16 mx-36'>
           <h2 className=''>
             <span className={`text-s11 ${chivo.className}`}>Store</span>
@@ -183,7 +183,8 @@ export default function Home({
           <Button href='stores'>店舗一覧</Button>
         </div>
         <div className=''>
-          <ul className='grid grid-cols-3 gap-12 justify-center '>
+          {/* <ul className='grid grid-cols-3 gap-12 justify-center '> */}
+          <ul className='flex flex-row gap-6'>
             {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
