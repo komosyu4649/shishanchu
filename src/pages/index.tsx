@@ -142,29 +142,32 @@ export default function Home({
           <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
           <span className='text-s3'>最新のスタッフ投稿</span>
         </h2> */}
-        <TitleSection en='Contents' ja='最新のスタッフ投稿' />
-        <div className='mt-12'>
-          {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
-          <ul className='flex flex-col gap-10'>
-            {contentsData.map((content, index) => (
-              <li key={index} className=''>
-                <Content content={content} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TitleSection en='Contents' ja='最新のスタッフ投稿' className='mb-10' />
+        {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
+        <ul className='flex flex-col gap-8'>
+          {contentsData.map((content, index) => (
+            <li key={index} className=''>
+              <Content content={content} />
+            </li>
+          ))}
+        </ul>
         <div className='flex justify-center mt-16'>
           <Button href='contents'>スタッフ投稿一覧</Button>
         </div>
       </section>
 
       {/* staff */}
-      <section className=' m-auto mt-56 md:w-layoutDefault'>
-        <h2 className='flex flex-col items-center mb-16'>
+      <section className=' m-auto mt-32 md:mt-56 md:w-layoutDefault'>
+        {/* <h2 className='flex flex-col items-center mb-16'>
           <span className='text-s3'>人気のスタッフ</span>
           <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
           <span className={`text-s11 ${chivo.className}`}>Staff</span>
-        </h2>
+        </h2> */}
+        <TitleSection
+          en='Staff'
+          ja='最新のスタッフ情報'
+          className='w-layoutMbDefault m-auto mb-10'
+        />
         <div className=''>
           {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
           <ul className=''>
@@ -175,22 +178,23 @@ export default function Home({
             ))}
           </ul>
         </div>
-        <div className='flex justify-center w-full mt-32'>
+        <div className='flex justify-center w-layoutMbDefault m-auto mt-16 md:mt-32'>
           <Button href='staffs'>スタッフ一覧</Button>
         </div>
       </section>
 
       {/* store */}
-      <section className='m-auto mt-56 md:w-layoutMd'>
-        <div className='flex justify-between items-center mb-16 mx-36'>
-          <h2 className=''>
+      <section className='m-auto mt-32 md:mt-56 md:w-layoutMd'>
+        {/* <div className='flex justify-between items-center mb-16 md:mx-36'> */}
+        {/* <h2 className=''>
             <span className={`text-s11 ${chivo.className}`}>Store</span>
             <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
             <span className='text-s3'>店舗一覧</span>
-          </h2>
-          <Button href='stores'>店舗一覧</Button>
-        </div>
-        <div className=''>
+          </h2> */}
+        <TitleSection en='Store' ja='最新の店舗情報' className='w-layoutMbDefault m-auto mb-10' />
+        {/* <Button href='stores'>店舗一覧</Button> */}
+        {/* </div> */}
+        <div className='ml-[calc((100vw-35.8rem)*.5)] overflow-x-scroll'>
           {/* <ul className='grid grid-cols-3 gap-12 justify-center '> */}
           <ul className='flex flex-row gap-6'>
             {storesData.map((store, index) => (
@@ -199,6 +203,9 @@ export default function Home({
               </li>
             ))}
           </ul>
+        </div>
+        <div className='flex justify-center w-layoutMbDefault m-auto mt-16'>
+          <Button href='stores'>店舗一覧</Button>
         </div>
       </section>
 
