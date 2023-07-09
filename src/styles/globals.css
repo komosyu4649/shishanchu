@@ -43,6 +43,9 @@
 
 html {
   font-size: 0.625rem;
+  @media (min-width: 768px) {
+    background-color: red;
+  }
 }
 body {
   color: rgb(var(--foreground-rgb));

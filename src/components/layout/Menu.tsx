@@ -51,22 +51,25 @@ const Menu = () => {
     // },
   ]
   return (
-    <nav className='fixed inset-x-0 bottom-8 w-fit m-auto px-12 bg-blackWeak border border-solid border-green rounded-full z-10'>
+    <nav className='fixed inset-x-0 bottom-0 w-full m-auto px-8 border-t border-green bg-blackWeak z-10 md:bottom-8 md:w-fit md:px-12 md:rounded-full md:border md:border-solid '>
       <ul className='flex flex-row justify-center items-center'>
         {menus.map((menu, index) => (
           <li
             key={index}
             className='relative before:content-[""] before:absolute before:top-10 before:right-0 before:inline-block before:w-[1px] before:h-8 before:bg-white before:opacity-60 last:before:hidden'
           >
-            <Link href={`/${menu.path}/`} className='flex flex-col items-center gap-1 px-16 py-4'>
+            <Link
+              href={`/${menu.path}/`}
+              className='flex flex-col items-center gap-1 px-10 py-4 md:px-16'
+            >
               <Image
                 src={`/asset/img/${menu.icon.path}.svg`}
                 alt={menu.name}
                 width={menu.icon.width}
                 height={menu.icon.height}
-                className='w-10'
+                className='w-8 md:w-10'
               />
-              <span className='text-s1Lt'>{menu.name}</span>
+              <span className='text-s0Lt md:text-s1Lt'>{menu.name}</span>
             </Link>
           </li>
         ))}

@@ -26,6 +26,20 @@ module.exports = {
         green: '#578885',
       },
       fontSize: {
+        s0: [
+          '1rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s0Lt: [
+          '1rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s1: [
           '1.2rem',
           {
@@ -170,6 +184,22 @@ module.exports = {
       fontFamily: {
         chivo: ['var(--font-chivo)'],
       },
+    },
+    screens: {
+      sm: '640px',
+      // => @media (min-width: 640px) { ... }
+
+      md: '768px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
     },
   },
   plugins: [
