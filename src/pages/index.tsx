@@ -72,8 +72,8 @@ export default function Home({
       {/* feature */}
       <section className='top-feature'>
         <Swiper
-          spaceBetween={15}
-          slidesPerView={1.2}
+          spaceBetween={0}
+          slidesPerView={1}
           centeredSlides={true}
           autoplay={{
             delay: 8000,
@@ -89,7 +89,13 @@ export default function Home({
             prevEl: '.prev-slide-button',
           }}
           modules={[Navigation, Autoplay, Pagination]}
-          className='h-[calc(100vh-18rem)]'
+          breakpoints={{
+            768: {
+              slidesPerView: 1.2,
+              spaceBetween: 15,
+            },
+          }}
+          className='h-[calc(100vh-14rem)] md:h-[calc(100vh-18rem)]'
         >
           {featureData.map((feature, index) => (
             <SwiperSlide key={index}>
@@ -102,15 +108,15 @@ export default function Home({
                   className='h-full object-cover'
                   // className='w-[100rem] h-[60rem] object-cover'
                 />
-                <div className='absolute bottom-32 left-24 text-white'>
-                  <h2 className='mb-6 text-s10'>{feature.title}</h2>
+                <div className='absolute bottom-28 left-8 md:bottom-32 md:left-24 text-white'>
+                  <h2 className='mb-4 text-s8 md:mb-6 md:text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
                 </div>
               </Link>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className='absolute top-56 right-72 flex flex-row gap-2 z-10'>
+        <div className='hidden absolute top-56 right-72 md:flex flex-row gap-2 z-10'>
           <button className='prev-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
             {/* &#128072; */}
             <Image

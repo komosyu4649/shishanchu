@@ -8,7 +8,6 @@ import React, { FC } from 'react'
 const Feature = ({ feature }: { feature: CMSFeature }) => {
   return (
     <Link href={`features/${feature.id}`}>
-      {/* thumbnail */}
       <Image
         src={feature.thumbnail.url}
         width={feature.thumbnail.width}
@@ -16,7 +15,6 @@ const Feature = ({ feature }: { feature: CMSFeature }) => {
         alt={feature.title}
         className='h-80 object-cover'
       />
-      {/* content */}
       <div className='mt-8'>
         <div className='flex flex-row justify-between mb-2'>
           <time className={`text-s1 ${chivo.className}`}>

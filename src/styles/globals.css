@@ -19,13 +19,13 @@
   .swiper-pagination-bullets.swiper-pagination-horizontal,
   .swiper-pagination-custom,
   .swiper-pagination-fraction {
-    @apply bottom-32 right-72 left-auto w-fit;
+    @apply bottom-4 md:bottom-32 right-72 left-auto w-fit;
   }
   .swiper-pagination-bullet {
-    @apply bg-white w-4 h-4 opacity-100;
+    @apply bg-white w-4 h-4 opacity-40;
   }
   .swiper-pagination-bullet-active {
-    @apply bg-green;
+    @apply opacity-100;
   }
   /* navigation */
   .swiper-button-disabled {
