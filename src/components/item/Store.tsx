@@ -13,7 +13,7 @@ const Store = ({ store }: { store: CMSStore }) => {
         width={icon.width}
         height={icon.height}
         alt={storeName}
-        className='w-60 h-60 object-cover rounded-lg'
+        className='w-auto h-auto object-cover rounded-lg aspect-square'
       />
       {/* content */}
       <div className='flex flex-col gap-1 mt-4'>

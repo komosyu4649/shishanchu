@@ -138,7 +138,6 @@ export default function Staffs({
   }
 
   const windowDimensions = useWindowDimensions()
-  console.log(windowDimensions.width)
 
   return (
     <Layout>
@@ -149,7 +148,7 @@ export default function Staffs({
         </h1> */}
         <TitlePage title='スタッフ' count={totalCount} className='w-layoutMbDefault mb-10 m-auto' />
         {windowDimensions.width > BREAKPOINT && (
-          <>
+          <div className='flex flex-row flex-wrap gap-4'>
             {query.career || query.gender ? (
               <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
                 {query.career && (
@@ -165,7 +164,7 @@ export default function Staffs({
                 )}
               </div>
             ) : null}
-          </>
+          </div>
         )}
 
         <div className='grid md:grid-cols-[24rem_auto] md:justify-between gap-12 md:gap-8'>
@@ -242,7 +241,7 @@ export default function Staffs({
             </Button> */}
             <Button onClick={handleSearchQuery}>検索する</Button>
             {windowDimensions.width < BREAKPOINT && (
-              <>
+              <div className='flex flex-row flex-wrap gap-4'>
                 {query.career || query.gender ? (
                   <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
                     {query.career && (
@@ -258,7 +257,7 @@ export default function Staffs({
                     )}
                   </div>
                 ) : null}
-              </>
+              </div>
             )}
           </div>
           {/* main */}
