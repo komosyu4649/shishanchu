@@ -141,7 +141,7 @@ export default function StaffDetail({
             </div>
             {/* bio */}
             <div className='mt-16'>
-              <p className='text-s5LhLgLt whitespace-pre'>{biography}</p>
+              <p className='text-s5LhLgLt whitespace-break-spaces'>{biography}</p>
             </div>
           </div>
         </div>

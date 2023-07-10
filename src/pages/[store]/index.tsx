@@ -483,7 +483,7 @@ export default function StoreDetail({
             </div>
           </div>
           <div className='mt-24'>
-            <p className='text-s5LhLgLt whitespace-pre'>{description}</p>
+            <p className='text-s5LhLgLt whitespace-break-spaces'>{description}</p>
           </div>
         </div>
         {/* datas */}

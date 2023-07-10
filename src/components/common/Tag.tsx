@@ -10,9 +10,9 @@ const Tag: FC<Props> = ({ onClick, children }) => {
   return (
     <button
       onClick={onClick}
-      className='flex flex-row items-center gap-4 px-8 py-4 bg-blackWeak rounded-full border-2 border-white border-opacity-60'
+      className='flex flex-row items-center gap-3 md:gap-4 px-6 py-3 md:px-8 md:py-4 bg-blackWeak rounded-xl border-2 border-white border-opacity-60'
     >
-      <span className='text-s3'>{children}</span>
+      <span className='text-s1 md:text-s3'>{children}</span>
       <Image src='/asset/img/iconClosed.svg' width={10} height={10} alt='close' />
     </button>
   )

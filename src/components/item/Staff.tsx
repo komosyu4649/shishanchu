@@ -32,7 +32,7 @@ const Staff = ({ staff }: { staff: CMSStaff }) => {
         </Link>
       </div>
       {/* biography */}
-      <p className='mt-5 text-s3Lt whitespace-pre line-clamp-3'>{biography}</p>
+      <p className='mt-5 text-s3Lt whitespace-break-spaces line-clamp-3'>{biography}</p>
     </div>
   )
 }
