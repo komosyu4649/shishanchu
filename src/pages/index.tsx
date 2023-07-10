@@ -97,7 +97,7 @@ export default function Home({
               spaceBetween: 15,
             },
           }}
-          className='h-[calc(100vh-14rem)] md:h-[calc(100vh-18rem)]'
+          className='h-[calc(100vh-6rem)] md:h-[calc(100vh-18rem)]'
         >
           {featureData.map((feature, index) => (
             <SwiperSlide key={index}>

@@ -4,7 +4,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <header className='w-fit m-auto z-10'>
+    <header className='absolute top-0 flex justify-center w-full m-auto z-10'>
       <Link href='/' className='inline-block p-10 md:p-16'>
         <Image
           src='/asset/img/logo.svg'
