@@ -72,7 +72,6 @@ export default function ContentDetail({
   user: string
 }) {
   const { title, thumbnail, publishedAt, staff } = contentData
-  console.log(store)
 
   const windowDimensions = useWindowDimensions()
   return (
@@ -87,11 +86,11 @@ export default function ContentDetail({
             className='w-[32rem] h-96 m-auto mb-8 md:mb-28 object-cover'
           />
         )} */}
-        {/* {windowDimensions.width > BREAKPOINT && ( */}
-        <h1 className='w-layoutMbDefault m-auto mb-10 text-s7 text-center md:text-s10 md:mb-24'>
-          {title}
-        </h1>
-        {/* )} */}
+        {windowDimensions.width > BREAKPOINT && (
+          <h1 className='w-layoutMbDefault m-auto mb-10 text-s7 text-center md:text-s10 md:mb-24'>
+            {title}
+          </h1>
+        )}
         {/* <div className='flex flex-row justify-between items-center w-[32rem] m-auto'>
           <div className='flex items-center gap-4'>
             <Image
@@ -117,27 +116,29 @@ export default function ContentDetail({
               height={thumbnail.height}
               alt={title}
               // className='w-[32rem] h-80 m-auto md:h-[42rem] md:mb-28 object-cover'
-              className='w-full h-80 m-auto md:h-[42rem] md:mb-28 object-cover'
+              className='w-[28rem] h-80 m-auto md:h-[42rem] md:mb-28 object-cover'
             />
-            {/* {windowDimensions.width < BREAKPOINT && (
+            {windowDimensions.width < BREAKPOINT && (
               <h1 className='w-layoutMbDefault m-auto text-s7 text-center mt-6 mb-8'>{title}</h1>
-            )} */}
+            )}
             {windowDimensions.width < BREAKPOINT && (
               // <div className='flex flex-row justify-between items-end gap-4 m-auto mb-20 px-8 pb-16 border-b border-white'>
-              <div className='flex flex-row justify-between items-center gap-24 m-auto mt-6 mb-20 pb-16 border-b border-white'>
-                <div className='flex items-center gap-4'>
-                  <Image
-                    src={staff.icon.url}
-                    width={staff.icon.width}
-                    height={staff.icon.height}
-                    alt='test'
-                    className='w-14 h-14 rounded-full object-cover'
-                  />
-                  <span className='text-s2'>{staff.name}</span>
+              <div className=' mt-6 mb-20 pb-16 border-b border-white'>
+                <div className='flex flex-row justify-between items-center gap-24 w-[28rem] m-auto'>
+                  <div className='flex items-center gap-4'>
+                    <Image
+                      src={staff.icon.url}
+                      width={staff.icon.width}
+                      height={staff.icon.height}
+                      alt='test'
+                      className='w-14 h-14 rounded-full object-cover'
+                    />
+                    <span className='text-s2'>{staff.name}</span>
+                  </div>
+                  <time className={`text-s1 ${chivo.className}`}>
+                    {dayjs(publishedAt).format('YYYY.MM.DD')}
+                  </time>
                 </div>
-                <time className={`text-s1 ${chivo.className}`}>
-                  {dayjs(publishedAt).format('YYYY.MM.DD')}
-                </time>
               </div>
             )}
             {/* attributes.contentを表示 */}
