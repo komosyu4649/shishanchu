@@ -97,7 +97,7 @@ const Features = ({
 
   return (
     <Layout>
-      <main className='flex flex-col w-layoutMbDefault m-auto md:flex-row justify-center md:gap-24 mt-36'>
+      <main className='flex flex-col w-layoutMbDefault m-auto md:flex-row justify-center gap-16 md:gap-24 mt-36'>
         {/* side */}
         <div className='md:w-80'>
           {/* <h1 className='relative md:w-layoutSm gap-6 m-auto mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
@@ -129,7 +129,7 @@ const Features = ({
               id='category'
               onChange={handleSelectCategory}
               value={searchParams.category}
-              className='w-full mb-16 px-10 py-6 bg-blackWeak border border-white border-opacity-60 rounded-xl text-s1Lt appearance-none'
+              className='w-full px-10 py-6 bg-blackWeak border border-white border-opacity-60 rounded-xl text-s1Lt appearance-none'
             >
               <option value=''>すべて</option>
               {featureCategories.map((featureCategory, index) => (

@@ -13,6 +13,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { chivo } from '../_app'
 import { CMSFeature, CMSFeatureCategory } from '@/type/microcms'
+import TitlePage from '@/components/common/TitlePage'
+import { useWindowDimensions } from '@/hooks/useWindowDimensions'
+import { BREAKPOINT } from '@/constants/common'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths = async () => {
   const featuresData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES)
@@ -57,38 +62,74 @@ export default function FeatureDetail({
   featureCategories: CMSFeatureCategory[]
 }) {
   const { title, content, publishedAt, thumbnail } = featureData
+
+  const router = useRouter()
+
+  const [searchParams, setSearchParams] = useState({
+    category: '',
+  })
+
+  const handleSelectCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({ ...searchParams, category: e.target.value })
+    router.push({
+      pathname: '/features',
+      query: {
+        category: e.target.value,
+      },
+    })
+  }
+
+  const windowDimensions = useWindowDimensions()
   return (
     <Layout>
-      <article className='flex flex-row justify-center gap-24 mt-36'>
+      <article className='flex flex-col md:flex-row justify-center gap-16 md:gap-24 w-layoutMbDefault m-auto mt-36'>
         {/* side */}
-        <div className='w-80'>
-          <h1 className='relative w-layoutSm gap-6 m-auto mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+        <div className='md:w-80'>
+          {/* <h1 className='relative md:w-layoutSm gap-6 m-auto mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
             <span className='text-s9'>特集</span>
-          </h1>
-          <div className='rounded-3xl border-2 border-white border-opacity-60 border-solid p-10 bg-blackWeak'>
-            <ul className='flex flex-col gap-4'>
-              <li>
-                <Link href='/features' className='text-s3'>
-                  #すべて
-                </Link>
-              </li>
-              {featureCategories.map((featureCategory, index) => (
-                <li key={index}>
-                  <Link href={`features?category=${featureCategory.name}`} className='text-s3'>
-                    #{featureCategory.name}
+          </h1> */}
+          <TitlePage title='特集' className='mb-10' />
+          {windowDimensions.width > BREAKPOINT ? (
+            <div className='rounded-3xl border-2 border-white border-opacity-60 border-solid p-10 bg-blackWeak'>
+              <ul className='flex flex-col gap-4'>
+                <li>
+                  <Link href='/features' className='text-s3'>
+                    #すべて
                   </Link>
                 </li>
+                {featureCategories.map((featureCategory, index) => (
+                  <li key={index}>
+                    <Link href={`features?category=${featureCategory.name}`} className='text-s3'>
+                      #{featureCategory.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <select
+              name='category'
+              id='category'
+              onChange={handleSelectCategory}
+              value={searchParams.category}
+              className='w-full px-10 py-6 bg-blackWeak border border-white border-opacity-60 rounded-xl text-s1Lt appearance-none'
+            >
+              <option value=''>すべて</option>
+              {featureCategories.map((featureCategory, index) => (
+                <option key={index} value={featureCategory.name}>
+                  {featureCategory.name}
+                </option>
               ))}
-            </ul>
-          </div>
+            </select>
+          )}
         </div>
         {/* main */}
-        <div className='flex flex-col w-[68rem]'>
+        <div className='flex flex-col md:w-[68rem]'>
           <time dateTime={publishedAt} className={`text-s1 ${chivo.className}`}>
             {dayjs(publishedAt).format('YYYY.MM.DD')}
           </time>
           <span className='mt-2 text-s1'>#{featureData.featureCategories.name}</span>
-          <h2 className='mt-16 mb-12 text-s9'>{title}</h2>
+          <h2 className='mt-8 md:mt-16 mb-12 text-s7 md:text-s9'>{title}</h2>
           <Image
             src={thumbnail.url}
             width={thumbnail.width}

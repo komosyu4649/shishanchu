@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 type Props = {
   title: string
   count?: number
-  className: string
+  className?: string
 }
 
 const TitlePage: FC<Props> = ({ title, count, className }) => {
@@ -13,7 +13,7 @@ const TitlePage: FC<Props> = ({ title, count, className }) => {
      md:gap-6 ${className}`}
     >
       <span className='text-s7 md:text-s9'>{title}</span>
-      <span className='text-s2 md:text-s7'>【{count}】</span>
+      {count && <span className='text-s2 md:text-s7'>【{count}】</span>}
     </h1>
   )
 }
