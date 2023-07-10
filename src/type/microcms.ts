@@ -122,3 +122,9 @@ export type CMSStore = ContentsBase<{
   accountName: string
   storeName: string
 }>
+
+export type Account = {
+  name: string
+  store: string
+  key: string
+}

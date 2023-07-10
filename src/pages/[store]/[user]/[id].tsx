@@ -2,13 +2,13 @@ import Button from '@/components/common/Button'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
 import { BREAKPOINT } from '@/constants/common'
-import { ACCOUNTS } from '@/constants/strapi'
+import { ACCOUNTS } from '@/constants/microcms'
 import { useWindowDimensions } from '@/hooks/useWindowDimensions'
 import { fetchCommonData } from '@/lib/microcms/fetchCommonData'
 import { fetchCommonJsonDatas } from '@/lib/microcms/fetchCommonJsonDatas'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { chivo } from '@/pages/_app'
-import { CMSContents } from '@/type/microcms'
+import { Account, CMSContents } from '@/type/microcms'
 import { StrapiContent } from '@/type/strapi'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -45,6 +45,8 @@ type Params = {
 export const getStaticProps = async (params: Params) => {
   const { store, user, id } = params.params
   const contentData = await fetchCommonData(store, 'contents', id)
+  // console.log(1, store)
+  const accuntData = ACCOUNTS.find((account) => account.name === store)
   // const storeDatas = await fetchCommonJsonDatas('store')
   // const storeData = storeDatas.find((s) => s.accountName === store)
 
@@ -53,6 +55,7 @@ export const getStaticProps = async (params: Params) => {
   return {
     props: {
       contentData,
+      accuntData,
       htmlString,
       store,
       user,
@@ -62,16 +65,24 @@ export const getStaticProps = async (params: Params) => {
 
 export default function ContentDetail({
   contentData,
+  accuntData,
   htmlString,
   store,
   user,
 }: {
   contentData: CMSContents
+  accuntData: Account
   htmlString: string
   store: string
   user: string
 }) {
   const { title, thumbnail, publishedAt, staff } = contentData
+  const staffData = {
+    ...staff,
+    accountName: accuntData.name,
+    storeName: accuntData.store,
+  }
+  // console.log(staff)
 
   const windowDimensions = useWindowDimensions()
   return (
@@ -162,7 +173,7 @@ export default function ContentDetail({
             </div>
             {/* staff */}
             <div className='border-t border-white border-opacity-60'>
-              <Staff staff={staff} />
+              <Staff staff={staffData} />
             </div>
             {/* <div className='p-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
               name
@@ -200,7 +211,7 @@ export default function ContentDetail({
               店舗情報を見る
             </Link> */}
             <div className='w-layoutMbDefault m-auto mt-10'>
-              <Button href={`/${store}`}>店舗情報を見る</Button>
+              <Button href={`/${accuntData.name}`}>店舗情報を見る</Button>
             </div>
             {/* tags */}
           </div>
