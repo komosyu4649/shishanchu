@@ -4,8 +4,10 @@ import Tag from '@/components/common/Tag'
 import TitlePage from '@/components/common/TitlePage'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
+import { BREAKPOINT } from '@/constants/common'
 import { GENDERS, CAREERS, PAGE_SIZE } from '@/constants/microcms'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import { useWindowDimensions } from '@/hooks/useWindowDimensions'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { CMSStaff } from '@/type/microcms'
 import { StrapiStaff } from '@/type/strapi'
@@ -135,6 +137,9 @@ export default function Staffs({
     })
   }
 
+  const windowDimensions = useWindowDimensions()
+  console.log(windowDimensions.width)
+
   return (
     <Layout>
       <section className='w-full md:w-layoutMd m-auto mt-36'>
@@ -143,21 +148,26 @@ export default function Staffs({
           <span className='text-s7'>【{totalCount}】</span>
         </h1> */}
         <TitlePage title='スタッフ' count={totalCount} className='w-layoutMbDefault mb-10 m-auto' />
-        {query.career || query.gender ? (
-          <div className='hidden md:flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
-            {query.career && (
-              <Tag onClick={() => handleRemoveQuery(query.career)}>
-                キャリア
-                {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
-              </Tag>
-            )}
-            {query.gender && (
-              <Tag onClick={() => handleRemoveQuery(query.gender)}>
-                {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
-              </Tag>
-            )}
-          </div>
-        ) : null}
+        {windowDimensions.width > BREAKPOINT && (
+          <>
+            {query.career || query.gender ? (
+              <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+                {query.career && (
+                  <Tag onClick={() => handleRemoveQuery(query.career)}>
+                    キャリア
+                    {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
+                  </Tag>
+                )}
+                {query.gender && (
+                  <Tag onClick={() => handleRemoveQuery(query.gender)}>
+                    {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
+                  </Tag>
+                )}
+              </div>
+            ) : null}
+          </>
+        )}
+
         <div className='grid md:grid-cols-[24rem_auto] md:justify-between gap-12 md:gap-8'>
           {/* side */}
           <div className='flex flex-col gap-7 w-layoutMbDefault m-auto md:gap-20'>
@@ -231,21 +241,25 @@ export default function Staffs({
               検索する
             </Button> */}
             <Button onClick={handleSearchQuery}>検索する</Button>
-            {query.career || query.gender ? (
-              <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
-                {query.career && (
-                  <Tag onClick={() => handleRemoveQuery(query.career)}>
-                    キャリア
-                    {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
-                  </Tag>
-                )}
-                {query.gender && (
-                  <Tag onClick={() => handleRemoveQuery(query.gender)}>
-                    {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
-                  </Tag>
-                )}
-              </div>
-            ) : null}
+            {windowDimensions.width < BREAKPOINT && (
+              <>
+                {query.career || query.gender ? (
+                  <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+                    {query.career && (
+                      <Tag onClick={() => handleRemoveQuery(query.career)}>
+                        キャリア
+                        {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
+                      </Tag>
+                    )}
+                    {query.gender && (
+                      <Tag onClick={() => handleRemoveQuery(query.gender)}>
+                        {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
+                      </Tag>
+                    )}
+                  </div>
+                ) : null}
+              </>
+            )}
           </div>
           {/* main */}
           <div className='md:w-layoutSm'>
