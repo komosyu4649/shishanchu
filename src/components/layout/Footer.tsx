@@ -73,14 +73,14 @@ const Footer = () => {
         />
       </Link>
       <div className='grid grid-cols-auto mb-12 md:grid-cols-[1fr_auto] md:justify-between md:pb-16'>
-        <div className='mb-7 pb-8 border-b border-white'>
+        <div className='mb-6 pb-7 border-b border-white'>
           <nav className='flex flex-row justify-between gap-12 w-[32rem] m-auto md:gap-40'>
             <ul className=''>
               {mainMenus.map((menu, index) => (
                 <li key={index} className=''>
                   <Link
                     href={`/${menu.path}/`}
-                    className='inline-block py-4 text-s3 md:py-6 md:text-s5'
+                    className='inline-block py-3 text-s3 md:py-6 md:text-s5'
                   >
                     {menu.name}
                   </Link>
@@ -92,7 +92,7 @@ const Footer = () => {
                 <li key={index} className=''>
                   <Link
                     href={`/${menu.path}/`}
-                    className='inline-block py-4 text-s3 md:py-6 md:text-s5'
+                    className='inline-block py-3 text-s3 md:py-6 md:text-s5'
                   >
                     {menu.name}
                   </Link>
@@ -102,13 +102,13 @@ const Footer = () => {
           </nav>
         </div>
         <div className=''>
-          <nav className='grid grid-cols-2 w-[32rem] m-auto'>
+          <nav className='grid grid-cols-2 gap-12 w-[32rem] m-auto'>
             <ul className=''>
               {sns.map((menu, index) => (
                 <li key={index} className=''>
                   <a
                     href={`${menu.path}`}
-                    className='inline-block py-3 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
+                    className='inline-block py-2 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
                   >
                     {menu.name}
                   </a>
@@ -120,7 +120,7 @@ const Footer = () => {
                 <li key={index} className=''>
                   <a
                     href={`${menu.path}`}
-                    className='inline-block py-3 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
+                    className='inline-block py-2 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
                   >
                     {menu.name}
                   </a>
