@@ -62,6 +62,13 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        s2Lt: [
+          '1.3rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s3: [
           '1.4rem',
           {
@@ -81,6 +88,13 @@ module.exports = {
           {
             lineHeight: '1.5',
             fontWeight: '700',
+          },
+        ],
+        s4Lt: [
+          '1.5rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
           },
         ],
         s5: [
