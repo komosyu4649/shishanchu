@@ -43,8 +43,8 @@
 
 html {
   font-size: 0.625rem;
+  background-color: #000;
   @media (min-width: 768px) {
-    background-color: red;
   }
 }
 body {

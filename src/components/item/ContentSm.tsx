@@ -22,7 +22,7 @@ const ContentSm = ({ content }: { content: CMSContents }) => {
       />
       {/* content */}
       <div className='mt-4'>
-        <p className='text-s2 line-clamp-2'>{title}</p>
+        <p className='text-s3 line-clamp-2'>{title}</p>
         <div className='flex justify-between items-center gap-8 mt-3'>
           {/* staff */}
           <div className='flex items-center gap-4'>

@@ -171,7 +171,7 @@ export default function Home({
           ja='最新のスタッフ情報'
           className='w-layoutMbDefault m-auto mb-10'
         />
-        <div className=''>
+        <div className='border-t border-white border-opacity-60'>
           {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
           <ul className=''>
             {staffsData.map((staff, index) => (

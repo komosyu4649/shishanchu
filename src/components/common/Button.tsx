@@ -11,7 +11,7 @@ const Button: FC<Props> = ({ onClick, children, href }) => {
   return href ? (
     <Link
       href={`/${href}/`}
-      className='flex justify-center w-full px-16 py-5 bg-green text-white text-s3 rounded-md'
+      className='flex justify-center w-full px-16 py-5 bg-green text-white text-s2 rounded-md'
     >
       {children}
     </Link>
