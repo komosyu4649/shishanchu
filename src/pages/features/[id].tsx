@@ -82,14 +82,15 @@ export default function FeatureDetail({
   const windowDimensions = useWindowDimensions()
   return (
     <Layout>
-      <article className='flex flex-col md:flex-row justify-center gap-16 md:gap-24 w-layoutMbDefault m-auto mt-36'>
+      <article className='flex flex-col md:flex-row justify-center gap-14 md:gap-24 w-layoutMbDefault m-auto mt-36'>
         {/* side */}
         <div className='md:w-80'>
           {/* <h1 className='relative md:w-layoutSm gap-6 m-auto mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
             <span className='text-s9'>特集</span>
           </h1> */}
-          <TitlePage title='特集' className='mb-10' />
-          {windowDimensions.width > BREAKPOINT ? (
+          {/* <TitlePage title='特集' className='mb-10' /> */}
+          <TitlePage title='特集' />
+          {/* {windowDimensions.width > BREAKPOINT ? (
             <div className='rounded-3xl border-2 border-white border-opacity-60 border-solid p-10 bg-blackWeak'>
               <ul className='flex flex-col gap-4'>
                 <li>
@@ -121,7 +122,7 @@ export default function FeatureDetail({
                 </option>
               ))}
             </select>
-          )}
+          )} */}
         </div>
         {/* main */}
         <div className='flex flex-col md:w-[68rem]'>
