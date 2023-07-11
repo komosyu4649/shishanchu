@@ -7,32 +7,35 @@ import React from 'react'
 const Staff = ({ staff }: { staff: CMSStaff }) => {
   const { accountName, storeName, icon, name, biography } = staff
   return (
-    <div className='flex flex-col justify-between h-full px-12 py-14 bg-blackWeak border-b border-white border-opacity-60'>
-      <div className='grid grid-cols-[1fr_auto] gap-6 justify-between items-center'>
+    <div className='flex flex-col justify-between h-full p-12 rounded-3xl border-2 border-white border-opacity-60 border-solid bg-blackWeak'>
+      <div className=''>
         {/* name */}
         <div className='flex items-center gap-4'>
           <Image
             src={icon.url}
             width={icon.width}
             height={icon.height}
-            alt={name}
+            alt='test'
             className='w-20 h-20 rounded-full object-cover'
           />
           <span className='flex flex-col gap-1'>
-            <span className='text-s4'>{name}</span>
-            {storeName && <span className='text-s0 opacity-60'>【{storeName}】</span>}
+            <span className='text-s5'>{name}</span>
+            {/* 店舗名 */}
+            <span className='text-s2 opacity-60'>【{storeName}】</span>
           </span>
         </div>
-        {/* link */}
+        {/* biography */}
+        <p className='mt-8 text-s3 line-clamp-3'>{biography}</p>
+      </div>
+      {/* link */}
+      <div className='mt-8 flex justify-center'>
         <Link
           href={`/${accountName}/${name}`}
-          className='inline-flex justify-center items-center h-fit px-7 py-4 text-green text-s1 rounded-xl border-2 border-green border-solid'
+          className='inline-flex justify-center items-center px-16 py-6 text-green text-s4 rounded-full border-2 border-green border-solid'
         >
-          詳しく見る
+          スタッフを見る
         </Link>
       </div>
-      {/* biography */}
-      <p className='mt-6 text-s3Lt whitespace-break-spaces line-clamp-3'>{biography}</p>
     </div>
   )
 }

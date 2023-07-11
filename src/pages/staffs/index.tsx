@@ -1,10 +1,13 @@
 import Button from '@/components/common/Button'
 import Pagination from '@/components/common/Pagination'
 import Tag from '@/components/common/Tag'
+import TitlePage from '@/components/common/TitlePage'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
+import { BREAKPOINT } from '@/constants/common'
 import { GENDERS, CAREERS, PAGE_SIZE } from '@/constants/microcms'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
+import { useWindowDimensions } from '@/hooks/useWindowDimensions'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { CMSStaff } from '@/type/microcms'
 import { StrapiStaff } from '@/type/strapi'
@@ -134,97 +137,132 @@ export default function Staffs({
     })
   }
 
+  const windowDimensions = useWindowDimensions()
+
   return (
     <Layout>
-      <section className='w-layoutMd m-auto mt-36'>
-        <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
+      <section className='w-full md:w-layoutMd m-auto mt-36'>
+        {/* <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
           <span className='text-s9'>スタッフ一覧</span>
           <span className='text-s7'>【{totalCount}】</span>
-        </h1>
-        {query.career || query.gender ? (
-          <div className='flex flex-row flex-wrap gap-4 mb-12'>
-            {query.career && (
-              <Tag onClick={() => handleRemoveQuery(query.career)}>
-                キャリア
-                {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
-              </Tag>
-            )}
-            {query.gender && (
-              <Tag onClick={() => handleRemoveQuery(query.gender)}>
-                {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
-              </Tag>
-            )}
+        </h1> */}
+        <TitlePage title='スタッフ' count={totalCount} className='w-layoutMbDefault mb-10 m-auto' />
+        {windowDimensions.width > BREAKPOINT && (
+          <div className='flex flex-row flex-wrap gap-4'>
+            {query.career || query.gender ? (
+              <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+                {query.career && (
+                  <Tag onClick={() => handleRemoveQuery(query.career)}>
+                    キャリア
+                    {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
+                  </Tag>
+                )}
+                {query.gender && (
+                  <Tag onClick={() => handleRemoveQuery(query.gender)}>
+                    {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
+                  </Tag>
+                )}
+              </div>
+            ) : null}
           </div>
-        ) : null}
-        <div className='grid grid-cols-[24rem_auto] justify-between gap-8'>
+        )}
+
+        <div className='grid md:grid-cols-[24rem_auto] md:justify-between gap-12 md:gap-8'>
           {/* side */}
-          <div className='flex flex-col gap-20'>
-            {/* gender */}
-            <div className=''>
-              <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>性別</span>
-              <div className='flex flex-col gap-4 mt-8'>
-                {GENDERS.map((gender, index) => (
-                  <div key={index} className='flex items-center gap-4'>
-                    <label
-                      className='relative flex cursor-pointer items-center rounded-full'
-                      htmlFor={gender.label}
-                    >
-                      <input
-                        type='radio'
-                        id={gender.label}
-                        value={gender.label}
-                        name='gender'
-                        onChange={handleSelectGender}
-                        className="before:content[''] peer relative h-6 w-6 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-green transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green checked:before:bg-green hover:before:opacity-10"
-                      />
-                      <div className='pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-green opacity-0 transition-opacity peer-checked:opacity-100'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          className='h-3.5 w-3.5'
-                          viewBox='0 0 16 16'
-                          fill='currentColor'
-                        >
-                          <circle data-name='ellipse' cx='8' cy='8' r='8'></circle>
-                        </svg>
-                      </div>
-                    </label>
-                    <label className='w-full text-s3 cursor-pointer' htmlFor={gender.label}>
-                      {gender.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* career */}
-            <div className=''>
-              <span className='block w-full px-6 py-4 text-s6 bg-blackWeak rounded-md'>
-                シーシャバー暦
-              </span>
-              <div className='mt-6'>
-                <select
-                  name='career'
-                  id='career'
-                  onChange={handleSelectCareer}
-                  className='w-full px-4 py-4 rounded-lg text-black text-s3 appearance-none'
-                  value={searchParams.career}
-                >
-                  <option value=''>キャリア何年？</option>
-                  <option value='0'>1年未満</option>
-                  {CAREERS.map((career, index) => (
-                    <option key={index} value={career.year}>
-                      {career.year}年目〜
-                    </option>
+          <div className='flex flex-col gap-7 w-layoutMbDefault m-auto md:gap-20'>
+            <div className='grid grid-cols-2 gap-4 md:flex md:flex-col md:gap-20'>
+              {/* gender */}
+              <div className=''>
+                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                  性別
+                </span>
+                <div className='flex flex-col gap-2 mt-6 ml-5 md:gap-4 md:mt-8'>
+                  {GENDERS.map((gender, index) => (
+                    <div key={index} className='flex items-center gap-4'>
+                      <label
+                        className='relative flex cursor-pointer items-center rounded-full'
+                        htmlFor={gender.label}
+                      >
+                        <input
+                          type='radio'
+                          id={gender.label}
+                          value={gender.label}
+                          name='gender'
+                          onChange={handleSelectGender}
+                          className="before:content[''] peer relative h-6 w-6 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-green transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green checked:before:bg-green hover:before:opacity-10"
+                        />
+                        <div className='pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-green opacity-0 transition-opacity peer-checked:opacity-100'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            className='h-3.5 w-3.5'
+                            viewBox='0 0 16 16'
+                            fill='currentColor'
+                          >
+                            <circle data-name='ellipse' cx='8' cy='8' r='8'></circle>
+                          </svg>
+                        </div>
+                      </label>
+                      <label
+                        className='w-full text-s2 md:text-s3 cursor-pointer'
+                        htmlFor={gender.label}
+                      >
+                        {gender.label}
+                      </label>
+                    </div>
                   ))}
-                </select>
+                </div>
+              </div>
+              {/* career */}
+              <div className=''>
+                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                  シーシャバー暦
+                </span>
+                <div className='mt-6'>
+                  <select
+                    name='career'
+                    id='career'
+                    onChange={handleSelectCareer}
+                    className='w-full px-4 py-4 rounded-sm text-black text-s2 md:text-s3 appearance-none'
+                    value={searchParams.career}
+                  >
+                    <option value=''>キャリア何年？</option>
+                    <option value='0'>1年未満</option>
+                    {CAREERS.map((career, index) => (
+                      <option key={index} value={career.year}>
+                        {career.year}年目〜
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
-            <Button onClick={handleSearchQuery} className='bg-green'>
+            {/* <Button onClick={handleSearchQuery} className='bg-green'>
               検索する
-            </Button>
+            </Button> */}
+            <Button onClick={handleSearchQuery}>検索する</Button>
+            {windowDimensions.width < BREAKPOINT && (
+              <div className='flex flex-row flex-wrap gap-4'>
+                {query.career || query.gender ? (
+                  <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+                    {query.career && (
+                      <Tag onClick={() => handleRemoveQuery(query.career)}>
+                        キャリア
+                        {query.career === '0' ? '1年未満' : `${query.career}年目〜`}
+                      </Tag>
+                    )}
+                    {query.gender && (
+                      <Tag onClick={() => handleRemoveQuery(query.gender)}>
+                        {GENDERS.find((gender) => gender.label === query.gender)?.label}スタッフ
+                      </Tag>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
           {/* main */}
-          <div className='w-layoutSm'>
-            <ul className='grid grid-cols-3 gap-4'>
+          <div className='md:w-layoutSm'>
+            <ul className='grid md:grid-cols-3 md:gap-4'>
               {staffs.map((staff, index) => (
                 <li key={index}>
                   <Staff staff={staff} />
@@ -232,7 +270,7 @@ export default function Staffs({
               ))}
             </ul>
             {rangeWithDots.length > 1 ? (
-              <div className='mt-32'>
+              <div className='mt-12 md:mt-32'>
                 <Pagination
                   rangeWithDots={rangeWithDots}
                   page={page}

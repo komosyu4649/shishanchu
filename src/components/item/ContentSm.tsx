@@ -6,7 +6,7 @@ import Bookmark from '../icon/Bookmark'
 import Link from 'next/link'
 import { CMSContents } from '@/type/microcms'
 
-const Content = ({ content }: { content: CMSContents }) => {
+const ContentSm = ({ content }: { content: CMSContents }) => {
   const { accountName, storeName, staff, id, thumbnail, title, createdAt } = content
 
   return (
@@ -22,8 +22,8 @@ const Content = ({ content }: { content: CMSContents }) => {
       />
       {/* content */}
       <div className='mt-4'>
-        <p className='text-s5 line-clamp-2'>{title}</p>
-        <div className='flex justify-between items-center mt-5'>
+        <p className='text-s3 line-clamp-2'>{title}</p>
+        <div className='flex justify-between items-center gap-8 mt-3'>
           {/* staff */}
           <div className='flex items-center gap-4'>
             <Image
@@ -31,16 +31,16 @@ const Content = ({ content }: { content: CMSContents }) => {
               width={staff.icon.width}
               height={staff.icon.height}
               alt={staff.name}
-              className='w-16 h-16 rounded-full object-cover'
+              className='w-12 h-12 rounded-full object-cover'
             />
-            <span className='text-s2'>{staff.name}</span>
+            <span className='text-s0'>{staff.name}</span>
           </div>
           {/* time */}
-          <span className='text-s1Lt'>{useTimeAgo(createdAt)}</span>
+          <span className='text-s0Lt'>{useTimeAgo(createdAt)}</span>
         </div>
       </div>
     </Link>
   )
 }
 
-export default Content
+export default ContentSm

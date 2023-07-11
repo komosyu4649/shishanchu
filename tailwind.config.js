@@ -18,6 +18,7 @@ module.exports = {
         layoutDefault: '126rem',
         layoutMd: '118rem',
         layoutSm: '92rem',
+        layoutMbDefault: '35.8rem',
       },
       colors: {
         blackWeak: '#1E1E1E',
@@ -26,6 +27,20 @@ module.exports = {
         green: '#578885',
       },
       fontSize: {
+        s0: [
+          '1rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '700',
+          },
+        ],
+        s0Lt: [
+          '1rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s1: [
           '1.2rem',
           {
@@ -47,6 +62,13 @@ module.exports = {
             fontWeight: '700',
           },
         ],
+        s2Lt: [
+          '1.3rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
         s3: [
           '1.4rem',
           {
@@ -66,6 +88,20 @@ module.exports = {
           {
             lineHeight: '1.5',
             fontWeight: '700',
+          },
+        ],
+        s4Lt: [
+          '1.5rem',
+          {
+            lineHeight: '1.5',
+            fontWeight: '500',
+          },
+        ],
+        s4LhLgLt: [
+          '1.5rem',
+          {
+            lineHeight: '2',
+            fontWeight: '500',
           },
         ],
         s5: [
@@ -170,6 +206,30 @@ module.exports = {
       fontFamily: {
         chivo: ['var(--font-chivo)'],
       },
+    },
+    borderRadius: {
+      none: '0',
+      sm: '.5rem',
+      md: '1rem',
+      lg: '1.5rem',
+      xl: '3rem',
+      full: '50%',
+    },
+    screens: {
+      sm: '640px',
+      // => @media (min-width: 640px) { ... }
+
+      md: '768px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
     },
   },
   plugins: [

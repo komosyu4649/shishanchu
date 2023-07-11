@@ -26,6 +26,8 @@ import { Navigation, Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
+import TitleSection from '@/components/common/TitleSection'
+import ContentSm from '@/components/item/ContentSm'
 
 export const getStaticProps = async () => {
   const coupons = await fetch('http://localhost:3000/api/strapi/getTopCoupons')
@@ -72,8 +74,8 @@ export default function Home({
       {/* feature */}
       <section className='top-feature'>
         <Swiper
-          spaceBetween={15}
-          slidesPerView={1.2}
+          spaceBetween={0}
+          slidesPerView={1}
           centeredSlides={true}
           autoplay={{
             delay: 8000,
@@ -89,7 +91,13 @@ export default function Home({
             prevEl: '.prev-slide-button',
           }}
           modules={[Navigation, Autoplay, Pagination]}
-          className='h-[calc(100vh-18rem)]'
+          breakpoints={{
+            768: {
+              slidesPerView: 1.2,
+              spaceBetween: 15,
+            },
+          }}
+          className='h-[calc(100vh-6rem)] md:h-[calc(100vh-18rem)]'
         >
           {featureData.map((feature, index) => (
             <SwiperSlide key={index}>
@@ -102,15 +110,15 @@ export default function Home({
                   className='h-full object-cover'
                   // className='w-[100rem] h-[60rem] object-cover'
                 />
-                <div className='absolute bottom-32 left-24 text-white'>
-                  <h2 className='mb-6 text-s10'>{feature.title}</h2>
+                <div className='absolute bottom-28 left-8 md:bottom-32 md:left-24 text-white'>
+                  <h2 className='mb-4 text-s8 md:mb-6 md:text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
                 </div>
               </Link>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className='absolute top-56 right-72 flex flex-row gap-2 z-10'>
+        <div className='hidden absolute top-56 right-72 md:flex flex-row gap-2 z-10'>
           <button className='prev-slide-button flex justify-center items-center text-white p-4 bg-white w-20 h-20 text-s8'>
             {/* &#128072; */}
             <Image
@@ -129,35 +137,43 @@ export default function Home({
       </section>
 
       {/* contents */}
-      <section className='w-layoutDefault m-auto mt-72'>
-        <h2 className='mb-16 mx-36'>
+      <section className='w-layoutMbDefault m-auto mt-32 md:w-layoutDefault md:mt-72'>
+        {/* <h2 className='mb-16 mx-36'>
           <span className={`text-s11 ${chivo.className}`}>Contents</span>
           <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
           <span className='text-s3'>最新のスタッフ投稿</span>
-        </h2>
-        <div className=''>
-          <ul className='grid grid-cols-4 gap-8 justify-center'>
-            {contentsData.map((content, index) => (
-              <li key={index} className=''>
-                <Content content={content} />
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className='flex justify-center w-full mt-32'>
+        </h2> */}
+        <TitleSection en='Contents' ja='最新のスタッフ投稿' className='mb-10' />
+        {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
+        {/* <ul className='flex flex-col gap-8'> */}
+        <ul className='grid grid-cols-2 gap-x-4 gap-y-8'>
+          {contentsData.map((content, index) => (
+            <li key={index} className=''>
+              {/* <Content content={content} /> */}
+              <ContentSm content={content} />
+            </li>
+          ))}
+        </ul>
+        <div className='flex justify-center mt-16'>
           <Button href='contents'>スタッフ投稿一覧</Button>
         </div>
       </section>
 
       {/* staff */}
-      <section className='w-layoutDefault m-auto mt-56'>
-        <h2 className='flex flex-col items-center mb-16'>
+      <section className=' m-auto mt-32 md:mt-56 md:w-layoutDefault'>
+        {/* <h2 className='flex flex-col items-center mb-16'>
           <span className='text-s3'>人気のスタッフ</span>
           <span className='inline-block w-4 h-4 mt-4 rounded-full bg-green'></span>
           <span className={`text-s11 ${chivo.className}`}>Staff</span>
-        </h2>
-        <div className=''>
-          <ul className='grid grid-cols-4 gap-8 justify-center'>
+        </h2> */}
+        <TitleSection
+          en='Staff'
+          ja='最新のスタッフ情報'
+          className='w-layoutMbDefault m-auto mb-10'
+        />
+        <div className='border-t border-white border-opacity-60'>
+          {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
+          <ul className=''>
             {staffsData.map((staff, index) => (
               <li key={index} className=''>
                 <Staff staff={staff} />
@@ -165,29 +181,34 @@ export default function Home({
             ))}
           </ul>
         </div>
-        <div className='flex justify-center w-full mt-32'>
+        <div className='flex justify-center w-layoutMbDefault m-auto mt-16 md:mt-32'>
           <Button href='staffs'>スタッフ一覧</Button>
         </div>
       </section>
 
       {/* store */}
-      <section className='w-layoutMd m-auto mt-56'>
-        <div className='flex justify-between items-center mb-16 mx-36'>
-          <h2 className=''>
+      <section className='m-auto mt-32 md:mt-56 md:w-layoutMd'>
+        {/* <div className='flex justify-between items-center mb-16 md:mx-36'> */}
+        {/* <h2 className=''>
             <span className={`text-s11 ${chivo.className}`}>Store</span>
             <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
             <span className='text-s3'>店舗一覧</span>
-          </h2>
-          <Button href='stores'>店舗一覧</Button>
-        </div>
-        <div className=''>
-          <ul className='grid grid-cols-3 gap-12 justify-center '>
+          </h2> */}
+        <TitleSection en='Store' ja='最新の店舗情報' className='w-layoutMbDefault m-auto mb-10' />
+        {/* <Button href='stores'>店舗一覧</Button> */}
+        {/* </div> */}
+        <div className='ml-[calc((100vw-35.8rem)*.5)] overflow-x-scroll'>
+          {/* <ul className='grid grid-cols-3 gap-12 justify-center '> */}
+          <ul className='flex flex-row gap-6'>
             {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
               </li>
             ))}
           </ul>
+        </div>
+        <div className='flex justify-center w-layoutMbDefault m-auto mt-16'>
+          <Button href='stores'>店舗一覧</Button>
         </div>
       </section>
 
