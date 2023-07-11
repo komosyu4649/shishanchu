@@ -51,7 +51,7 @@ const Menu = () => {
     // },
   ]
   return (
-    <nav className='fixed inset-x-0 bottom-0 w-full m-auto px-8 border-t border-green bg-blackWeak z-10 md:bottom-8 md:w-fit md:px-12 md:rounded-full md:border md:border-solid '>
+    <nav className='fixed inset-x-0 bottom-0 w-full m-auto px-8 border-t border-green bg-blackWeak z-10 md:bottom-8 md:w-fit md:px-12 md:rounded-xl md:border md:border-solid '>
       <ul className='flex flex-row justify-center items-center'>
         {menus.map((menu, index) => (
           <li

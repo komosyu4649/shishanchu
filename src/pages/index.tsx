@@ -72,7 +72,7 @@ export default function Home({
   return (
     <Layout>
       {/* feature */}
-      <section className='top-feature'>
+      <section className='top-feature md:mt-44'>
         <Swiper
           spaceBetween={0}
           slidesPerView={1}
@@ -110,7 +110,7 @@ export default function Home({
                   className='h-full object-cover'
                   // className='w-[100rem] h-[60rem] object-cover'
                 />
-                <div className='absolute bottom-28 left-8 md:bottom-32 md:left-24 text-white'>
+                <div className='absolute bottom-28 left-8 md:bottom-28 md:left-24 text-white'>
                   <h2 className='mb-4 text-s8 md:mb-6 md:text-s10'>{feature.title}</h2>
                   <p className='text-s3'>{feature.introduction}</p>
                 </div>
