@@ -97,11 +97,11 @@ export default function ContentDetail({
             className='w-[32rem] h-96 m-auto mb-8 md:mb-28 object-cover'
           />
         )} */}
-        {windowDimensions.width > BREAKPOINT && (
-          <h1 className='w-layoutMbDefault m-auto mb-10 text-s7 text-center md:text-s10 md:mb-24'>
-            {title}
-          </h1>
-        )}
+        {/* {windowDimensions.width > BREAKPOINT && ( */}
+        {/* <h1 className='w-layoutMbDefault m-auto mb-10 text-s7 text-center md:text-s10 md:mb-24'>
+          {title}
+        </h1> */}
+        {/* )} */}
         {/* <div className='flex flex-row justify-between items-center w-[32rem] m-auto'>
           <div className='flex items-center gap-4'>
             <Image
@@ -129,29 +129,28 @@ export default function ContentDetail({
               // className='w-[32rem] h-80 m-auto md:h-[42rem] md:mb-28 object-cover'
               className='w-[28rem] h-80 m-auto md:h-[42rem] md:mb-28 object-cover'
             />
-            {windowDimensions.width < BREAKPOINT && (
-              <h1 className='w-layoutMbDefault m-auto text-s7 text-center mt-6 mb-8'>{title}</h1>
-            )}
-            {windowDimensions.width < BREAKPOINT && (
-              // <div className='flex flex-row justify-between items-end gap-4 m-auto mb-20 px-8 pb-16 border-b border-white'>
-              <div className=' mt-6 mb-20 pb-16 border-b border-white'>
-                <div className='flex flex-row justify-between items-center gap-24 w-[28rem] m-auto'>
-                  <div className='flex items-center gap-4'>
-                    <Image
-                      src={staff.icon.url}
-                      width={staff.icon.width}
-                      height={staff.icon.height}
-                      alt='test'
-                      className='w-14 h-14 rounded-full object-cover'
-                    />
-                    <span className='text-s2'>{staff.name}</span>
-                  </div>
-                  <time className={`text-s1 ${chivo.className}`}>
-                    {dayjs(publishedAt).format('YYYY.MM.DD')}
-                  </time>
+            {/* {windowDimensions.width < BREAKPOINT && ( */}
+            <h1 className='w-layoutMbDefault m-auto text-s7 text-center mt-6 mb-8'>{title}</h1>
+            {/* )} */}
+            {/* {windowDimensions.width < BREAKPOINT && ( */}
+            <div className=' mt-6 mb-20 pb-16 border-b border-white'>
+              <div className='flex flex-row justify-between items-center gap-24 w-[28rem] m-auto'>
+                <div className='flex items-center gap-4'>
+                  <Image
+                    src={staff.icon.url}
+                    width={staff.icon.width}
+                    height={staff.icon.height}
+                    alt='test'
+                    className='w-14 h-14 rounded-full object-cover'
+                  />
+                  <span className='text-s2'>{staff.name}</span>
                 </div>
+                <time className={`text-s1 ${chivo.className}`}>
+                  {dayjs(publishedAt).format('YYYY.MM.DD')}
+                </time>
               </div>
-            )}
+            </div>
+            {/* )} */}
             {/* attributes.contentを表示 */}
             <div
               className='prose prose-h2:px-8 prose-h2:py-6 prose-h2:rounded-3xl prose-h2:border-2 prose-h2:border-white prose-h2:border-opacity-60 prose-h2:border-solid prose-h2:bg-black prose-h2:text-white prose-h2:text-proseH2 prose-h3:text-proseH3 prose-h3:text-white prose-h3:border-b-2 prose-h3:border-white prose-h3:border-opacity-60 prose-h3:border-solid prose-h3:py-2 prose-h3:px-4 prose-h4:text-proseH4 prose-h4:text-white prose-h4:border-b-2 prose-h4:border-white prose-h4:border-opacity-60 prose-h4:border-solid prose-h4:py-2 prose-h4:px-4 prose-h5:text-proseH5 prose-h5:text-white prose-h5:border-b-2 prose-h5:border-white prose-h5:border-opacity-60 prose-h5:border-solid prose-h5:py-2 prose-h5:px-4 prose-h6:text-proseH6 prose-h6:text-white prose-h6:border-b-2 prose-h6:border-white prose-h6:border-opacity-60 prose-h6:border-solid prose-h6:py-2 prose-h6:px-4 prose-p:text-s5LhLgLt prose-li:text-s5LhLgLt prose-li:m-0 text-white max-w-none'
