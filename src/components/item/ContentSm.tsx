@@ -11,7 +11,6 @@ const ContentSm = ({ content }: { content: CMSContents }) => {
 
   return (
     <Link href={`${accountName}/${staff.name}/${id}`} className='flex flex-col'>
-      <div className='flex justify-between items-center'></div>
       {/* thumbnail */}
       <Image
         src={thumbnail.url}
@@ -21,9 +20,26 @@ const ContentSm = ({ content }: { content: CMSContents }) => {
         className='w-full h-auto rounded-md object-cover'
       />
       {/* content */}
-      <div className='mt-4'>
-        <p className='text-s3 line-clamp-2'>{title}</p>
-        <div className='flex justify-between items-center gap-8 mt-3'>
+      <div
+        className='
+        mt-4
+        md:mt-5
+      '
+      >
+        <p
+          className='
+          text-s3 line-clamp-2
+          md:text-s5
+          '
+        >
+          {title}
+        </p>
+        <div
+          className='
+          flex justify-between items-center gap-8 mt-3
+          md:mt-4
+          '
+        >
           {/* staff */}
           <div className='flex items-center gap-4'>
             <Image
@@ -33,10 +49,24 @@ const ContentSm = ({ content }: { content: CMSContents }) => {
               alt={staff.name}
               className='w-12 h-12 rounded-full object-cover'
             />
-            <span className='text-s0'>{staff.name}</span>
+            <span
+              className='
+                text-s0
+                md:text-s1
+              '
+            >
+              {staff.name}
+            </span>
           </div>
           {/* time */}
-          <span className='text-s0Lt'>{useTimeAgo(createdAt)}</span>
+          <span
+            className='
+            text-s0Lt
+            md:text-s1Lt
+          '
+          >
+            {useTimeAgo(createdAt)}
+          </span>
         </div>
       </div>
     </Link>
