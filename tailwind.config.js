@@ -97,6 +97,13 @@ module.exports = {
             fontWeight: '500',
           },
         ],
+        s4LhLgLt: [
+          '1.5rem',
+          {
+            lineHeight: '2',
+            fontWeight: '500',
+          },
+        ],
         s5: [
           '1.6rem',
           {
