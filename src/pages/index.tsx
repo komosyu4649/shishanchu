@@ -137,16 +137,16 @@ export default function Home({
       </section>
 
       {/* contents */}
-      <section className='w-layoutMbDefault m-auto mt-32 md:w-layoutDefault md:mt-72'>
+      <section className='w-layoutMbDefault m-auto mt-32 md:w-layoutMd md:mt-72'>
         {/* <h2 className='mb-16 mx-36'>
           <span className={`text-s11 ${chivo.className}`}>Contents</span>
           <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
           <span className='text-s3'>最新のスタッフ投稿</span>
         </h2> */}
-        <TitleSection en='Contents' ja='最新のスタッフ投稿' className='mb-10' />
+        <TitleSection en='Contents' ja='最新のスタッフ投稿' className='mb-10 md:mb-12' />
         {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
         {/* <ul className='flex flex-col gap-8'> */}
-        <ul className='grid grid-cols-2 gap-x-4 gap-y-8'>
+        <ul className='grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 md:gap-8'>
           {contentsData.map((content, index) => (
             <li key={index} className=''>
               {/* <Content content={content} /> */}
@@ -154,7 +154,7 @@ export default function Home({
             </li>
           ))}
         </ul>
-        <div className='flex justify-center mt-16'>
+        <div className='flex justify-center md:w-fit md:m-auto md:mt-16 mt-16'>
           <Button href='contents'>スタッフ投稿一覧</Button>
         </div>
       </section>
@@ -169,19 +169,19 @@ export default function Home({
         <TitleSection
           en='Staff'
           ja='最新のスタッフ情報'
-          className='w-layoutMbDefault m-auto mb-10'
+          className='w-layoutMbDefault m-auto mb-10 md:mb-12 md:justify-center md:items-center'
         />
-        <div className='border-t border-white border-opacity-60'>
+        <div className='border-t border-white border-opacity-60 md:border-none'>
           {/* <ul className='grid grid-cols-4 gap-8 justify-center'> */}
-          <ul className=''>
+          <ul className='md:grid md:grid-cols-3 gap-4'>
             {staffsData.map((staff, index) => (
-              <li key={index} className=''>
+              <li key={index} className='border border-white border-opacity-60'>
                 <Staff staff={staff} />
               </li>
             ))}
           </ul>
         </div>
-        <div className='flex justify-center w-layoutMbDefault m-auto mt-16 md:mt-32'>
+        <div className='flex justify-center w-layoutMbDefault md:w-fit m-auto mt-16'>
           <Button href='staffs'>スタッフ一覧</Button>
         </div>
       </section>
@@ -194,12 +194,16 @@ export default function Home({
             <span className='inline-block w-4 h-4 mx-4 rounded-full bg-green'></span>
             <span className='text-s3'>店舗一覧</span>
           </h2> */}
-        <TitleSection en='Store' ja='最新の店舗情報' className='w-layoutMbDefault m-auto mb-10' />
+        <TitleSection
+          en='Store'
+          ja='最新の店舗情報'
+          className='w-layoutMbDefault m-auto mb-10 md:w-full md:mb-12'
+        />
         {/* <Button href='stores'>店舗一覧</Button> */}
         {/* </div> */}
-        <div className='ml-[calc((100vw-35.8rem)*.5)] overflow-x-scroll'>
+        <div className='ml-[calc((100vw-35.8rem)*.5)] md:ml-0 overflow-x-scroll'>
           {/* <ul className='grid grid-cols-3 gap-12 justify-center '> */}
-          <ul className='flex flex-row gap-6'>
+          <ul className='flex flex-row gap-6 md:grid md:grid-cols-5'>
             {storesData.map((store, index) => (
               <li key={index} className=''>
                 <Store store={store} />
@@ -207,7 +211,7 @@ export default function Home({
             ))}
           </ul>
         </div>
-        <div className='flex justify-center w-layoutMbDefault m-auto mt-16'>
+        <div className='flex justify-center w-layoutMbDefault md:w-fit m-auto mt-16'>
           <Button href='stores'>店舗一覧</Button>
         </div>
       </section>

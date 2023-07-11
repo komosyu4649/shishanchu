@@ -6,13 +6,14 @@ type Props = {
   children: React.ReactNode
   href?: string
   color?: 'transparent'
+  className?: string
 } & Omit<JSX.IntrinsicElements['button'], 'onClick'>
 
-const Button: FC<Props> = ({ onClick, children, href, color }) => {
+const Button: FC<Props> = ({ onClick, children, href, color, className }) => {
   return href ? (
     <Link
       href={`/${href}/`}
-      className='flex justify-center w-full px-16 py-5 bg-green text-white text-s2 rounded-md'
+      className={`flex justify-center w-full px-16 py-5 bg-green text-white text-s2 rounded-md ${className}`}
     >
       {children}
     </Link>
@@ -21,7 +22,7 @@ const Button: FC<Props> = ({ onClick, children, href, color }) => {
       onClick={onClick}
       className={`flex justify-center w-full px-16 py-5 ${
         color === 'transparent' ? 'bg-none text-green border-2 border-green' : 'bg-green text-white'
-      }   text-s2 rounded-md`}
+      }   text-s2 rounded-md ${className}`}
     >
       {children}
     </button>
