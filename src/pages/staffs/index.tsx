@@ -141,16 +141,29 @@ export default function Staffs({
 
   return (
     <Layout>
-      <section className='w-full md:w-layoutMd m-auto mt-36'>
-        {/* <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
-          <span className='text-s9'>スタッフ一覧</span>
-          <span className='text-s7'>【{totalCount}】</span>
-        </h1> */}
-        <TitlePage title='スタッフ' count={totalCount} className='w-layoutMbDefault mb-10 m-auto' />
+      <section
+        className='
+          w-full m-auto mt-36
+          md:w-layoutMd md:mt-60
+       '
+      >
+        <TitlePage
+          title='スタッフ'
+          count={totalCount}
+          className='
+            w-layoutMbDefault mb-10 m-auto
+            md:w-full md:mb-16
+          '
+        />
         {windowDimensions.width > BREAKPOINT && (
-          <div className='flex flex-row flex-wrap gap-4'>
+          <>
             {query.career || query.gender ? (
-              <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+              <div
+                className='
+                flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto 
+                md:mb-12 md:m-0
+              '
+              >
                 {query.career && (
                   <Tag onClick={() => handleRemoveQuery(query.career)}>
                     キャリア
@@ -164,19 +177,44 @@ export default function Staffs({
                 )}
               </div>
             ) : null}
-          </div>
+          </>
         )}
 
-        <div className='grid md:grid-cols-[24rem_auto] md:justify-between gap-12 md:gap-8'>
+        <div
+          className='
+          grid gap-12
+          md:grid-cols-[24rem_auto] md:justify-between md:gap-16
+          '
+        >
           {/* side */}
-          <div className='flex flex-col gap-7 w-layoutMbDefault m-auto md:gap-20'>
-            <div className='grid grid-cols-2 gap-4 md:flex md:flex-col md:gap-20'>
+          <div
+            className='
+            flex flex-col gap-7 w-layoutMbDefault m-auto 
+            md:w-full md:gap-16
+            '
+          >
+            <div
+              className='
+              grid grid-cols-2 gap-4 
+              md:flex md:flex-col md:gap-16
+              '
+            >
               {/* gender */}
               <div className=''>
-                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                <span
+                  className='
+                  block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
+                  md:px-7 md:py-5 md:text-s5
+                 '
+                >
                   性別
                 </span>
-                <div className='flex flex-col gap-2 mt-6 ml-5 md:gap-4 md:mt-8'>
+                <div
+                  className='
+                  flex flex-col gap-2 mt-6 ml-5 
+                  md:gap-4 md:mt-8
+                '
+                >
                   {GENDERS.map((gender, index) => (
                     <div key={index} className='flex items-center gap-4'>
                       <label
@@ -203,7 +241,10 @@ export default function Staffs({
                         </div>
                       </label>
                       <label
-                        className='w-full text-s2 md:text-s3 cursor-pointer'
+                        className='
+                          w-full text-s2 cursor-pointer
+                          md:text-s3
+                        '
                         htmlFor={gender.label}
                       >
                         {gender.label}
@@ -214,7 +255,11 @@ export default function Staffs({
               </div>
               {/* career */}
               <div className=''>
-                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                <span
+                  className='
+                  block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
+                  md:px-7 md:py-5 md:text-s5'
+                >
                   シーシャバー暦
                 </span>
                 <div className='mt-6'>
@@ -222,28 +267,35 @@ export default function Staffs({
                     name='career'
                     id='career'
                     onChange={handleSelectCareer}
-                    className='w-full px-4 py-4 rounded-sm text-black text-s2 md:text-s3 appearance-none'
+                    className='
+                      w-full px-4 py-4 rounded-sm text-black text-s2 appearance-none
+                      md:px-6 md:py-4 md:text-s3
+                     '
                     value={searchParams.career}
                   >
-                    <option value=''>キャリア何年？</option>
-                    <option value='0'>1年未満</option>
-                    {CAREERS.map((career, index) => (
-                      <option key={index} value={career.year}>
-                        {career.year}年目〜
-                      </option>
-                    ))}
+                    <>
+                      <option value=''>キャリア何年？</option>
+                      <option value='0'>1年未満</option>
+                      {CAREERS.map((career, index) => (
+                        <option key={index} value={career.year}>
+                          {career.year}年目〜
+                        </option>
+                      ))}
+                    </>
                   </select>
                 </div>
               </div>
             </div>
-            {/* <Button onClick={handleSearchQuery} className='bg-green'>
-              検索する
-            </Button> */}
             <Button onClick={handleSearchQuery}>検索する</Button>
             {windowDimensions.width < BREAKPOINT && (
               <div className='flex flex-row flex-wrap gap-4'>
                 {query.career || query.gender ? (
-                  <div className='flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto md:mb-12'>
+                  <div
+                    className='
+                    flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto 
+                    md:mb-12
+                  '
+                  >
                     {query.career && (
                       <Tag onClick={() => handleRemoveQuery(query.career)}>
                         キャリア
@@ -261,16 +313,32 @@ export default function Staffs({
             )}
           </div>
           {/* main */}
-          <div className='md:w-layoutSm'>
-            <ul className='grid md:grid-cols-3 md:gap-4'>
+          <div className='md:w-full'>
+            <ul
+              className='
+                grid border-t border-white border-opacity-60
+                md:grid-cols-2 md:gap-8 md:border-none 
+              '
+            >
               {staffs.map((staff, index) => (
-                <li key={index}>
+                <li
+                  key={index}
+                  className='
+                   border-b border-white border-opacity-60
+                   md:h-fit md:border md:rounded-md md:overflow-hidden
+                  '
+                >
                   <Staff staff={staff} />
                 </li>
               ))}
             </ul>
             {rangeWithDots.length > 1 ? (
-              <div className='mt-12 md:mt-32'>
+              <div
+                className='
+                mt-12 
+                md:mt-32
+              '
+              >
                 <Pagination
                   rangeWithDots={rangeWithDots}
                   page={page}
