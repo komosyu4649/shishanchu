@@ -204,14 +204,15 @@ export default function Home({
         >
           <ul
             className='
-            md:grid md:grid-cols-3 md:gap-4'
+              md:grid md:grid-cols-3 md:gap-6
+            '
           >
             {staffsData.map((staff, index) => (
               <li
                 key={index}
                 className='
-                  border-b border-white border-opacity-60
-                  md:border 
+                  h-fit border-b border-white border-opacity-60
+                  md:border md:rounded-md md:overflow-hidden
                 '
               >
                 <Staff staff={staff} />

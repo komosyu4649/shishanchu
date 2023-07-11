@@ -7,7 +7,7 @@ import React from 'react'
 const Staff = ({ staff }: { staff: CMSStaff }) => {
   const { accountName, storeName, icon, name, biography } = staff
   return (
-    <div className='flex flex-col justify-between h-full px-12 py-14 bg-blackWeak'>
+    <div className='flex flex-col justify-between h-fit px-12 py-14 bg-blackWeak'>
       <div className='grid grid-cols-[1fr_auto] gap-6 justify-between items-center'>
         {/* name */}
         <div className='flex items-center gap-4'>
