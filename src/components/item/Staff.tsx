@@ -19,8 +19,8 @@ const Staff = ({ staff }: { staff: CMSStaff }) => {
             className='w-20 h-20 rounded-full object-cover'
           />
           <span className='flex flex-col gap-1'>
-            <span className='text-s4'>{name}</span>
-            {storeName && <span className='text-s0 opacity-60'>【{storeName}】</span>}
+            <span className='text-s4 line-clamp-1'>{name}</span>
+            {storeName && <span className='text-s0 opacity-60 line-clamp-1'>【{storeName}】</span>}
           </span>
         </div>
         {/* link */}
