@@ -160,9 +160,9 @@ export default function Staffs({
             {query.career || query.gender ? (
               <div
                 className='
-                flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto 
-                md:mb-12 md:m-0
-              '
+                  flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto 
+                  md:mb-12 md:m-0
+                '
               >
                 {query.career && (
                   <Tag onClick={() => handleRemoveQuery(query.career)}>
@@ -182,37 +182,37 @@ export default function Staffs({
 
         <div
           className='
-          grid gap-12
-          md:grid-cols-[24rem_auto] md:justify-between md:gap-16
+            grid gap-12
+            md:grid-cols-[24rem_auto] md:justify-between md:gap-16
           '
         >
           {/* side */}
           <div
             className='
-            flex flex-col gap-7 w-layoutMbDefault m-auto 
-            md:w-full md:gap-16
+              flex flex-col gap-7 w-layoutMbDefault m-auto 
+              md:w-full md:gap-16
             '
           >
             <div
               className='
-              grid grid-cols-2 gap-4 
-              md:flex md:flex-col md:gap-16
+                grid grid-cols-2 gap-4 
+                md:flex md:flex-col md:gap-16
               '
             >
               {/* gender */}
               <div className=''>
                 <span
                   className='
-                  block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
-                  md:px-7 md:py-5 md:text-s5
+                    block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
+                    md:px-7 md:py-5 md:text-s5
                  '
                 >
                   性別
                 </span>
                 <div
                   className='
-                  flex flex-col gap-2 mt-6 ml-5 
-                  md:gap-4 md:mt-8
+                    flex flex-col gap-2 mt-6 ml-5 
+                    md:gap-4 md:mt-8
                 '
                 >
                   {GENDERS.map((gender, index) => (
