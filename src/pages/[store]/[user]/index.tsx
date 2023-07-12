@@ -97,7 +97,7 @@ export default function StaffDetail({
             // '
             className='
               grid gap-10 items-end
-              md:gap-12 md:w-[80rem] md:m-auto
+              md:gap-8 md:w-[80rem] md:m-auto
             '
           >
             {/* left */}
@@ -230,7 +230,12 @@ export default function StaffDetail({
               </div>
             </div>
             {/* right */}
-            <div className='flex flex-col gap-10'>
+            <div
+              className='
+              flex flex-col gap-10
+              md:gap-12
+              '
+            >
               {/* buttons */}
               <div className='flex justify-end order-2'>
                 <Button href={`${store}`}>店舗情報を見る</Button>

@@ -8,9 +8,9 @@ import { CMSContents } from '@/type/microcms'
 
 const ContentSm = ({ content }: { content: CMSContents }) => {
   const { accountName, storeName, staff, id, thumbnail, title, createdAt } = content
-
+  console.log(`${accountName}/${staff.name}/${id}`)
   return (
-    <Link href={`${accountName}/${staff.name}/${id}`} className='flex flex-col'>
+    <Link href={`/${accountName}/${staff.name}/${id}`} className='flex flex-col'>
       {/* thumbnail */}
       <Image
         src={thumbnail.url}
