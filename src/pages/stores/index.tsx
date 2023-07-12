@@ -132,34 +132,72 @@ export default function Stores({
 
   return (
     <Layout>
-      <section className='md:w-layoutMd m-auto mt-36'>
-        {/* <h1 className='relative flex items-end gap-6 mb-24 pl-10 before:content-[""] before:absolute before:top-6 before:left-0 before:inline-block before:w-4 before:h-4 before:bg-green before:rounded-full'>
-          <span className='text-s9'>店舗</span>
-          <span className='text-s7'>【{totalCount}】</span>
-        </h1> */}
-        <TitlePage title='店舗' count={totalCount} className='w-layoutMbDefault mb-10 m-auto' />
+      <section
+        className='
+          w-full m-auto mt-36
+          md:w-layoutMd md:mt-60
+        '
+      >
+        <TitlePage
+          title='店舗'
+          count={totalCount}
+          className='
+            w-layoutMbDefault mb-10 m-auto
+            md:w-full md:mb-16'
+        />
         {windowDimensions.width > BREAKPOINT && (
-          <div className='flex flex-row flex-wrap gap-4'>
-            {query.budgetMin && (
-              <Tag onClick={() => handleRemoveQuery(query.budgetMin)}>
-                下限予算 : {query.budgetMin}円
-              </Tag>
-            )}
-            {query.budgetMax && (
-              <Tag onClick={() => handleRemoveQuery(query.budgetMax)}>
-                上限予算 : {query.budgetMax}円
-              </Tag>
-            )}
-            {query.area && <Tag onClick={() => handleRemoveQuery(query.area)}>{query.area}</Tag>}
-          </div>
+          <>
+            {query.area || query.budgetMin || query.budgetMax ? (
+              <div
+                className='
+                  flex flex-row flex-wrap gap-4 w-layoutMbDefault m-auto 
+                  md:mb-12 md:m-0
+                '
+              >
+                {query.budgetMin && (
+                  <Tag onClick={() => handleRemoveQuery(query.budgetMin)}>
+                    下限予算 : {query.budgetMin}円
+                  </Tag>
+                )}
+                {query.budgetMax && (
+                  <Tag onClick={() => handleRemoveQuery(query.budgetMax)}>
+                    上限予算 : {query.budgetMax}円
+                  </Tag>
+                )}
+                {query.area && (
+                  <Tag onClick={() => handleRemoveQuery(query.area)}>{query.area}</Tag>
+                )}
+              </div>
+            ) : null}
+          </>
         )}
-        <div className='grid w-layoutMbDefault m-auto md:grid-cols-[20rem_1fr] content-between gap-12 md:gap-24 mt-12'>
+        <div
+          className='
+            grid gap-12
+            md:grid-cols-[24rem_auto] md:justify-between md:gap-16
+        '
+        >
           {/* side */}
-          <div className='flex flex-col gap-7 w-layoutMbDefault m-auto md:gap-16'>
-            <div className='grid grid-cols-2 gap-4 md:flex md:flex-col md:gap-20'>
+          <div
+            className='
+              flex flex-col gap-7 w-layoutMbDefault m-auto 
+              md:w-full md:gap-16
+            '
+          >
+            <div
+              className='
+                grid grid-cols-2 gap-4 
+                md:flex md:flex-col md:gap-16
+              '
+            >
               {/* budget */}
               <div className=''>
-                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                <span
+                  className='
+                    block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
+                    md:px-7 md:py-5 md:text-s5
+                  '
+                >
                   予算
                 </span>
                 <div className='grid grid-cols-[1fr_auto_1fr] gap-2 items-center mt-6'>
@@ -167,7 +205,10 @@ export default function Stores({
                     name='budgetMin'
                     id='budgetMin'
                     onChange={handleSelectBudgetMin}
-                    className='w-full px-4 py-4 rounded-sm text-black text-s2 md:text-s3 appearance-none'
+                    className='
+                      w-full px-4 py-4 rounded-sm text-black text-s2 appearance-none
+                      md:px-6 md:py-4 md:text-s3
+                    '
                     value={searchParams.budgetMin}
                   >
                     <option value=''>下限なし</option>
@@ -182,7 +223,10 @@ export default function Stores({
                     name='budgetMax'
                     id='budgetMax'
                     onChange={handleSelectBudgetMax}
-                    className='w-full px-4 py-4 rounded-sm text-black text-s2 md:text-s3 appearance-none'
+                    className='
+                      w-full px-4 py-4 rounded-sm text-black text-s2 appearance-none
+                      md:px-6 md:py-4 md:text-s3
+                    '
                     value={searchParams.budgetMax}
                   >
                     <option value=''>上限なし</option>
@@ -196,7 +240,12 @@ export default function Stores({
               </div>
               {/* area */}
               <div className=''>
-                <span className='block w-full px-5 py-4 text-s4 md:px-6 md:py-4 md:text-s6 bg-blackWeak rounded-sm'>
+                <span
+                  className='
+                  block w-full px-5 py-4 text-s4 bg-blackWeak rounded-sm
+                  md:px-7 md:py-5 md:text-s5
+                '
+                >
                   エリア
                 </span>
                 <div className='mt-6'>
@@ -205,7 +254,10 @@ export default function Stores({
                     id='area'
                     onChange={(e) => handleSelectArea(e)}
                     value={searchParams.area}
-                    className='w-full px-4 py-4 rounded-sm text-black text-s2 md:text-s3 appearance-none'
+                    className='
+                      w-full px-4 py-4 rounded-sm text-black text-s2 appearance-none
+                      md:px-6 md:py-4 md:text-s3
+                    '
                   >
                     <option value=''>エリアを選択する</option>
                     {REGIONS.map((region, index) => (
@@ -245,8 +297,17 @@ export default function Stores({
             )}
           </div>
           {/* main */}
-          <div className='md:w-layoutSm'>
-            <ul className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+          <div
+            className='
+              md:w-layoutSm
+            '
+          >
+            <ul
+              className='
+              grid grid-cols-2 gap-4
+              md:grid-cols-4 md:gap-8
+            '
+            >
               {stores.map((store, index) => (
                 <li key={index} className=''>
                   <Store store={store} />
@@ -254,7 +315,12 @@ export default function Stores({
               ))}
             </ul>
             {rangeWithDots.length > 1 ? (
-              <div className='mt-12 md:mt-32'>
+              <div
+                className='
+                mt-12 
+                md:mt-32
+              '
+              >
                 <Pagination
                   rangeWithDots={rangeWithDots}
                   page={page}
