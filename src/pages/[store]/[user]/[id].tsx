@@ -102,25 +102,37 @@ export default function ContentDetail({
           {/* main */}
           <div
             className='
-            w-layoutMbDefault m-auto 
-            md:w-full md:p-20 md:rounded-lg md:border-2 md:border-white md:border-opacity-60 md:border-solid md:bg-blackWeak
+              w-layoutMbDefault m-auto 
+              md:w-full md:p-20 md:rounded-lg md:border-2 md:border-white md:border-opacity-60 md:border-solid md:bg-blackWeak
           '
           >
-            <div className='mb-16 pb-16 border-b-2 border-white border-opacity-60'>
+            <div
+              className='
+              mb-16 pb-16 border-b-2 border-white border-opacity-60
+              md:mb-24 md:pb-24
+              '
+            >
               <Image
                 src={thumbnail.url}
                 width={thumbnail.width}
                 height={thumbnail.height}
                 alt={title}
+                // className='
+                //   w-[28rem] h-80 m-auto object-cover
+                //   md:w-[32rem] md:h-[32rem]
+                // '
                 className='
-                w-[28rem] h-80 m-auto object-cover
-                md:w-[32rem] md:h-[32rem]
-              '
+                  w-full aspect-[1.618] m-auto object-cover rounded-md
+                '
               />
               <h1
+                //   className='
+                //     w-layoutMbDefault m-auto mt-6 mb-8 text-s7 text-center
+                //     md:w-full md:text-s8 md:mt-10 md:mb-12
+                // '
                 className='
-                  w-layoutMbDefault m-auto mt-6 mb-8 text-s7 text-center
-                  md:w-full md:text-s8 md:mt-10 md:mb-12
+                  w-layoutMbDefault m-auto mt-10 mb-8 text-s7
+                  md:w-full md:text-s9 md:mt-12 md:mb-10
               '
               >
                 {title}
@@ -128,7 +140,6 @@ export default function ContentDetail({
               <div
                 className='
                   m-auto
-                  md:md:w-[32rem] 
                 '
               >
                 <div className='flex flex-row justify-between items-center gap-24 m-auto'>
