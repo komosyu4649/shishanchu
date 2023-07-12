@@ -120,10 +120,11 @@ const Features = ({
             {windowDimensions.width > BREAKPOINT ? (
               <div
                 className='
-                  rounded-lg border-2 border-white border-opacity-60 border-solid px-10 py-8 bg-blackWeak
+                  rounded-md border-2 border-white border-opacity-60 border-solid px-10 py-8 bg-blackWeak
                 '
               >
                 <ul className='flex flex-row flex-wrap gap-y-4 gap-x-8 text-s2'>
+                  {/* <ul className='flex flex-col gap-y-4 gap-x-8 text-s2'> */}
                   <li>
                     <Link href='/features'>#すべて</Link>
                   </li>
