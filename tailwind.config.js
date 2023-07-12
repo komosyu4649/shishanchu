@@ -168,7 +168,7 @@ module.exports = {
           },
         ],
         proseH2: [
-          '2.4rem',
+          '2.2rem',
           {
             lineHeight: '1.5',
             fontWeight: '700',
