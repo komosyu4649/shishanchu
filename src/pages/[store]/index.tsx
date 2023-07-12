@@ -638,7 +638,8 @@ export default function StoreDetail({
             <p
               className='
                 text-s3Lt whitespace-break-spaces
-                md:text-s5LhLgLt'
+                md:text-s5LhLgLt md:text-center
+              '
             >
               {description}
             </p>

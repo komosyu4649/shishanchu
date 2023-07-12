@@ -13,7 +13,7 @@ const Button: FC<Props> = ({ onClick, children, href, color, className }) => {
   const classes = `flex justify-center w-full px-16 py-5 ${
     color === 'transparent' ? 'bg-none text-green border-2 border-green' : 'bg-green text-white'
   } text-s2 rounded-md ${className}
-  md:px-24 py-6 md:text-s4
+  md:px-24 md:py-6 md:text-s4
   `
   return href ? (
     <Link href={`/${href}/`} className={classes}>
