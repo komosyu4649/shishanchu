@@ -86,8 +86,8 @@ export default function StaffDetail({
         {/* profile */}
         <div
           className='
-            grid gap-10 mb-16
-            md:grid-cols-[1fr_42rem] items-end md:gap-20 md:mb-28 md:pb-28 md:border-b-2 md:border-white md:border-opacity-60
+            grid gap-10 mb-16 items-end
+            md:grid-cols-[1fr_42rem] md:gap-20 md:mb-28 md:pb-28 md:border-b-2 md:border-white md:border-opacity-60
           '
         >
           {/* left */}

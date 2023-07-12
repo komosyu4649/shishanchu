@@ -29,54 +29,12 @@ export const getStaticProps = async (params: any) => {
   const storeData = storeDatas.find((s) => s.accountName === store)
   const allStaffsDatas = await fetchCommonListDatas('staffs')
   const staffsData = allStaffsDatas.filter((s) => s.accountName === store)
-  // const accuntData = ACCOUNTS.find((account) => account.name === store)
-  // const stores = await axios.get(
-  //   `http://localhost:${accuntData?.name}/api/stores/1?populate=icon,sns,information.system,information.budget,information.facility,information.businessHours[0],information.address,garelly.img,`,
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${accuntData?.jwt}`,
-  //     },
-  //   },
-  // )
-  // const storeData = stores.data.data
-
-  // const coupons = await axios.get(`http://localhost:${accuntData?.name}/api/coupons`, {
-  //   headers: {
-  //     Authorization: `Bearer ${accuntData?.jwt}`,
-  //   },
-  // })
-  // const couponsData = coupons.data.data.map((coupon: StrapiCoupon) => ({
-  //   ...coupon,
-  //   accountName: accuntData?.name,
-  //   storeName: accuntData?.store,
-  //   jwt: accuntData?.jwt,
-  // }))
-
-  // const response = await axios.get(`http://localhost:${accuntData?.name}/api/users?populate=icon`, {
-  //   headers: {
-  //     Authorization: `Bearer ${accuntData?.jwt}`,
-  //   },
-  // })
-
-  // const staffsData = response.data.map((staff: StrapiStaff) => ({
-  //   ...staff,
-  //   accountName: accuntData?.name,
-  //   storeName: accuntData?.store,
-  //   jwt: accuntData?.jwt,
-  // }))
-
-  // const storeName = accuntData?.name
-  // const storeStore = accuntData?.store
 
   return {
     props: {
       store,
       storeData,
       staffsData,
-      // staffsData,
-      // couponsData,
-      // storeName,
-      // storeStore,
     },
   }
 }
@@ -127,14 +85,33 @@ const StoreContentInformation = ({
   const { information } = storeData
 
   return (
-    <div className='w-layoutMbDefault grid gap-10 md:gap-16 md:w-[80rem] m-auto'>
+    <div
+      className='
+        w-layoutMbDefault grid gap-10 m-auto
+        md:gap-16 md:w-[80rem]
+      '
+    >
       {/* system */}
-      <dl className='grid md:grid-cols-[1fr_60rem] gap-4 pb-10 md:pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid gap-4 pb-10 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem] md:pb-16 
+        '
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full
+          '
+        >
           システム
         </dt>
         <dd className='pl-8'>
-          <ul className='grid grid-cols-auto gap-4 md:gap-6'>
+          <ul
+            className='
+            grid grid-cols-auto gap-4 
+            md:gap-6
+          '
+          >
             <li className='flex flex-col text-s4LhLgLt'>
               <span className=''>チャージ料</span>
               <span className='text-s3Lt opacity-60'>{information.system[0].chargeFee}</span>
@@ -155,8 +132,18 @@ const StoreContentInformation = ({
         </dd>
       </dl>
       {/* budget */}
-      <dl className='grid md:grid-cols-[1fr_60rem] gap-2 md:gap-4 pb-10 md:pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+        grid  gap-2 pb-10 border-b border-solid border-white border-opacity-60
+        md:grid-cols-[1fr_60rem] md:gap-4 md:pb-16 
+      '
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+            md:before:top-4 md:before:w-4 md:before:h-4
+          '
+        >
           予算
         </dt>
         <dd className='pl-8 text-s4LhLgLt'>
@@ -165,41 +152,97 @@ const StoreContentInformation = ({
         </dd>
       </dl>
       {/* paymentMethod */}
-      <dl className='grid md:grid-cols-[1fr_60rem] gap-2 md:gap-4 pb-10 md:pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid gap-2 pb-10 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem] md:gap-4 md:pb-16
+        '
+      >
+        <dt
+          className='
+          relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+          md:before:top-4 md:before:w-4 md:before:h-4'
+        >
           お支払い方法
         </dt>
         <dd className=''>
-          <ul className='flex flex-row flex-wrap gap-x-6 md:gap-8 pl-8'>
+          <ul
+            className='
+              flex flex-row flex-wrap gap-x-6 pl-8
+              md:gap-8
+            '
+          >
             {information.paymentMethod.map((paymentMethod, index) => (
               <li key={index} className=''>
-                <span className='text-s4LhLgLt md:text-s5LhLgLt'>#{paymentMethod}</span>
+                <span
+                  className='
+                  text-s4LhLgLt 
+                  md:text-s5LhLgLt
+                '
+                >
+                  #{paymentMethod}
+                </span>
               </li>
             ))}
           </ul>
         </dd>
       </dl>
       {/* facility */}
-      <dl className='grid md:grid-cols-[1fr_60rem] gap-2 md:gap-4 pb-10 md:pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid gap-2 pb-10 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem] md:gap-4  md:pb-16'
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+            md:before:top-4  md:before:w-4 md:before:h-4
+          '
+        >
           設備
         </dt>
         <dd className=''>
-          <ul className='flex flex-row flex-wrap gap-x-6 md:gap-8 pl-8'>
+          <ul
+            className='
+            flex flex-row flex-wrap gap-x-6 
+            md:gap-8 pl-8
+          '
+          >
             {information.facility.map((facility, index) => (
               <li key={index} className=''>
-                <span className='text-s4LhLgLt md:text-s5LhLgLt'>#{facility}</span>
+                <span
+                  className='
+                  text-s4LhLgLt 
+                  md:text-s5LhLgLt
+                '
+                >
+                  #{facility}
+                </span>
               </li>
             ))}
           </ul>
         </dd>
       </dl>
       {/* businessHours */}
-      <dl className='grid md:grid-cols-[1fr_60rem] gap-2 md:gap-4 pb-10 md:pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid gap-2 pb-10 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem] md:gap-4  md:pb-16'
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5  before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+            md:before:top-4 md:before:w-4 md:before:h-4
+          '
+        >
           営業時間
         </dt>
-        <dd className='text-s4LhLgLt md:text-s5LhLgLt'>
+        <dd
+          className='
+          text-s4LhLgLt 
+          md:text-s5LhLgLt
+        '
+        >
           <ul className='pl-8'>
             <li className=''>
               <span className=''>月曜日 : </span>
@@ -290,17 +333,44 @@ const StoreContentInformation = ({
         </dd>
       </dl>
       {/* holiday */}
-      <dl className='grid md:grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid pb-16 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem]
+        '
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5  before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+            md:before:top-4 md:before:w-4 md:before:h-4
+          '
+        >
           休業日
         </dt>
         <dd className='pl-8'>
-          <span className='text-s4LhLgLt md:text-s5LhLgLt'>{information.holiday}</span>
+          <span
+            className='
+            text-s4LhLgLt 
+            md:text-s5LhLgLt
+          '
+          >
+            {information.holiday}
+          </span>
         </dd>
       </dl>
       {/* address */}
-      <dl className='grid md:grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
-        <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+      <dl
+        className='
+          grid pb-16 border-b border-solid border-white border-opacity-60
+          md:grid-cols-[1fr_60rem]
+      '
+      >
+        <dt
+          className='
+            relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+            md:before:top-4 md:before:w-4 md:before:h-4
+          '
+        >
           店舗所在地
         </dt>
         <dd className='pl-8'>
@@ -308,7 +378,10 @@ const StoreContentInformation = ({
             href={`https://www.google.com/maps/place/${encodeURIComponent(information.address)}`}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-s4LhLgLt md:text-s5LhLgLt underline'
+            className='
+              text-s4LhLgLt 
+              md:text-s5LhLgLt underline
+            '
           >
             {information.address}
           </a>
@@ -316,8 +389,18 @@ const StoreContentInformation = ({
       </dl>
       {/* remarks */}
       {information.remarks && (
-        <dl className='grid md:grid-cols-[1fr_60rem] pb-16 border-b border-solid border-white border-opacity-60'>
-          <dt className='relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 md:before:top-4 before:left-0 before:inline-block before:w-3 before:h-3 md:before:w-4 md:before:h-4 before:bg-green before:rounded-full'>
+        <dl
+          className='
+            grid pb-16 border-b border-solid border-white border-opacity-60
+            md:grid-cols-[1fr_60rem] 
+        '
+        >
+          <dt
+            className='
+              relative pl-8 text-s5LhLg before:content-[""] before:absolute before:top-5 before:left-0 before:inline-block before:w-3 before:h-3 before:bg-green before:rounded-full
+              md:before:top-4 md:before:w-4 md:before:h-4
+          '
+          >
             備考
           </dt>
           <dd className='pl-8'>
@@ -346,9 +429,20 @@ const StoreContentStaff = ({
   }, [])
 
   return (
-    <ul className='flex md:grid md:grid-cols-3 gap-8 justify-center'>
+    <ul
+      className='
+        flex gap-8 justify-center border-t border-white border-opacity-60
+        md:grid md:grid-cols-2 md:w-[80rem] md:m-auto md:border-none 
+      '
+    >
       {staffsData.map((staff, index) => (
-        <li key={index} className='w-full'>
+        <li
+          key={index}
+          className='
+            border-b border-white border-opacity-60
+            md:h-fit md:border md:rounded-md md:overflow-hidden
+          '
+        >
           <Staff staff={staff} />
         </li>
       ))}
@@ -374,8 +468,18 @@ const StoreContentGarelly = ({
   const { garelly } = storeData
 
   return (
-    <div className='w-layoutMbDefault m-auto'>
-      <ul className='grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6 md:gap-y-10'>
+    <div
+      className='
+        w-layoutMbDefault m-auto
+        md:w-full
+    '
+    >
+      <ul
+        className='
+          grid grid-cols-2 gap-x-4 gap-y-6
+          md:grid-cols-3 md:gap-y-10
+        '
+      >
         {garelly.map((g, index) => (
           <li key={index}>
             <Image
@@ -383,40 +487,25 @@ const StoreContentGarelly = ({
               width={g.image.width}
               height={g.image.height}
               alt={g.description}
-              className='mb-2 md:mb-4'
+              className='
+                mb-2 
+                md:mb-4
+              '
             />
-            <span className='text-s1Lt md:text-s3Lt'>{g.description}</span>
+            <span
+              className='
+              text-s1Lt 
+              md:text-s3Lt
+            '
+            >
+              {g.description}
+            </span>
           </li>
         ))}
       </ul>
     </div>
   )
 }
-
-// const StoreContentCoupon = ({
-//   name,
-//   couponsData,
-// }: {
-//   name: string
-//   couponsData: StrapiCoupon[]
-// }) => {
-//   // const router = useRouter()
-//   // useEffect(() => {
-//   //   router.push({
-//   //     pathname: `/${name}/`,
-//   //     query: { type: 'coupon' },
-//   //   })
-//   // }, [])
-//   return (
-//     <ul className='grid grid-cols-3 gap-8 justify-center'>
-//       {couponsData.map((coupon, index) => (
-//         <li key={index} className=''>
-//           <Coupon coupon={coupon} />
-//         </li>
-//       ))}
-//     </ul>
-//   )
-// }
 
 export default function StoreDetail({
   storeData,
@@ -440,7 +529,7 @@ export default function StoreDetail({
     setContentType(switchType)
   }
 
-  const { icon, name, sns, description, storeName, accountName } = storeData
+  const { icon, sns, description, storeName, accountName } = storeData
 
   const tabData = [
     {
@@ -463,72 +552,130 @@ export default function StoreDetail({
 
   return (
     <Layout>
-      <section className='md:w-[100rem] m-auto mt-36'>
+      <section
+        className='
+          w-full m-auto mt-36
+          md:w-layoutSm md:mt-60
+        '
+      >
         {/* profile */}
-        <div className='grid md:grid-cols-[1fr_50rem] w-layoutMbDefault m-auto'>
-          <div className='grid md:grid-cols-[auto_1fr] items-center gap-6 md:gap-12'>
+        <div
+          className='
+            grid w-layoutMbDefault m-auto
+            md:gap-12 md:w-full 
+          '
+        >
+          <div
+            className='
+              grid items-center gap-6 
+              md:grid-cols-[auto_1fr] md:gap-8 md:m-auto
+          '
+          >
             <Image
               src={icon.url}
               width={icon.width}
               height={icon.height}
-              alt={name}
-              className='rounded-md md:rounded-full w-full aspect-[1.618] md:w-60 md:h-60 object-cover'
+              alt={storeName}
+              className='
+                w-full aspect-square rounded-md object-cover
+                md:w-80
+              '
             />
             <div className=''>
-              <span className='text-s7 md:text-s9'>{storeName}</span>
-              <div className='flex flex-row items-center gap-4 mt-3 md:mt-4 text-s3'>
-                {sns?.twitter && (
-                  <a href={sns.twitter} className=''>
-                    {/* Twitter */}
-                    <Image src='/asset/img/snsTwitter.svg' width={20} height={20} alt='twitter' />
-                  </a>
-                )}
-                {sns?.instagram && (
-                  <a href={sns.instagram} className=''>
-                    {/* Instagram */}
-                    <Image
-                      src='/asset/img/snsInstagram.svg'
-                      width={18}
-                      height={18}
-                      alt='instagram'
-                    />
-                  </a>
-                )}
-                {sns?.tiktok && (
-                  <a href={sns.tiktok} className=''>
-                    {/* Tiktok */}
-                    <Image src='/asset/img/snsTiktok.svg' width={18} height={18} alt='tiktok' />
-                  </a>
-                )}
-                {sns?.website && (
-                  <a href={sns.website} className=''>
-                    {/* Webサイト */}
-                    <Image src='/asset/img/iconSite.svg' width={18} height={18} alt='Webサイト' />
-                  </a>
-                )}
-              </div>
+              <span
+                className='
+                  text-s7 
+                  md:text-s8
+              '
+              >
+                {storeName}
+              </span>
+              {sns && (
+                <div
+                  className='
+                flex flex-row items-center gap-4 mt-3 text-s3
+              '
+                >
+                  {sns?.twitter && (
+                    <a href={sns.twitter} className=''>
+                      {/* Twitter */}
+                      <Image src='/asset/img/snsTwitter.svg' width={20} height={20} alt='twitter' />
+                    </a>
+                  )}
+                  {sns?.instagram && (
+                    <a href={sns.instagram} className=''>
+                      {/* Instagram */}
+                      <Image
+                        src='/asset/img/snsInstagram.svg'
+                        width={18}
+                        height={18}
+                        alt='instagram'
+                      />
+                    </a>
+                  )}
+                  {sns?.tiktok && (
+                    <a href={sns.tiktok} className=''>
+                      {/* Tiktok */}
+                      <Image src='/asset/img/snsTiktok.svg' width={18} height={18} alt='tiktok' />
+                    </a>
+                  )}
+                  {sns?.website && (
+                    <a href={sns.website} className=''>
+                      {/* Webサイト */}
+                      <Image src='/asset/img/iconSite.svg' width={18} height={18} alt='Webサイト' />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-          <div className='mt-8 md:mt-24'>
-            <p className='text-s4Lt md:text-s5LhLgLt whitespace-break-spaces'>{description}</p>
+          <div
+            className='
+              flex items-end mt-8 
+              md:justify-center md:mt-0
+          '
+          >
+            <p
+              className='
+                text-s3Lt whitespace-break-spaces
+                md:text-s5LhLgLt'
+            >
+              {description}
+            </p>
           </div>
         </div>
         {/* datas */}
-        <div className='mt-12 md:mt-32'>
+        <div
+          className='
+            mt-12
+            md:mt-24
+          '
+        >
           {/* tab */}
-          <nav className='border-b border-solid border-white border-opacity-60'>
-            {/* <ul className='grid grid-cols-4'> */}
-            <ul className='flex justify-center'>
+          <nav
+            className='
+              border-b border-solid border-white border-opacity-60
+            '
+          >
+            <ul
+              className='
+              flex justify-center
+            '
+            >
               {tabData.map((tab, index) => (
                 <li key={index} className=''>
                   <button
                     onClick={() => handleSwitchType(`${tab.type}`)}
-                    className='w-full px-6 md:px-16 text-s3Lt md:text-s6'
+                    className='
+                      w-full px-6 text-s3
+                      md:px-16 md:text-s4
+                    '
                   >
                     <span
-                      className={`inline-block py-6 md:py-10 ${
-                        contentType === `${tab.type}` && 'border-b-4 border-solid border-green'
-                      }`}
+                      className={`
+                        inline-block py-6 
+                        md:py-8 
+                        ${contentType === `${tab.type}` && 'border-b-4 border-solid border-green'}`}
                     >
                       {tab.name}
                     </span>
@@ -538,7 +685,12 @@ export default function StoreDetail({
             </ul>
           </nav>
           {/* content */}
-          <div className='md:w-layoutSm m-auto mt-16 md:mt-32'>
+          <div
+            className='
+              m-auto mt-16
+              md:w-layoutSm md:mt-24
+            '
+          >
             <StoreContent
               accountName={accountName}
               name={storeName}
