@@ -62,25 +62,57 @@ const Footer = () => {
   ]
   const thisYear = new Date().getFullYear()
   return (
-    <footer className='mt-40 px-[1.6rem] pt-14 pb-32 bg-blackWeak md:mt-80 md:pt-40 md:px-48 md:pb-56'>
-      <Link href='/' className='flex justify-center mb-4 md:inline-block md:mb-24'>
+    <footer
+      className='
+      mt-40 px-[1.6rem] pt-14 pb-32 bg-blackWeak 
+      md:mt-80 md:pt-40 md:px-48 md:pb-56
+    '
+    >
+      <Link
+        href='/'
+        className='
+        flex justify-center mb-4 
+        md:inline-block md:mb-24
+      '
+      >
         <Image
           src='/asset/img/logo.svg'
           alt='shushanchu'
           width={584}
           height={119}
-          className='w-[32.1rem] h-[6.5rem] md:w-[58.4rem] md:h-[11.9rem]'
+          className='
+            w-[32.1rem] h-[6.5rem] 
+            md:w-[58.4rem] md:h-[11.9rem]
+          '
         />
       </Link>
-      <div className='grid grid-cols-auto mb-12 md:grid-cols-[1fr_auto] md:justify-between md:pb-16'>
-        <div className='mb-6 pb-7 border-b border-white'>
-          <nav className='flex flex-row justify-between gap-12 w-[32rem] m-auto md:gap-40'>
+      <div
+        className='
+          grid grid-cols-auto mb-12 
+          md:grid-cols-[1fr_auto] md:justify-between md:mb-24 md:pb-0
+        '
+      >
+        <div
+          className='
+          mb-6 pb-7 border-b border-white
+          md:mb-0 md:pb-0 md:border-none
+          '
+        >
+          <nav
+            className='
+            flex flex-row justify-between gap-12 w-[32rem] m-auto 
+            md:gap-40 md:w-fit md:m-0
+          '
+          >
             <ul className=''>
               {mainMenus.map((menu, index) => (
                 <li key={index} className=''>
                   <Link
                     href={`/${menu.path}/`}
-                    className='inline-block py-3 text-s3 md:py-6 md:text-s5'
+                    className='
+                      inline-block py-3 text-s3 
+                      md:py-6 md:text-s5
+                    '
                   >
                     {menu.name}
                   </Link>
@@ -92,7 +124,10 @@ const Footer = () => {
                 <li key={index} className=''>
                   <Link
                     href={`/${menu.path}/`}
-                    className='inline-block py-3 text-s3 md:py-6 md:text-s5'
+                    className='
+                      inline-block py-3 text-s3 
+                      md:py-6 md:text-s5
+                    '
                   >
                     {menu.name}
                   </Link>
@@ -108,7 +143,10 @@ const Footer = () => {
                 <li key={index} className=''>
                   <a
                     href={`${menu.path}`}
-                    className='inline-block py-2 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
+                    className='
+                      inline-block py-2 text-s1Lt opacity-70
+                      md:py-4 md:text-s3Lt
+                    '
                   >
                     {menu.name}
                   </a>
@@ -120,7 +158,10 @@ const Footer = () => {
                 <li key={index} className=''>
                   <a
                     href={`${menu.path}`}
-                    className='inline-block py-2 text-s1Lt opacity-70 md:py-4 md:text-s3Lt'
+                    className='
+                      inline-block py-2 text-s1Lt opacity-70 
+                      md:py-4 md:text-s3Lt
+                    '
                   >
                     {menu.name}
                   </a>

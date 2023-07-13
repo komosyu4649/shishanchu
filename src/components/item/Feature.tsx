@@ -14,17 +14,22 @@ const Feature = ({ feature }: { feature: CMSFeature }) => {
         width={feature.thumbnail.width}
         height={feature.thumbnail.height}
         alt={feature.title}
-        className='w-full h-96 md:h-80 object-cover'
+        className='
+          w-full h-96 object-cover
+          md:h-80
+        '
       />
       {/* content */}
-      <div className='mt-8 mx-6'>
+      <div className='mt-8'>
         <div className='flex flex-row justify-between mb-2'>
           <time className={`text-s1 ${chivo.className}`}>
             {dayjs(feature.publishedAt).format('YYYY.MM.DD')}
           </time>
           <span className='text-s1'>#{feature.featureCategories.name}</span>
         </div>
-        <h2 className='inline text-s4 border-b border-white'>{feature.title}</h2>
+        <div className='line-clamp-1'>
+          <h2 className='inline text-s4 border-b border-white'>{feature.title}</h2>
+        </div>
       </div>
     </Link>
   )

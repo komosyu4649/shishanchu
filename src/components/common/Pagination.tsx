@@ -21,9 +21,10 @@ const Pagination: FC<Props> = ({ rangeWithDots, handleSelectPage, page }) => {
                 pageNumber === Number(page)
                   ? 'bg-blackWeak pointer-events-none cursor-default'
                   : 'bg-none'
-              } text-s1 md:text-s4 ${
+              } ${
                 chivo.className
-              } border-2 border-white border-opacity-60 rounded-xl w-16 h-16 md:w-20 md:h-20 flex items-center justify-center`}
+              } flex items-center justify-center border-2 border-white border-opacity-60 rounded-lg w-16 h-16 text-s1
+              md:w-20 md:h-20 md:text-s4`}
             >
               {pageNumber}
             </button>
