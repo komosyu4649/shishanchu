@@ -36,7 +36,7 @@ export const getStaticProps = async () => {
   const featureData = await getMicroCMSDataList(MICROCMS_ENDPOINT_CMS_FEATURES, 0, 3)
   const contentsData = await fetchCommonListDatas('contents', 4)
   const staffsData = await fetchCommonListDatas('staffs', 4)
-  const storesData = await fetchCommonJsonDatas('store', 4)
+  const storesData = await fetchCommonJsonDatas('store', 5)
 
   return {
     props: {
@@ -185,7 +185,7 @@ export default function Home({
       <section
         className='
           m-auto mt-32 
-          md:w-layoutDefault md:mt-56
+          md:w-layoutSm md:mt-56
         '
       >
         <TitleSection
@@ -204,7 +204,7 @@ export default function Home({
         >
           <ul
             className='
-              md:grid md:grid-cols-3 md:gap-6
+              md:grid md:grid-cols-2 md:gap-6
             '
           >
             {staffsData.map((staff, index) => (

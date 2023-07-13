@@ -27,7 +27,9 @@ const Feature = ({ feature }: { feature: CMSFeature }) => {
           </time>
           <span className='text-s1'>#{feature.featureCategories.name}</span>
         </div>
-        <h2 className='inline text-s4 border-b border-white'>{feature.title}</h2>
+        <div className='line-clamp-1'>
+          <h2 className='inline text-s4 border-b border-white'>{feature.title}</h2>
+        </div>
       </div>
     </Link>
   )

@@ -3,7 +3,7 @@ import TitlePage from '@/components/common/TitlePage'
 import Content from '@/components/item/Content'
 import ContentSm from '@/components/item/ContentSm'
 import Layout from '@/components/layout/Layout'
-import { PAGE_SIZE } from '@/constants/microcms'
+import { PAGE_SIZE, PAGE_SIZE_CONTENTS } from '@/constants/microcms'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
 import { CMSContents } from '@/type/microcms'
@@ -25,11 +25,11 @@ export const getServerSideProps: GetServerSideProps<{
 
   let totalCount = contents.length
   const page = query.page || 1
-  const pages = Math.ceil(contents.length / PAGE_SIZE)
+  const pages = Math.ceil(contents.length / PAGE_SIZE_CONTENTS)
 
   // pageによる絞り込み
   if (page) {
-    contents = contents.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    contents = contents.slice((page - 1) * PAGE_SIZE_CONTENTS, page * PAGE_SIZE_CONTENTS)
   }
 
   return {

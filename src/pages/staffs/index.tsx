@@ -5,7 +5,7 @@ import TitlePage from '@/components/common/TitlePage'
 import Staff from '@/components/item/Staff'
 import Layout from '@/components/layout/Layout'
 import { BREAKPOINT } from '@/constants/common'
-import { GENDERS, CAREERS, PAGE_SIZE } from '@/constants/microcms'
+import { GENDERS, CAREERS, PAGE_SIZE, PAGE_SIZE_STAFFS } from '@/constants/microcms'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { useWindowDimensions } from '@/hooks/useWindowDimensions'
 import { fetchCommonListDatas } from '@/lib/microcms/fetchCommonListDatas'
@@ -55,11 +55,11 @@ export const getServerSideProps: GetServerSideProps<{
 
   let totalCount = staffs.length
   const page = query.page || 1
-  const pages = Math.ceil(staffs.length / PAGE_SIZE)
+  const pages = Math.ceil(staffs.length / PAGE_SIZE_STAFFS)
 
   // pageによる絞り込み
   if (page) {
-    staffs = staffs.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    staffs = staffs.slice((page - 1) * PAGE_SIZE_STAFFS, page * PAGE_SIZE_STAFFS)
   }
 
   return {
@@ -183,14 +183,14 @@ export default function Staffs({
         <div
           className='
             grid gap-12
-            md:grid-cols-[24rem_auto] md:justify-between md:gap-16
+            md:relative md:grid-cols-[24rem_1fr] md:justify-between md:gap-16
           '
         >
           {/* side */}
           <div
             className='
               flex flex-col gap-7 w-layoutMbDefault m-auto 
-              md:w-full md:gap-16
+              md:sticky md:top-12 md:left-0 md:w-full md:gap-16 md:h-fit md:m-0
             '
           >
             <div
@@ -324,7 +324,7 @@ export default function Staffs({
                 <li
                   key={index}
                   className='
-                   border-b border-white border-opacity-60
+                   w-full border-b border-white border-opacity-60
                    md:h-fit md:border md:rounded-md md:overflow-hidden
                   '
                 >

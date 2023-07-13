@@ -153,7 +153,7 @@ export default function StaffDetail({
                   <div
                     className='
                     flex flex-row items-center gap-4 text-s3
-                    md:gap-6
+                    md:gap-6 
                   '
                   >
                     {sns.twitter && (

@@ -8,7 +8,7 @@ import { CMSContents } from '@/type/microcms'
 
 const ContentSm = ({ content }: { content: CMSContents }) => {
   const { accountName, storeName, staff, id, thumbnail, title, createdAt } = content
-  console.log(`${accountName}/${staff.name}/${id}`)
+
   return (
     <Link href={`/${accountName}/${staff.name}/${id}`} className='flex flex-col'>
       {/* thumbnail */}
@@ -28,8 +28,8 @@ const ContentSm = ({ content }: { content: CMSContents }) => {
       >
         <p
           className='
-          text-s3 line-clamp-2
-          md:text-s5
+          text-s3 line-clamp-1
+          md:text-s5d
           '
         >
           {title}

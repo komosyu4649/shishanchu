@@ -5,6 +5,7 @@ import TitlePage from '@/components/common/TitlePage'
 import Store from '@/components/item/Store'
 import Layout from '@/components/layout/Layout'
 import { BREAKPOINT } from '@/constants/common'
+import { PAGE_SIZE_STORES } from '@/constants/microcms'
 import { BUDGETS, PAGE_SIZE, REGIONS } from '@/constants/strapi'
 import { usePaginationGenerater } from '@/hooks/usePaginationGenerater'
 import { useWindowDimensions } from '@/hooks/useWindowDimensions'
@@ -45,11 +46,11 @@ export const getServerSideProps: GetServerSideProps<{
 
   let totalCount = stores.length
   const page = query.page || 1
-  const pages = Math.ceil(stores.length / PAGE_SIZE)
+  const pages = Math.ceil(stores.length / PAGE_SIZE_STORES)
 
   // pageによる絞り込み
   if (page) {
-    stores = stores.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    stores = stores.slice((page - 1) * PAGE_SIZE_STORES, page * PAGE_SIZE_STORES)
   }
 
   return {
@@ -174,14 +175,14 @@ export default function Stores({
         <div
           className='
             grid gap-12
-            md:grid-cols-[24rem_auto] md:justify-between md:gap-16
+            md:relative md:grid-cols-[24rem_auto] md:justify-between md:gap-16
         '
         >
           {/* side */}
           <div
             className='
               flex flex-col gap-7 w-layoutMbDefault m-auto 
-              md:w-full md:gap-16
+              md:sticky md:top-12 md:left-0 md:w-full md:gap-16 md:h-fit md:m-0
             '
           >
             <div

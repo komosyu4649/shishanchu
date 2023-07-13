@@ -3,6 +3,7 @@ import {
   MICROCMS_ENDPOINT_CMS_FEATURES,
   MICROCMS_ENDPOINT_CMS_FEATURE_CATEGORIES,
   PAGE_SIZE,
+  PAGE_SIZE_FEATURES,
 } from '@/constants/microcms'
 import { getMicroCMSDataList } from '@/lib/microcms/fetchCMS'
 import { CMSFeature, CMSFeatureCategory } from '@/type/microcms'
@@ -33,11 +34,11 @@ export const getServerSideProps = async ({ query }: { query: Query }) => {
 
   let totalCount = features.length
   const page = Number(query.page) || 1
-  const pages = Math.ceil(features.length / PAGE_SIZE)
+  const pages = Math.ceil(features.length / PAGE_SIZE_FEATURES)
 
   // pageによる絞り込み
   if (page) {
-    features = features.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    features = features.slice((page - 1) * PAGE_SIZE_FEATURES, page * PAGE_SIZE_FEATURES)
   }
   return {
     props: {

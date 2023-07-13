@@ -34,4 +34,12 @@ export const GENDERS = [
 
 export const CAREERS = [{ year: 1 }, { year: 3 }, { year: 5 }, { year: 7 }, { year: 10 }]
 
-export const PAGE_SIZE = 2
+export const PAGE_SIZE = 3
+
+export const PAGE_SIZE_CONTENTS = 12
+
+export const PAGE_SIZE_STAFFS = 12
+
+export const PAGE_SIZE_STORES = 12
+
+export const PAGE_SIZE_FEATURES = 12
